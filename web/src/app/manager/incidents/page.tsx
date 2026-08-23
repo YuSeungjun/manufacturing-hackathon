@@ -32,6 +32,30 @@ function captureSrc(path: string) {
   return path.startsWith("/captures/") ? `/api/ai${path}` : path;
 }
 
+/**
+ * 근거 이미지 주소. 사건이 가리키는 캡처가 먼저고, 없으면 그 분석이 본 그림으로 간다.
+ *
+ * 정지 이미지 분석은 사건 캡처를 따로 만들지 않는다 — 근거가 입력 프레임 그 자체다.
+ * 저장할 때 그 프레임을 채우도록 고쳤지만, 그 전에 쌓인 사건은 비어 있다. 근거가 없는
+ * 게 아니라 가리키지 않은 것뿐이라 여기서 되돌린다.
+ */
+function evidenceSrc(event: {
+  evidencePath: string;
+  analysis: { posterPath: string; frameUrls: string } | null;
+}) {
+  const direct = captureSrc(event.evidencePath);
+  if (direct) return direct;
+  const analysis = event.analysis;
+  if (!analysis) return "";
+  try {
+    const frames = JSON.parse(analysis.frameUrls || "[]");
+    if (Array.isArray(frames) && typeof frames[0] === "string" && frames[0]) return frames[0];
+  } catch {
+    // 프레임 목록이 깨졌으면 대표 그림으로 간다.
+  }
+  return analysis.posterPath ?? "";
+}
+
 export default async function IncidentsPage({
   searchParams,
 }: {
@@ -53,6 +77,7 @@ export default async function IncidentsPage({
         zone: true,
         review: { include: { reviewedBy: { select: { name: true } } } },
         chargedTeam: { select: { name: true } },
+        analysis: { select: { posterPath: true, frameUrls: true } },
       },
     }),
     prisma.riskEvent.groupBy({
@@ -136,7 +161,7 @@ export default async function IncidentsPage({
         ) : (
           <ul className="flex flex-col gap-6">
             {events.map((event) => {
-              const evidence = captureSrc(event.evidencePath);
+              const evidence = evidenceSrc(event);
               return (
                 <li
                   key={event.id}

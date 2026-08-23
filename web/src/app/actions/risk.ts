@@ -183,7 +183,15 @@ async function persistCaptures(evidencePath: string, clipPath: string) {
     // 이미 영구 주소면(Blob URL 이거나 로컬 저장분) 손대지 않는다
     if (!path || !path.startsWith("/captures/")) continue;
     const fetched = await fetchCapture(path);
-    if (!fetched) continue;
+    if (!fetched) {
+      /*
+       * 캡처를 못 가져왔다 = 탐지 서비스가 그새 재시작해 그 그림이 사라졌다는 뜻이다.
+       * 죽은 주소를 그대로 두면 사건 화면에 깨진 이미지가 뜬다. 비워 두면 화면이
+       * 그 분석의 프레임으로 되돌아가므로, 없는 그림보다 있는 그림이 남는다.
+       */
+      out[key] = "";
+      continue;
+    }
     out[key] = await storeEvidenceBytes(
       fetched.bytes,
       `${randomUUID()}.${extensionFor(fetched.contentType)}`,

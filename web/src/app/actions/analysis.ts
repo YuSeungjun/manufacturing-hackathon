@@ -118,6 +118,31 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
     ]),
   );
 
+  /**
+   * 정지 이미지 분석에는 캡처가 없다.
+   *
+   * 영상은 사건 순간을 잘라 캡처를 만들지만 이미지 시퀀스는 그러지 않는다 — 근거가 될
+   * 그림이 이미 입력 프레임 그 자체라 서비스가 새로 만들 이유가 없다. 그런데 그대로 두면
+   * evidencePath 가 빈 사건이 남고, 사건 목록에는 "근거 이미지가 없습니다" 만 뜬다.
+   * 근거가 없는 게 아니라 가리키지 않았을 뿐이라 그 사건의 프레임으로 되돌아간다.
+   */
+  const posterFallback = analysis.posterPath ?? "";
+  const inputFrames: string[] = (() => {
+    try {
+      const parsed = JSON.parse(analysis.frameUrls || "[]");
+      return Array.isArray(parsed) ? parsed.filter((u): u is string => typeof u === "string") : [];
+    } catch {
+      return [];
+    }
+  })();
+
+  function evidenceOf(event: (typeof events)[number], frameIndex?: number) {
+    const capture = event.captures.find((c) => c.kind === "frame")?.url;
+    if (capture) return capture;
+    if (frameIndex != null && inputFrames[frameIndex]) return inputFrames[frameIndex];
+    return inputFrames[0] ?? posterFallback;
+  }
+
   const written = await prisma.$transaction([
     prisma.videoAnalysis.update({
       where: { id: analysis.id },
@@ -169,7 +194,7 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
             ...(keepEvidence
               ? {}
               : {
-                  evidencePath: event.captures.find((c) => c.kind === "frame")?.url ?? "",
+                  evidencePath: evidenceOf(event, frame?.index),
                   clipPath: event.captures.find((c) => c.kind === "clip")?.url ?? "",
                 }),
           },
@@ -200,7 +225,7 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
           severity: zone?.severity ?? "HIGH",
           confidence: frame?.persons[0]?.confidence ?? 0,
           // AI 캡처는 휘발성이다. 사람이 위험으로 확정할 때 Blob 으로 옮긴다.
-          evidencePath: event.captures.find((c) => c.kind === "frame")?.url ?? "",
+          evidencePath: evidenceOf(event, frame?.index),
           clipPath: event.captures.find((c) => c.kind === "clip")?.url ?? "",
           boxes: JSON.stringify(frame?.persons ?? []),
           zonePolygon: zone?.polygon ?? "[]",
