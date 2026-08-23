@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Workplace {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  managerCode String
+  teams     Team[]
+  users     User[]
+  tbms      Tbm[]
+}
+
+model Team {
+  id          String    @id @default(cuid())
+  name        String
+  workArea    String
+  workplace   Workplace @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  users       User[]
+  tbms        Tbm[]
+
+  @@unique([workplaceId, name])
+}
+
+model User {
+  id             String         @id @default(cuid())
+  employeeNumber String         @unique
+  name           String
+  passwordHash   String
+  role           String         @default("WORKER") // WORKER | SAFETY_MANAGER
+  approvalStatus String         @default("APPROVED") // PENDING | APPROVED | REJECTED
+  workplace      Workplace      @relation(fields: [workplaceId], references: [id])
+  workplaceId    String
+  team           Team?          @relation(fields: [teamId], references: [id])
+  teamId         String?
+  createdAt      DateTime       @default(now())
+
+  createdTbms    Tbm[]              @relation("TbmCreatedBy")
+  assignedTbms   TbmAssignee[]
+  acknowledgements TbmAcknowledgement[]
+  reviews        Review[]
+}
+
+model Tbm {
+  id          String       @id @default(cuid())
+  workDate    DateTime
+  workType    String
+  workArea    String
+  summary     String       @default("")
+  status      String       @default("PUBLISHED") // DRAFT | PUBLISHED
+  createdBy   User         @relation("TbmCreatedBy", fields: [createdById], references: [id])
+  createdById String
+  workplace   Workplace    @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  team        Team         @relation(fields: [teamId], references: [id])
+  teamId      String
+  createdAt   DateTime     @default(now())
+
+  rules            SafetyRule[]
+  assignees        TbmAssignee[]
+  acknowledgements TbmAcknowledgement[]
+  detections       Detection[]
+}
+
+/// 이 TBM 에 서명해야 하는 작업자.
+/// 작업조 전원이 아니라 그날 실제 투입되는 사람만 지정한다.
+model TbmAssignee {
+  id     String @id @default(cuid())
+  tbm    Tbm    @relation(fields: [tbmId], references: [id], onDelete: Cascade)
+  tbmId  String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([tbmId, userId])
+}
+
+model SafetyRule {
+  id            String  @id @default(cuid())
+  tbm           Tbm     @relation(fields: [tbmId], references: [id], onDelete: Cascade)
+  tbmId         String
+  hazard        String  // 위험 요인
+  description   String  // 안전 대책 (지켜야 할 것)
+  detectionType String  @default("MANUAL") // CCTV | SENSOR | MANUAL
+  ppeCode       String? // NO_HARDHAT | NO_MASK | NO_SAFETY_VEST — AI 탐지 연결 키
+  severity      String  @default("MEDIUM") // LOW | MEDIUM | HIGH
+  penalty       Int     @default(10)
+  order         Int     @default(0)
+
+  detections Detection[]
+}
+
+model TbmAcknowledgement {
+  id       String   @id @default(cuid())
+  tbm      Tbm      @relation(fields: [tbmId], references: [id], onDelete: Cascade)
+  tbmId    String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  signedAt DateTime @default(now())
+
+  @@unique([tbmId, userId])
+}
+
+model Detection {
+  id           String      @id @default(cuid())
+  tbm          Tbm         @relation(fields: [tbmId], references: [id], onDelete: Cascade)
+  tbmId        String
+  safetyRule   SafetyRule? @relation(fields: [safetyRuleId], references: [id])
+  safetyRuleId String?
+  ppeCode      String      // NO_HARDHAT 등
+  detectedAt   DateTime    @default(now())
+  location     String
+  source       String      @default("CCTV") // CCTV | SENSOR | MANUAL
+  evidencePath String
+  confidence   Float
+  boxes        String      @default("[]") // JSON: 정규화된 박스 배열
+  status       String      @default("PENDING") // PENDING | CONFIRMED | FALSE_POSITIVE | HOLD
+  modelRepo    String      @default("")
+
+  review Review?
+}
+
+model Review {
+  id           String    @id @default(cuid())
+  detection    Detection @relation(fields: [detectionId], references: [id], onDelete: Cascade)
+  detectionId  String    @unique
+  reviewedBy   User      @relation(fields: [reviewedById], references: [id])
+  reviewedById String
+  decision     String    // CONFIRMED | FALSE_POSITIVE | HOLD
+  comment      String    @default("")
+  reviewedAt   DateTime  @default(now())
+}

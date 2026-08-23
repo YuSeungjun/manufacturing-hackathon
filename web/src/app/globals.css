@@ -1,0 +1,404 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════
+   안전한 하루 — 판정 콘솔
+
+   규칙 하나로 전체가 굴러간다.
+   기계가 말한 것과 사람이 정한 것은 서로 다른 시각 언어를 쓴다.
+
+     기계 층 — 어두운 모니터 판, 시안 하나, 모노 대문자, 각진 모서리
+     사람 층 — 종이, 괘선, ISO 안전색(판정에만), 고딕
+
+   그래서 화면 어디서든 지금 보는 게 AI 주장인지 사람 결정인지
+   읽지 않고도 구분된다.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: light;
+
+  /* ── 사람 층 ── */
+  --desk: #edeff3;
+  --paper: #ffffff;
+  --paper-2: #f4f6f9;
+  --rule: #d7dce3;
+  --rule-soft: #e6e9ee;
+
+  --ink: #10151a;
+  --ink-2: #4a5563;
+  --ink-3: #6e7987;
+
+  /* 지시(파랑) — ISO 보호구 착용 지시 표지의 색. 행동과 내비게이션에만. */
+  --act: #0b5fa5;
+  --act-ink: #ffffff;
+  --act-soft: rgba(11, 95, 165, 0.09);
+
+  /* 판정 3색 — 사람이 결론을 낸 자리에만 나타난다. */
+  --deny: #c8102e;
+  --deny-soft: rgba(200, 16, 46, 0.09);
+  --hold: #96620a;
+  --hold-soft: rgba(150, 98, 10, 0.11);
+  --safe: #00713f;
+  --safe-soft: rgba(0, 113, 63, 0.1);
+
+  --shadow: 0 1px 2px rgba(16, 21, 26, 0.05);
+  --ring: rgba(11, 95, 165, 0.35);
+
+  /* 차트 채움 — dataviz 검증기 6항목 통과분. 글자색과 목적이 달라 따로 둔다. */
+  --chart-clear: #067954;
+  --chart-penalty: #c32a1b;
+}
+
+/* ── 기계 층 ──
+   양 테마 공통이다. 모니터는 어디서 보든 모니터다.
+   라이트 모드에서 증거 판만 어둡게 남는 게 이 디자인의 핵심이다. */
+:root {
+  --plate: #0c1116;
+  --plate-2: #141a21;
+  --plate-rule: rgba(220, 230, 237, 0.16);
+  --plate-ink: #dce6ed;
+  --plate-ink-2: #8fa1b0;
+  --scan: #00c2e0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --desk: #0f1317;
+    --paper: #171c22;
+    --paper-2: #1d242b;
+    --rule: #29313a;
+    --rule-soft: #222a32;
+
+    --ink: #e6ecf2;
+    --ink-2: #a9b6c3;
+    --ink-3: #7e8c9a;
+
+    --act: #4e9be0;
+    --act-ink: #06121e;
+    --act-soft: rgba(78, 155, 224, 0.16);
+
+    --deny: #ff6b5e;
+    --deny-soft: rgba(255, 107, 94, 0.14);
+    --hold: #ffc247;
+    --hold-soft: rgba(255, 194, 71, 0.14);
+    --safe: #35d399;
+    --safe-soft: rgba(53, 211, 153, 0.14);
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --ring: rgba(78, 155, 224, 0.45);
+
+    --chart-clear: #1fae7a;
+    --chart-penalty: #e0503f;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --desk: #0f1317;
+  --paper: #171c22;
+  --paper-2: #1d242b;
+  --rule: #29313a;
+  --rule-soft: #222a32;
+
+  --ink: #e6ecf2;
+  --ink-2: #a9b6c3;
+  --ink-3: #7e8c9a;
+
+  --act: #4e9be0;
+  --act-ink: #06121e;
+  --act-soft: rgba(78, 155, 224, 0.16);
+
+  --deny: #ff6b5e;
+  --deny-soft: rgba(255, 107, 94, 0.14);
+  --hold: #ffc247;
+  --hold-soft: rgba(255, 194, 71, 0.14);
+  --safe: #35d399;
+  --safe-soft: rgba(53, 211, 153, 0.14);
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ring: rgba(78, 155, 224, 0.45);
+
+  --chart-clear: #1fae7a;
+  --chart-penalty: #e0503f;
+}
+
+@theme inline {
+  --color-desk: var(--desk);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+
+  --color-act: var(--act);
+  --color-act-ink: var(--act-ink);
+  --color-act-soft: var(--act-soft);
+
+  --color-deny: var(--deny);
+  --color-deny-soft: var(--deny-soft);
+  --color-hold: var(--hold);
+  --color-hold-soft: var(--hold-soft);
+  --color-safe: var(--safe);
+  --color-safe-soft: var(--safe-soft);
+
+  --color-plate: var(--plate);
+  --color-plate-2: var(--plate-2);
+  --color-plate-ink: var(--plate-ink);
+  --color-plate-ink-2: var(--plate-ink-2);
+  --color-scan: var(--scan);
+
+  --color-chart-clear: var(--chart-clear);
+  --color-chart-penalty: var(--chart-penalty);
+
+  --font-sans: var(--font-gothic), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: var(--font-robomono), ui-monospace, "SFMono-Regular", monospace;
+  --font-sign: var(--font-sign), var(--font-gothic), sans-serif;
+}
+
+/* ── 바탕 ─────────────────────────────────────────────── */
+
+html {
+  background: var(--desk);
+}
+
+body {
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--font-gothic), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--act);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  /* ══ 사람 층 ═══════════════════════════════════════════ */
+
+  .paper {
+    @apply rounded-lg border border-rule bg-paper p-4 sm:p-5;
+    box-shadow: var(--shadow);
+  }
+  .paper-flush {
+    @apply overflow-hidden rounded-lg border border-rule bg-paper;
+    box-shadow: var(--shadow);
+  }
+  /* 움푹한 칸 — 서식의 기입란. */
+  .well {
+    @apply rounded-md border border-rule-soft bg-paper-2 p-3.5;
+  }
+
+  /* 괘선 목록. 카드를 늘어놓는 대신 줄로 나눈다. */
+  .ruled > * + * {
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  /* 라벨 + 값 한 쌍. 관리 서식의 기본 단위. */
+  .field {
+    @apply grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-3 py-1.5 text-[14px];
+  }
+  .field > dt {
+    @apply text-ink-3;
+  }
+
+  /* ══ 기계 층 ═══════════════════════════════════════════ */
+
+  /* 증거가 놓이는 모니터 판. 라이트 모드에서도 어둡다. */
+  .plate {
+    background: var(--plate);
+    color: var(--plate-ink);
+    border: 1px solid var(--plate-rule);
+    border-radius: 2px;
+  }
+  /* 기계가 뱉은 값 — 모노, 대문자, 자간을 벌린다. */
+  .scan {
+    font-family: var(--font-robomono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    @apply text-[11.5px] font-medium uppercase tracking-[0.09em];
+    color: var(--scan);
+  }
+  /* ══ 글자 ═════════════════════════════════════════════ */
+
+  .h1 {
+    @apply text-[1.375rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[1.625rem];
+  }
+  .h2 {
+    @apply text-[1rem] font-bold tracking-[-0.01em];
+  }
+  /* 표지 서체 — 점수와 단계 번호에만. 그 외에는 쓰지 않는다. */
+  .sign {
+    font-family: var(--font-sign), var(--font-gothic), sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  /* 계측값은 모노. 한글에는 먹이지 않는다 — 낱말 사이가 벌어진다. */
+  .num {
+    font-family: var(--font-robomono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.04em] text-ink-3;
+  }
+
+  /* ══ 조작 ═════════════════════════════════════════════ */
+
+  .btn,
+  .btn-act,
+  .btn-quiet,
+  .btn-deny,
+  .btn-safe {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-md
+           border border-transparent px-4 text-sm font-bold transition-colors select-none
+           disabled:cursor-not-allowed disabled:opacity-45;
+  }
+  .btn-act {
+    background: var(--act);
+    color: var(--act-ink);
+  }
+  .btn-act:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+  .btn-quiet {
+    @apply border-rule bg-paper text-ink;
+  }
+  .btn-quiet:hover:not(:disabled) {
+    background: var(--paper-2);
+  }
+  .btn-deny {
+    border-color: var(--deny);
+    background: var(--deny-soft);
+    color: var(--deny);
+  }
+  .btn-deny:hover:not(:disabled) {
+    background: var(--deny);
+    color: var(--paper);
+  }
+  .btn-safe {
+    border-color: var(--safe);
+    background: var(--safe-soft);
+    color: var(--safe);
+  }
+  .btn-safe:hover:not(:disabled) {
+    background: var(--safe);
+    color: var(--paper);
+  }
+  .btn-sm {
+    @apply min-h-9 px-3 text-[13px];
+  }
+
+  /* ══ 입력 ═════════════════════════════════════════════ */
+
+  .label {
+    @apply mb-1.5 block text-[12.5px] font-bold text-ink-2;
+  }
+  .input {
+    /* 16px 미만이면 iOS 가 포커스할 때 화면을 확대한다. */
+    @apply min-h-11 w-full rounded-md border border-rule bg-paper-2 px-3 py-2.5
+           text-[16px] text-ink outline-none transition-colors sm:text-[15px];
+  }
+  .input::placeholder {
+    color: var(--ink-3);
+  }
+  .input:focus {
+    border-color: var(--act);
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+  textarea.input {
+    @apply min-h-20 leading-6;
+  }
+  select.input {
+    @apply appearance-none bg-no-repeat pr-9;
+    background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%),
+      linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+    background-position: right 1.05rem center, right 0.8rem center;
+    background-size: 5px 5px, 5px 5px;
+  }
+
+  /* ══ 표식 ═════════════════════════════════════════════ */
+
+  /* 납작한 꼬리표. 알약이 아니다. */
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-[3px] border border-rule bg-paper-2
+           px-2 py-0.5 text-[12px] font-semibold leading-5 text-ink-2;
+  }
+  .tag-act  { color: var(--act);  border-color: color-mix(in srgb, var(--act) 45%, transparent);  background: var(--act-soft); }
+  .tag-deny { color: var(--deny); border-color: color-mix(in srgb, var(--deny) 45%, transparent); background: var(--deny-soft); }
+  .tag-hold { color: var(--hold); border-color: color-mix(in srgb, var(--hold) 45%, transparent); background: var(--hold-soft); }
+  .tag-safe { color: var(--safe); border-color: color-mix(in srgb, var(--safe) 45%, transparent); background: var(--safe-soft); }
+
+  /* 판정 도장 — 사람이 결론을 낸 자리. 살짝 기울여 찍는다. */
+  .stamp {
+    @apply inline-flex items-center rounded-[2px] border-2 px-2.5 py-1
+           text-[12.5px] font-extrabold uppercase tracking-[0.06em];
+    transform: rotate(-1.5deg);
+  }
+  .stamp-deny { color: var(--deny); border-color: var(--deny); background: var(--deny-soft); }
+  .stamp-safe { color: var(--safe); border-color: var(--safe); background: var(--safe-soft); }
+  .stamp-hold { color: var(--hold); border-color: var(--hold); background: var(--hold-soft); }
+
+  .dot {
+    @apply inline-block h-1.5 w-1.5 shrink-0 rounded-full;
+    background: currentColor;
+  }
+
+  /* ══ 차트 툴팁 ════════════════════════════════════════ */
+
+  .tipwrap {
+    position: relative;
+  }
+  .tip {
+    /* display:none 이어야 한다. 숨긴 채로 자리를 차지하면 모바일에서 가로 스크롤이 생긴다. */
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    z-index: 20;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    border-radius: 4px;
+    background: var(--ink);
+    padding: 0.3rem 0.5rem;
+    color: var(--paper);
+    font-size: 11.5px;
+    font-weight: 600;
+    pointer-events: none;
+  }
+  /* 양 끝 칸은 가운데 정렬하면 화면 밖으로 나간다. */
+  .tip-start { left: 0; transform: none; }
+  .tip-end   { right: 0; left: auto; transform: none; }
+  .tipwrap:hover .tip,
+  .tipwrap:focus .tip,
+  .tipwrap:focus-visible .tip {
+    display: block;
+  }
+
+  /* 가로 스크롤 영역 — 스크롤바는 숨긴다. */
+  .scroll-x {
+    @apply overflow-x-auto;
+    scrollbar-width: none;
+  }
+  .scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+}
