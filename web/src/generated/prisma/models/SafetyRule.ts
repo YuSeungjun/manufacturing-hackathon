@@ -564,6 +564,7 @@ export type SafetyRuleCreateOrConnectWithoutTbmInput = {
 
 export type SafetyRuleCreateManyTbmInputEnvelope = {
   data: Prisma.SafetyRuleCreateManyTbmInput | Prisma.SafetyRuleCreateManyTbmInput[]
+  skipDuplicates?: boolean
 }
 
 export type SafetyRuleUpsertWithWhereUniqueWithoutTbmInput = {
@@ -1488,6 +1489,7 @@ export type SafetyRuleCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data used to create many SafetyRules.
    */
   data: Prisma.SafetyRuleCreateManyInput | Prisma.SafetyRuleCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1506,6 +1508,7 @@ export type SafetyRuleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many SafetyRules.
    */
   data: Prisma.SafetyRuleCreateManyInput | Prisma.SafetyRuleCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

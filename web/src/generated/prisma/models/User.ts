@@ -625,6 +625,7 @@ export type UserCreateOrConnectWithoutWorkplaceInput = {
 
 export type UserCreateManyWorkplaceInputEnvelope = {
   data: Prisma.UserCreateManyWorkplaceInput | Prisma.UserCreateManyWorkplaceInput[]
+  skipDuplicates?: boolean
 }
 
 export type UserUpsertWithWhereUniqueWithoutWorkplaceInput = {
@@ -695,6 +696,7 @@ export type UserCreateOrConnectWithoutTeamInput = {
 
 export type UserCreateManyTeamInputEnvelope = {
   data: Prisma.UserCreateManyTeamInput | Prisma.UserCreateManyTeamInput[]
+  skipDuplicates?: boolean
 }
 
 export type UserUpsertWithWhereUniqueWithoutTeamInput = {
@@ -1949,6 +1951,7 @@ export type UserCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Users.
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1967,6 +1970,7 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Users.
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

@@ -9,6 +9,7 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    // 마이그레이션은 PgBouncer 풀러를 통과하지 못한다. 직결 주소가 있으면 그걸 쓴다.
+    url: process.env.DATABASE_URL_UNPOOLED ?? env("DATABASE_URL"),
   },
 });

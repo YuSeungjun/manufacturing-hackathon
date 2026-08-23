@@ -420,6 +420,7 @@ export type TeamCreateOrConnectWithoutWorkplaceInput = {
 
 export type TeamCreateManyWorkplaceInputEnvelope = {
   data: Prisma.TeamCreateManyWorkplaceInput | Prisma.TeamCreateManyWorkplaceInput[]
+  skipDuplicates?: boolean
 }
 
 export type TeamUpsertWithWhereUniqueWithoutWorkplaceInput = {
@@ -1336,6 +1337,7 @@ export type TeamCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Teams.
    */
   data: Prisma.TeamCreateManyInput | Prisma.TeamCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1354,6 +1356,7 @@ export type TeamCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Teams.
    */
   data: Prisma.TeamCreateManyInput | Prisma.TeamCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

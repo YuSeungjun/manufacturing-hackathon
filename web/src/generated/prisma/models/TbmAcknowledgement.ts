@@ -406,6 +406,7 @@ export type TbmAcknowledgementCreateOrConnectWithoutUserInput = {
 
 export type TbmAcknowledgementCreateManyUserInputEnvelope = {
   data: Prisma.TbmAcknowledgementCreateManyUserInput | Prisma.TbmAcknowledgementCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmAcknowledgementUpsertWithWhereUniqueWithoutUserInput = {
@@ -453,6 +454,7 @@ export type TbmAcknowledgementCreateOrConnectWithoutTbmInput = {
 
 export type TbmAcknowledgementCreateManyTbmInputEnvelope = {
   data: Prisma.TbmAcknowledgementCreateManyTbmInput | Prisma.TbmAcknowledgementCreateManyTbmInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmAcknowledgementUpsertWithWhereUniqueWithoutTbmInput = {
@@ -1243,6 +1245,7 @@ export type TbmAcknowledgementCreateManyArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many TbmAcknowledgements.
    */
   data: Prisma.TbmAcknowledgementCreateManyInput | Prisma.TbmAcknowledgementCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1261,6 +1264,7 @@ export type TbmAcknowledgementCreateManyAndReturnArgs<ExtArgs extends runtime.Ty
    * The data used to create many TbmAcknowledgements.
    */
   data: Prisma.TbmAcknowledgementCreateManyInput | Prisma.TbmAcknowledgementCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

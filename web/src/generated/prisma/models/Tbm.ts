@@ -685,6 +685,7 @@ export type TbmCreateOrConnectWithoutWorkplaceInput = {
 
 export type TbmCreateManyWorkplaceInputEnvelope = {
   data: Prisma.TbmCreateManyWorkplaceInput | Prisma.TbmCreateManyWorkplaceInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmUpsertWithWhereUniqueWithoutWorkplaceInput = {
@@ -758,6 +759,7 @@ export type TbmCreateOrConnectWithoutTeamInput = {
 
 export type TbmCreateManyTeamInputEnvelope = {
   data: Prisma.TbmCreateManyTeamInput | Prisma.TbmCreateManyTeamInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmUpsertWithWhereUniqueWithoutTeamInput = {
@@ -815,6 +817,7 @@ export type TbmCreateOrConnectWithoutCreatedByInput = {
 
 export type TbmCreateManyCreatedByInputEnvelope = {
   data: Prisma.TbmCreateManyCreatedByInput | Prisma.TbmCreateManyCreatedByInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -2163,6 +2166,7 @@ export type TbmCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * The data used to create many Tbms.
    */
   data: Prisma.TbmCreateManyInput | Prisma.TbmCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -2181,6 +2185,7 @@ export type TbmCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many Tbms.
    */
   data: Prisma.TbmCreateManyInput | Prisma.TbmCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

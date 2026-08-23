@@ -383,6 +383,7 @@ export type TbmAssigneeCreateOrConnectWithoutUserInput = {
 
 export type TbmAssigneeCreateManyUserInputEnvelope = {
   data: Prisma.TbmAssigneeCreateManyUserInput | Prisma.TbmAssigneeCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmAssigneeUpsertWithWhereUniqueWithoutUserInput = {
@@ -427,6 +428,7 @@ export type TbmAssigneeCreateOrConnectWithoutTbmInput = {
 
 export type TbmAssigneeCreateManyTbmInputEnvelope = {
   data: Prisma.TbmAssigneeCreateManyTbmInput | Prisma.TbmAssigneeCreateManyTbmInput[]
+  skipDuplicates?: boolean
 }
 
 export type TbmAssigneeUpsertWithWhereUniqueWithoutTbmInput = {
@@ -1203,6 +1205,7 @@ export type TbmAssigneeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many TbmAssignees.
    */
   data: Prisma.TbmAssigneeCreateManyInput | Prisma.TbmAssigneeCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1221,6 +1224,7 @@ export type TbmAssigneeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many TbmAssignees.
    */
   data: Prisma.TbmAssigneeCreateManyInput | Prisma.TbmAssigneeCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

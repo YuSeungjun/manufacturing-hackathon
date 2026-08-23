@@ -1238,6 +1238,7 @@ export type WorkplaceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many Workplaces.
    */
   data: Prisma.WorkplaceCreateManyInput | Prisma.WorkplaceCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1256,6 +1257,7 @@ export type WorkplaceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many Workplaces.
    */
   data: Prisma.WorkplaceCreateManyInput | Prisma.WorkplaceCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

@@ -672,6 +672,7 @@ export type DetectionCreateOrConnectWithoutTbmInput = {
 
 export type DetectionCreateManyTbmInputEnvelope = {
   data: Prisma.DetectionCreateManyTbmInput | Prisma.DetectionCreateManyTbmInput[]
+  skipDuplicates?: boolean
 }
 
 export type DetectionUpsertWithWhereUniqueWithoutTbmInput = {
@@ -745,6 +746,7 @@ export type DetectionCreateOrConnectWithoutSafetyRuleInput = {
 
 export type DetectionCreateManySafetyRuleInputEnvelope = {
   data: Prisma.DetectionCreateManySafetyRuleInput | Prisma.DetectionCreateManySafetyRuleInput[]
+  skipDuplicates?: boolean
 }
 
 export type DetectionUpsertWithWhereUniqueWithoutSafetyRuleInput = {
@@ -1731,6 +1733,7 @@ export type DetectionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many Detections.
    */
   data: Prisma.DetectionCreateManyInput | Prisma.DetectionCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1749,6 +1752,7 @@ export type DetectionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many Detections.
    */
   data: Prisma.DetectionCreateManyInput | Prisma.DetectionCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
