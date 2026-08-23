@@ -396,12 +396,12 @@ async function main() {
     note: string;
   }[] = [
     {
-      file: "/evidence/seed-cv01-east.jpg",
+      file: "/scenes/seed-cv01-east.jpg",
       cameraId: camera.id, equipmentId: cv01.id, zones: seedZones,
       minutes: 42, note: "원료 걸림 — 벨트 상부에 작업자 진입",
     },
     {
-      file: "/evidence/seed-cam07.jpg",
+      file: "/scenes/seed-cam07.jpg",
       cameraId: deckCamera.id, equipmentId: deckWork.id, zones: [walkway],
       minutes: 41.5, note: "점검통로 난간부 진입 — 안전대 미착용 의심",
     },
