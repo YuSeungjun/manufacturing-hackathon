@@ -302,8 +302,20 @@ export type AiHealth = {
 };
 
 export async function aiHealth(): Promise<AiHealth | null> {
+  /**
+   * 반드시 시간을 끊는다.
+   *
+   * 이 호출은 영상 분석 화면이 그려지기 전에 await 된다. 탐지 서비스가 잠들어 있으면
+   * (HF Space 는 유휴 시 잠든다) 응답이 수십 초 걸리고, 그동안 화면은 통째로 빈 채
+   * 멈춘다 — 위험구역도 수신함도 안 보인다. 건강 확인은 화면의 한 줄짜리 안내일 뿐이라
+   * 못 받아도 페이지는 그려져야 한다. 3초 안에 답이 없으면 없는 것으로 친다.
+   */
   try {
-    const response = await fetch(`${AI_SERVICE_URL}/health`, { cache: "no-store", headers: authHeaders() });
+    const response = await fetch(`${AI_SERVICE_URL}/health`, {
+      cache: "no-store",
+      headers: authHeaders(),
+      signal: AbortSignal.timeout(3000),
+    });
     if (!response.ok) return null;
     return (await response.json()) as AiHealth;
   } catch {
