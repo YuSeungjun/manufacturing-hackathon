@@ -3,9 +3,16 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { resolveIncidentAction, type ResolveState } from "@/app/actions/risk";
-import { CONFIRMED_EVENT_PENALTY } from "@/lib/score";
+import { CONFIRMED_EVENT_PENALTY, MAX_EVENT_PENALTY, penaltyLadder } from "@/lib/score";
 
-export type TeamChoice = { id: string; name: string; workArea: string; memberCount: number };
+export type TeamChoice = {
+  id: string;
+  name: string;
+  workArea: string;
+  memberCount: number;
+  /** 오늘 이 조에 이미 부과된 확정 건수. 이번 건의 벌점이 여기서 정해진다. */
+  chargedToday: number;
+};
 
 function Submit({
   decision,
@@ -55,6 +62,8 @@ export function ResolveForm({
   const [state, action] = useActionState<ResolveState, FormData>(resolveIncidentAction, null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [teamId, setTeamId] = useState("");
+  const chosen = teams.find((team) => team.id === teamId);
+  const ladder = penaltyLadder(chosen?.chargedToday ?? 0);
 
   // 종결되면 창을 닫는다. 열린 채로 남으면 이미 처리된 사건에 또 부과하려 든다.
   useEffect(() => {
@@ -86,8 +95,9 @@ export function ResolveForm({
       </div>
 
       <p className="text-[12px] leading-5 text-ink-3">
-        <strong className="font-bold text-ink-2">벌점 부과</strong> — 실제 위험이었습니다. 조를
-        고르면 그 조에서 <span className="num">{CONFIRMED_EVENT_PENALTY}</span>점이 깎입니다.{" "}
+        <strong className="font-bold text-ink-2">벌점 부과</strong> — 실제 위험이었습니다. 첫 건은{" "}
+        <span className="num">{CONFIRMED_EVENT_PENALTY}</span>점, 같은 조가 오늘 되풀이하면 건마다
+        2배가 되어 최대 <span className="num">{MAX_EVENT_PENALTY}</span>점까지 깎입니다.{" "}
         <strong className="font-bold text-ink-2">현장 조치 완료</strong> — 확인하고 처리했으며
         벌점은 없습니다.
       </p>
@@ -108,8 +118,23 @@ export function ResolveForm({
         <div className="flex flex-col gap-3 p-4">
           <p className="text-[14.5px] font-bold">어느 작업조에 벌점을 부과합니까?</p>
           <p className="text-[12.5px] leading-5 text-ink-2">
-            고른 조에서 <span className="num font-bold">{CONFIRMED_EVENT_PENALTY}</span>점이
-            깎입니다. 설비로 추론하지 않고 여기서 지목한 조에만 반영됩니다.
+            {chosen ? (
+              <>
+                <span className="font-bold">{chosen.name}</span>은 오늘{" "}
+                <span className="num">{ladder.ordinal}</span>번째 확정이라{" "}
+                <span className="num font-bold" style={{ color: "var(--deny)" }}>
+                  {ladder.points}
+                </span>
+                점이 깎입니다.
+                {ladder.ordinal > 1 ? " 되풀이라 2배로 매겼습니다." : ""}
+                {ladder.capped ? " 여기서 더 올리지 않습니다." : ""}
+              </>
+            ) : (
+              <>
+                조를 고르면 그 조에서 깎일 점수가 여기에 나옵니다. 설비로 추론하지 않고 여기서
+                지목한 조에만 반영됩니다.
+              </>
+            )}
           </p>
 
           {teams.length === 0 ? (
@@ -133,6 +158,17 @@ export function ResolveForm({
                       <span className="text-[13.5px] font-bold">{team.name}</span>
                       <span className="text-[12px] text-ink-3">
                         {team.workArea} · 조원 <span className="num">{team.memberCount}</span>명
+                        {team.chargedToday > 0 ? (
+                          <>
+                            {" · "}
+                            <span style={{ color: "var(--hold)" }}>
+                              오늘 <span className="num">{team.chargedToday}</span>건 확정
+                            </span>
+                          </>
+                        ) : null}
+                      </span>
+                      <span className="num text-[12px] font-bold" style={{ color: "var(--deny)" }}>
+                        이번 건 {penaltyLadder(team.chargedToday).points}점
                       </span>
                     </span>
                   </label>
@@ -151,7 +187,7 @@ export function ResolveForm({
             </button>
             <Submit
               decision="CONFIRMED"
-              label={`${CONFIRMED_EVENT_PENALTY}점 부과`}
+              label={chosen ? `${ladder.points}점 부과` : "점수 부과"}
               tone="btn-deny"
               disabled={!teamId}
             />

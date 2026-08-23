@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { CONFIRMED_EVENT_PENALTY } from "@/lib/score";
+import { penaltyForRepeat } from "@/lib/score";
+import { dayRange, todayLocalISO } from "@/lib/date";
 import { assertManager } from "@/lib/auth";
 import { fetchCapture } from "@/lib/aiClient";
 import { extensionFor, storeEvidence, storeEvidenceBytes } from "@/lib/evidenceStore";
@@ -139,6 +140,7 @@ export async function resolveIncidentAction(
   // 나중에 아무도 그 감점을 설명할 수 없다.
   let chargedTeamId: string | null = null;
   let penaltyPoints = 0;
+  let repeatOrdinal = 1;
   if (decision === "CONFIRMED") {
     const teamId = String(formData.get("teamId") ?? "");
     if (!teamId) return { error: "벌점을 받을 작업조를 골라 주세요." };
@@ -147,7 +149,26 @@ export async function resolveIncidentAction(
     });
     if (!team) return { error: "작업조를 찾을 수 없습니다." };
     chargedTeamId = team.id;
-    penaltyPoints = CONFIRMED_EVENT_PENALTY;
+
+    /*
+     * 되풀이는 배로 무겁게 — 10 → 20 → 40 → 80.
+     *
+     * 오늘 그 조에 이미 부과된 확정 건을 센다. 날짜 기준이 **부과한 날**(resolvedAt)인 건
+     * 현황판 점수와 같은 기준이어야 하기 때문이다. 사건 발생일로 세면 어제 사건을 오늘
+     * 부과했을 때 점수판에는 오르는데 누진에는 안 잡혀 두 숫자가 어긋난다.
+     */
+    const { from, to } = dayRange(todayLocalISO());
+    const priorToday = await prisma.riskEvent.count({
+      where: {
+        workplaceId: manager.workplaceId,
+        chargedTeamId: team.id,
+        status: "CONFIRMED",
+        resolvedAt: { gte: from, lt: to },
+        id: { not: event.id },
+      },
+    });
+    repeatOrdinal = priorToday + 1;
+    penaltyPoints = penaltyForRepeat(priorToday);
   }
 
   await prisma.$transaction([
@@ -168,7 +189,9 @@ export async function resolveIncidentAction(
     ok: true,
     message:
       decision === "CONFIRMED"
-        ? `벌점 ${penaltyPoints}점을 부과했습니다.`
+        ? repeatOrdinal > 1
+          ? `오늘 ${repeatOrdinal}번째 확정입니다. 벌점 ${penaltyPoints}점을 부과했습니다.`
+          : `벌점 ${penaltyPoints}점을 부과했습니다.`
         : "현장 조치 완료로 종결했습니다.",
   };
 }

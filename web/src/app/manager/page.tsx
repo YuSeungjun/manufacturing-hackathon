@@ -9,7 +9,7 @@ import { AlertPoller } from "@/components/AlertPoller";
 import { CctvSimulationPopup } from "@/components/CctvSimulationPopup";
 import { dayRange, formatDurationKo, formatStamp, lastIsoDays, todayLocalISO } from "@/lib/date";
 import { riskCodeLabel } from "@/lib/zone";
-import { teamScoreFromConfirmed } from "@/lib/score";
+import { teamScoreFromPenalty } from "@/lib/score";
 import { decideManagerApprovalAction } from "@/app/actions/admin";
 
 export default async function ManagerHome() {
@@ -40,7 +40,7 @@ export default async function ManagerHome() {
         status: "CONFIRMED",
         resolvedAt: { gte: from, lt: to },
       },
-      select: { chargedTeamId: true },
+      select: { chargedTeamId: true, penaltyPoints: true },
     }),
     prisma.riskEvent.findMany({
       where: { workplaceId: manager.workplaceId },
@@ -82,10 +82,15 @@ export default async function ManagerHome() {
      * 날짜는 **부과한 날** 기준이다. 사건 발생일로 세면 날을 넘겨 부과한 벌점이
      * 현황판 어디에도 안 보인다.
      */
-    const confirmedEvents = chargedToday.filter(
-      (event) => event.chargedTeamId === team.id,
-    ).length;
-    const { score, penalty } = teamScoreFromConfirmed(confirmedEvents);
+    /*
+     * 건수가 아니라 **부과된 벌점의 합**으로 센다. 되풀이는 배로 매기므로(10→20→40→80)
+     * 건수 × 10 으로 되돌리면 20 점을 물린 건이 점수판에서 10 점으로 줄어든다.
+     */
+    const chargedRows = chargedToday.filter((event) => event.chargedTeamId === team.id);
+    const confirmedEvents = chargedRows.length;
+    const { score, penalty } = teamScoreFromPenalty(
+      chargedRows.reduce((sum, event) => sum + event.penaltyPoints, 0),
+    );
 
     // 검토 대기는 아직 조가 정해지지 않았다(부과 시점에 고른다). 그 조가 맡은 설비의
     // 사건 수를 참고값으로 보여준다 — 점수에는 들어가지 않는다.
@@ -173,7 +178,7 @@ export default async function ManagerHome() {
           title="작업조 안전 점수"
           count={`${teamRows.length}개 조`}
           action={
-            <span className="text-[12px] text-ink-3">확정된 위험 사건 1건당 10점 감점</span>
+            <span className="text-[12px] text-ink-3">확정 1건 10점 · 같은 조가 되풀이하면 2배(최대 80점)</span>
           }
         />
         {teamRows.length === 0 ? (

@@ -59,7 +59,14 @@ export function EvidenceView({
             </span>
           ) : null}
           {dwellSec != null ? <span className="scan">Dwell {dwellSec.toFixed(1)}s</span> : null}
+          {/*
+            구역 안 인원과 화면에 잡힌 인원은 다른 수다. 박스는 두 개인데 In 이 1 이면
+            세다 만 것처럼 보인다 — 한쪽은 구역 밖에 서 있었을 뿐이다. 다르면 둘 다 적는다.
+          */}
           {occupancy != null ? <span className="scan">In {occupancy}</span> : null}
+          {boxes.length > (occupancy ?? 0) ? (
+            <span className="scan">Det {boxes.length}</span>
+          ) : null}
           {stamp ? <span className="scan ml-auto">{formatStamp(stamp)}</span> : null}
         </figcaption>
       ) : null}

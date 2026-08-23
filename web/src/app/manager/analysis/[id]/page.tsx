@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { PageHead, SectionHead, Empty, LevelTag, StatusTag, Metric } from "@/components/ui";
 import {
   MACHINE_STATE_LABEL,
+  parseBoxes,
   parsePolygon,
   parseTimeline,
   riskCodeLabel,
@@ -161,7 +162,11 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
             </Empty>
           ) : (
             <ul className="flex flex-col gap-3">
-              {analysis.riskEvents.map((event) => (
+              {analysis.riskEvents.map((event) => {
+                // 구역 안 인원과 화면에 잡힌 인원은 다른 수다. 박스는 두 개인데 인원이 1 이면
+                // 세다 만 것처럼 보인다 — 한쪽은 구역 밖에 서 있었을 뿐이다.
+                const detected = parseBoxes(event.boxes).length;
+                return (
                 <li key={event.id} className="paper flex flex-col gap-2.5 p-3.5">
                   <div className="flex flex-wrap items-center gap-2">
                     <LevelTag level={event.level} />
@@ -169,7 +174,18 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
                     <StatusTag status={event.status} />
                   </div>
 
-                  <p className="text-[13px] leading-6 text-ink-2">{event.reason}</p>
+                  <p className="text-[13px] leading-6 text-ink-2">
+                    {event.reason}
+                    {detected > event.occupantsAtPeak ? (
+                      <>
+                        {" "}
+                        <span className="text-ink-3">
+                          같은 장면에서 작업자 {detected}명이 탐지됐고, 그중{" "}
+                          {event.occupantsAtPeak}명이 구역 안에 있었습니다.
+                        </span>
+                      </>
+                    ) : null}
+                  </p>
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
                     <Metric
@@ -177,7 +193,10 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
                       value={`${formatClock(event.clipStartSec ?? 0)}–${formatClock(event.clipEndSec ?? 0)}`}
                     />
                     <Metric label="잔류" value={formatDurationKo(event.dwellSec)} />
-                    <Metric label="인원" value={`${event.occupantsAtPeak}`} />
+                    <Metric label="구역 인원" value={`${event.occupantsAtPeak}명`} />
+                    {detected > event.occupantsAtPeak ? (
+                      <Metric label="화면 탐지" value={`${detected}명`} />
+                    ) : null}
                     <Metric
                       label="설비"
                       value={MACHINE_STATE_LABEL[event.machineState] ?? event.machineState}
@@ -191,7 +210,8 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
                     cleared={event.clearedAt != null}
                   />
                 </li>
-              ))}
+                );
+              })}
             </ul>
           )}
         </section>

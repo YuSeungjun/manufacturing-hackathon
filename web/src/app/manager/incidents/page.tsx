@@ -16,7 +16,7 @@ import {
   parsePolygon,
   riskCodeLabel,
 } from "@/lib/zone";
-import { formatDurationKo, formatStamp } from "@/lib/date";
+import { dayRange, formatDurationKo, formatStamp, todayLocalISO } from "@/lib/date";
 import { ReviewForm } from "@/components/ReviewForm";
 import { ResolveForm, type TeamChoice } from "./ResolveForm";
 
@@ -64,8 +64,9 @@ export default async function IncidentsPage({
   const manager = await requireManager();
   const { status: raw } = await searchParams;
   const status = TABS.includes(raw as (typeof TABS)[number]) ? raw! : "IN_PROGRESS";
+  const today = dayRange(todayLocalISO());
 
-  const [events, counts, teams] = await Promise.all([
+  const [events, counts, teams, chargedToday] = await Promise.all([
     prisma.riskEvent.findMany({
       where: { workplaceId: manager.workplaceId, status },
       // 진행 중은 오래된 것이 위로 온다 — 먼저 들어온 사건이 먼저 처리돼야 한다.
@@ -90,13 +91,31 @@ export default async function IncidentsPage({
       orderBy: [{ workArea: "asc" }, { name: "asc" }],
       include: { _count: { select: { users: true } } },
     }),
+    /*
+     * 오늘 조별로 이미 부과한 확정 건수. 되풀이 벌점(10→20→40→80)이 여기서 정해진다.
+     * 날짜는 **부과한 날**(resolvedAt) 기준이다 — 현황판 점수와 같은 기준이라야
+     * 화면이 예고한 점수와 실제로 깎이는 점수가 어긋나지 않는다.
+     */
+    prisma.riskEvent.groupBy({
+      by: ["chargedTeamId"],
+      where: {
+        workplaceId: manager.workplaceId,
+        status: "CONFIRMED",
+        resolvedAt: { gte: today.from, lt: today.to },
+      },
+      _count: true,
+    }),
   ]);
 
+  const chargedByTeam = new Map(
+    chargedToday.map((row) => [row.chargedTeamId, row._count as number]),
+  );
   const teamChoices: TeamChoice[] = teams.map((team) => ({
     id: team.id,
     name: team.name,
     workArea: team.workArea,
     memberCount: team._count.users,
+    chargedToday: chargedByTeam.get(team.id) ?? 0,
   }));
 
   const countOf = (key: string) => counts.find((c) => c.status === key)?._count ?? 0;
