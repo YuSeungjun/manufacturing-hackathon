@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Review
- * 
+ * 사람의 판단. AI 의 의심(RiskEvent)과 분리해서 둔다.
  */
 export type ReviewModel = runtime.Types.Result.DefaultSelection<Prisma.$ReviewPayload>
 
@@ -26,7 +26,7 @@ export type AggregateReview = {
 
 export type ReviewMinAggregateOutputType = {
   id: string | null
-  detectionId: string | null
+  riskEventId: string | null
   reviewedById: string | null
   decision: string | null
   comment: string | null
@@ -35,7 +35,7 @@ export type ReviewMinAggregateOutputType = {
 
 export type ReviewMaxAggregateOutputType = {
   id: string | null
-  detectionId: string | null
+  riskEventId: string | null
   reviewedById: string | null
   decision: string | null
   comment: string | null
@@ -44,7 +44,7 @@ export type ReviewMaxAggregateOutputType = {
 
 export type ReviewCountAggregateOutputType = {
   id: number
-  detectionId: number
+  riskEventId: number
   reviewedById: number
   decision: number
   comment: number
@@ -55,7 +55,7 @@ export type ReviewCountAggregateOutputType = {
 
 export type ReviewMinAggregateInputType = {
   id?: true
-  detectionId?: true
+  riskEventId?: true
   reviewedById?: true
   decision?: true
   comment?: true
@@ -64,7 +64,7 @@ export type ReviewMinAggregateInputType = {
 
 export type ReviewMaxAggregateInputType = {
   id?: true
-  detectionId?: true
+  riskEventId?: true
   reviewedById?: true
   decision?: true
   comment?: true
@@ -73,7 +73,7 @@ export type ReviewMaxAggregateInputType = {
 
 export type ReviewCountAggregateInputType = {
   id?: true
-  detectionId?: true
+  riskEventId?: true
   reviewedById?: true
   decision?: true
   comment?: true
@@ -155,7 +155,7 @@ export type ReviewGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ReviewGroupByOutputType = {
   id: string
-  detectionId: string
+  riskEventId: string
   reviewedById: string
   decision: string
   comment: string
@@ -185,29 +185,29 @@ export type ReviewWhereInput = {
   OR?: Prisma.ReviewWhereInput[]
   NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
   id?: Prisma.StringFilter<"Review"> | string
-  detectionId?: Prisma.StringFilter<"Review"> | string
+  riskEventId?: Prisma.StringFilter<"Review"> | string
   reviewedById?: Prisma.StringFilter<"Review"> | string
   decision?: Prisma.StringFilter<"Review"> | string
   comment?: Prisma.StringFilter<"Review"> | string
   reviewedAt?: Prisma.DateTimeFilter<"Review"> | Date | string
-  detection?: Prisma.XOR<Prisma.DetectionScalarRelationFilter, Prisma.DetectionWhereInput>
+  riskEvent?: Prisma.XOR<Prisma.RiskEventScalarRelationFilter, Prisma.RiskEventWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ReviewOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  detectionId?: Prisma.SortOrder
+  riskEventId?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   decision?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
-  detection?: Prisma.DetectionOrderByWithRelationInput
+  riskEvent?: Prisma.RiskEventOrderByWithRelationInput
   reviewedBy?: Prisma.UserOrderByWithRelationInput
 }
 
 export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  detectionId?: string
+  riskEventId?: string
   AND?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
   OR?: Prisma.ReviewWhereInput[]
   NOT?: Prisma.ReviewWhereInput | Prisma.ReviewWhereInput[]
@@ -215,13 +215,13 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   decision?: Prisma.StringFilter<"Review"> | string
   comment?: Prisma.StringFilter<"Review"> | string
   reviewedAt?: Prisma.DateTimeFilter<"Review"> | Date | string
-  detection?: Prisma.XOR<Prisma.DetectionScalarRelationFilter, Prisma.DetectionWhereInput>
+  riskEvent?: Prisma.XOR<Prisma.RiskEventScalarRelationFilter, Prisma.RiskEventWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "detectionId">
+}, "id" | "riskEventId">
 
 export type ReviewOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  detectionId?: Prisma.SortOrder
+  riskEventId?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   decision?: Prisma.SortOrder
   comment?: Prisma.SortOrder
@@ -236,7 +236,7 @@ export type ReviewScalarWhereWithAggregatesInput = {
   OR?: Prisma.ReviewScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReviewScalarWhereWithAggregatesInput | Prisma.ReviewScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Review"> | string
-  detectionId?: Prisma.StringWithAggregatesFilter<"Review"> | string
+  riskEventId?: Prisma.StringWithAggregatesFilter<"Review"> | string
   reviewedById?: Prisma.StringWithAggregatesFilter<"Review"> | string
   decision?: Prisma.StringWithAggregatesFilter<"Review"> | string
   comment?: Prisma.StringWithAggregatesFilter<"Review"> | string
@@ -248,13 +248,13 @@ export type ReviewCreateInput = {
   decision: string
   comment?: string
   reviewedAt?: Date | string
-  detection: Prisma.DetectionCreateNestedOneWithoutReviewInput
+  riskEvent: Prisma.RiskEventCreateNestedOneWithoutReviewInput
   reviewedBy: Prisma.UserCreateNestedOneWithoutReviewsInput
 }
 
 export type ReviewUncheckedCreateInput = {
   id?: string
-  detectionId: string
+  riskEventId: string
   reviewedById: string
   decision: string
   comment?: string
@@ -266,13 +266,13 @@ export type ReviewUpdateInput = {
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  detection?: Prisma.DetectionUpdateOneRequiredWithoutReviewNestedInput
+  riskEvent?: Prisma.RiskEventUpdateOneRequiredWithoutReviewNestedInput
   reviewedBy?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
 }
 
 export type ReviewUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  detectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEventId?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedById?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
@@ -281,7 +281,7 @@ export type ReviewUncheckedUpdateInput = {
 
 export type ReviewCreateManyInput = {
   id?: string
-  detectionId: string
+  riskEventId: string
   reviewedById: string
   decision: string
   comment?: string
@@ -297,7 +297,7 @@ export type ReviewUpdateManyMutationInput = {
 
 export type ReviewUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  detectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEventId?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedById?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
@@ -321,7 +321,7 @@ export type ReviewNullableScalarRelationFilter = {
 
 export type ReviewCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  detectionId?: Prisma.SortOrder
+  riskEventId?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   decision?: Prisma.SortOrder
   comment?: Prisma.SortOrder
@@ -330,7 +330,7 @@ export type ReviewCountOrderByAggregateInput = {
 
 export type ReviewMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  detectionId?: Prisma.SortOrder
+  riskEventId?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   decision?: Prisma.SortOrder
   comment?: Prisma.SortOrder
@@ -339,7 +339,7 @@ export type ReviewMaxOrderByAggregateInput = {
 
 export type ReviewMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  detectionId?: Prisma.SortOrder
+  riskEventId?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrder
   decision?: Prisma.SortOrder
   comment?: Prisma.SortOrder
@@ -388,36 +388,36 @@ export type ReviewUncheckedUpdateManyWithoutReviewedByNestedInput = {
   deleteMany?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[]
 }
 
-export type ReviewCreateNestedOneWithoutDetectionInput = {
-  create?: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
-  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutDetectionInput
+export type ReviewCreateNestedOneWithoutRiskEventInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutRiskEventInput
   connect?: Prisma.ReviewWhereUniqueInput
 }
 
-export type ReviewUncheckedCreateNestedOneWithoutDetectionInput = {
-  create?: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
-  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutDetectionInput
+export type ReviewUncheckedCreateNestedOneWithoutRiskEventInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutRiskEventInput
   connect?: Prisma.ReviewWhereUniqueInput
 }
 
-export type ReviewUpdateOneWithoutDetectionNestedInput = {
-  create?: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
-  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutDetectionInput
-  upsert?: Prisma.ReviewUpsertWithoutDetectionInput
+export type ReviewUpdateOneWithoutRiskEventNestedInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutRiskEventInput
+  upsert?: Prisma.ReviewUpsertWithoutRiskEventInput
   disconnect?: Prisma.ReviewWhereInput | boolean
   delete?: Prisma.ReviewWhereInput | boolean
   connect?: Prisma.ReviewWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutDetectionInput, Prisma.ReviewUpdateWithoutDetectionInput>, Prisma.ReviewUncheckedUpdateWithoutDetectionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutRiskEventInput, Prisma.ReviewUpdateWithoutRiskEventInput>, Prisma.ReviewUncheckedUpdateWithoutRiskEventInput>
 }
 
-export type ReviewUncheckedUpdateOneWithoutDetectionNestedInput = {
-  create?: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
-  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutDetectionInput
-  upsert?: Prisma.ReviewUpsertWithoutDetectionInput
+export type ReviewUncheckedUpdateOneWithoutRiskEventNestedInput = {
+  create?: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
+  connectOrCreate?: Prisma.ReviewCreateOrConnectWithoutRiskEventInput
+  upsert?: Prisma.ReviewUpsertWithoutRiskEventInput
   disconnect?: Prisma.ReviewWhereInput | boolean
   delete?: Prisma.ReviewWhereInput | boolean
   connect?: Prisma.ReviewWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutDetectionInput, Prisma.ReviewUpdateWithoutDetectionInput>, Prisma.ReviewUncheckedUpdateWithoutDetectionInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutRiskEventInput, Prisma.ReviewUpdateWithoutRiskEventInput>, Prisma.ReviewUncheckedUpdateWithoutRiskEventInput>
 }
 
 export type ReviewCreateWithoutReviewedByInput = {
@@ -425,12 +425,12 @@ export type ReviewCreateWithoutReviewedByInput = {
   decision: string
   comment?: string
   reviewedAt?: Date | string
-  detection: Prisma.DetectionCreateNestedOneWithoutReviewInput
+  riskEvent: Prisma.RiskEventCreateNestedOneWithoutReviewInput
 }
 
 export type ReviewUncheckedCreateWithoutReviewedByInput = {
   id?: string
-  detectionId: string
+  riskEventId: string
   decision: string
   comment?: string
   reviewedAt?: Date | string
@@ -467,14 +467,14 @@ export type ReviewScalarWhereInput = {
   OR?: Prisma.ReviewScalarWhereInput[]
   NOT?: Prisma.ReviewScalarWhereInput | Prisma.ReviewScalarWhereInput[]
   id?: Prisma.StringFilter<"Review"> | string
-  detectionId?: Prisma.StringFilter<"Review"> | string
+  riskEventId?: Prisma.StringFilter<"Review"> | string
   reviewedById?: Prisma.StringFilter<"Review"> | string
   decision?: Prisma.StringFilter<"Review"> | string
   comment?: Prisma.StringFilter<"Review"> | string
   reviewedAt?: Prisma.DateTimeFilter<"Review"> | Date | string
 }
 
-export type ReviewCreateWithoutDetectionInput = {
+export type ReviewCreateWithoutRiskEventInput = {
   id?: string
   decision: string
   comment?: string
@@ -482,7 +482,7 @@ export type ReviewCreateWithoutDetectionInput = {
   reviewedBy: Prisma.UserCreateNestedOneWithoutReviewsInput
 }
 
-export type ReviewUncheckedCreateWithoutDetectionInput = {
+export type ReviewUncheckedCreateWithoutRiskEventInput = {
   id?: string
   reviewedById: string
   decision: string
@@ -490,23 +490,23 @@ export type ReviewUncheckedCreateWithoutDetectionInput = {
   reviewedAt?: Date | string
 }
 
-export type ReviewCreateOrConnectWithoutDetectionInput = {
+export type ReviewCreateOrConnectWithoutRiskEventInput = {
   where: Prisma.ReviewWhereUniqueInput
-  create: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
+  create: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
 }
 
-export type ReviewUpsertWithoutDetectionInput = {
-  update: Prisma.XOR<Prisma.ReviewUpdateWithoutDetectionInput, Prisma.ReviewUncheckedUpdateWithoutDetectionInput>
-  create: Prisma.XOR<Prisma.ReviewCreateWithoutDetectionInput, Prisma.ReviewUncheckedCreateWithoutDetectionInput>
+export type ReviewUpsertWithoutRiskEventInput = {
+  update: Prisma.XOR<Prisma.ReviewUpdateWithoutRiskEventInput, Prisma.ReviewUncheckedUpdateWithoutRiskEventInput>
+  create: Prisma.XOR<Prisma.ReviewCreateWithoutRiskEventInput, Prisma.ReviewUncheckedCreateWithoutRiskEventInput>
   where?: Prisma.ReviewWhereInput
 }
 
-export type ReviewUpdateToOneWithWhereWithoutDetectionInput = {
+export type ReviewUpdateToOneWithWhereWithoutRiskEventInput = {
   where?: Prisma.ReviewWhereInput
-  data: Prisma.XOR<Prisma.ReviewUpdateWithoutDetectionInput, Prisma.ReviewUncheckedUpdateWithoutDetectionInput>
+  data: Prisma.XOR<Prisma.ReviewUpdateWithoutRiskEventInput, Prisma.ReviewUncheckedUpdateWithoutRiskEventInput>
 }
 
-export type ReviewUpdateWithoutDetectionInput = {
+export type ReviewUpdateWithoutRiskEventInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
@@ -514,7 +514,7 @@ export type ReviewUpdateWithoutDetectionInput = {
   reviewedBy?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
 }
 
-export type ReviewUncheckedUpdateWithoutDetectionInput = {
+export type ReviewUncheckedUpdateWithoutRiskEventInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedById?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
@@ -524,7 +524,7 @@ export type ReviewUncheckedUpdateWithoutDetectionInput = {
 
 export type ReviewCreateManyReviewedByInput = {
   id?: string
-  detectionId: string
+  riskEventId: string
   decision: string
   comment?: string
   reviewedAt?: Date | string
@@ -535,12 +535,12 @@ export type ReviewUpdateWithoutReviewedByInput = {
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  detection?: Prisma.DetectionUpdateOneRequiredWithoutReviewNestedInput
+  riskEvent?: Prisma.RiskEventUpdateOneRequiredWithoutReviewNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutReviewedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  detectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEventId?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -548,7 +548,7 @@ export type ReviewUncheckedUpdateWithoutReviewedByInput = {
 
 export type ReviewUncheckedUpdateManyWithoutReviewedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  detectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEventId?: Prisma.StringFieldUpdateOperationsInput | string
   decision?: Prisma.StringFieldUpdateOperationsInput | string
   comment?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -558,69 +558,69 @@ export type ReviewUncheckedUpdateManyWithoutReviewedByInput = {
 
 export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  detectionId?: boolean
+  riskEventId?: boolean
   reviewedById?: boolean
   decision?: boolean
   comment?: boolean
   reviewedAt?: boolean
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  detectionId?: boolean
+  riskEventId?: boolean
   reviewedById?: boolean
   decision?: boolean
   comment?: boolean
   reviewedAt?: boolean
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  detectionId?: boolean
+  riskEventId?: boolean
   reviewedById?: boolean
   decision?: boolean
   comment?: boolean
   reviewedAt?: boolean
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectScalar = {
   id?: boolean
-  detectionId?: boolean
+  riskEventId?: boolean
   reviewedById?: boolean
   decision?: boolean
   comment?: boolean
   reviewedAt?: boolean
 }
 
-export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "detectionId" | "reviewedById" | "decision" | "comment" | "reviewedAt", ExtArgs["result"]["review"]>
+export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "riskEventId" | "reviewedById" | "decision" | "comment" | "reviewedAt", ExtArgs["result"]["review"]>
 export type ReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ReviewIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  detection?: boolean | Prisma.DetectionDefaultArgs<ExtArgs>
+  riskEvent?: boolean | Prisma.RiskEventDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Review"
   objects: {
-    detection: Prisma.$DetectionPayload<ExtArgs>
+    riskEvent: Prisma.$RiskEventPayload<ExtArgs>
     reviewedBy: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    detectionId: string
+    riskEventId: string
     reviewedById: string
     decision: string
     comment: string
@@ -1019,7 +1019,7 @@ readonly fields: ReviewFieldRefs;
  */
 export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  detection<T extends Prisma.DetectionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DetectionDefaultArgs<ExtArgs>>): Prisma.Prisma__DetectionClient<runtime.Types.Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  riskEvent<T extends Prisma.RiskEventDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEventDefaultArgs<ExtArgs>>): Prisma.Prisma__RiskEventClient<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviewedBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1051,7 +1051,7 @@ export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface ReviewFieldRefs {
   readonly id: Prisma.FieldRef<"Review", 'String'>
-  readonly detectionId: Prisma.FieldRef<"Review", 'String'>
+  readonly riskEventId: Prisma.FieldRef<"Review", 'String'>
   readonly reviewedById: Prisma.FieldRef<"Review", 'String'>
   readonly decision: Prisma.FieldRef<"Review", 'String'>
   readonly comment: Prisma.FieldRef<"Review", 'String'>

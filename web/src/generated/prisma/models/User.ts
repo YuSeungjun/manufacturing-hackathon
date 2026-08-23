@@ -216,10 +216,15 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
-  createdTbms?: Prisma.TbmListRelationFilter
-  assignedTbms?: Prisma.TbmAssigneeListRelationFilter
-  acknowledgements?: Prisma.TbmAcknowledgementListRelationFilter
+  createdWorks?: Prisma.MaintenanceWorkListRelationFilter
+  assignedWorks?: Prisma.WorkAssigneeListRelationFilter
+  lotoLocks?: Prisma.LotoLockListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  analyses?: Prisma.VideoAnalysisListRelationFilter
+  reportedEvents?: Prisma.RiskEventListRelationFilter
+  restartRequests?: Prisma.RestartRequestListRelationFilter
+  restartApprovals?: Prisma.RestartRequestListRelationFilter
+  stateLogs?: Prisma.EquipmentStateLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -234,10 +239,15 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   workplace?: Prisma.WorkplaceOrderByWithRelationInput
   team?: Prisma.TeamOrderByWithRelationInput
-  createdTbms?: Prisma.TbmOrderByRelationAggregateInput
-  assignedTbms?: Prisma.TbmAssigneeOrderByRelationAggregateInput
-  acknowledgements?: Prisma.TbmAcknowledgementOrderByRelationAggregateInput
+  createdWorks?: Prisma.MaintenanceWorkOrderByRelationAggregateInput
+  assignedWorks?: Prisma.WorkAssigneeOrderByRelationAggregateInput
+  lotoLocks?: Prisma.LotoLockOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  analyses?: Prisma.VideoAnalysisOrderByRelationAggregateInput
+  reportedEvents?: Prisma.RiskEventOrderByRelationAggregateInput
+  restartRequests?: Prisma.RestartRequestOrderByRelationAggregateInput
+  restartApprovals?: Prisma.RestartRequestOrderByRelationAggregateInput
+  stateLogs?: Prisma.EquipmentStateLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -255,10 +265,15 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
-  createdTbms?: Prisma.TbmListRelationFilter
-  assignedTbms?: Prisma.TbmAssigneeListRelationFilter
-  acknowledgements?: Prisma.TbmAcknowledgementListRelationFilter
+  createdWorks?: Prisma.MaintenanceWorkListRelationFilter
+  assignedWorks?: Prisma.WorkAssigneeListRelationFilter
+  lotoLocks?: Prisma.LotoLockListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  analyses?: Prisma.VideoAnalysisListRelationFilter
+  reportedEvents?: Prisma.RiskEventListRelationFilter
+  restartRequests?: Prisma.RestartRequestListRelationFilter
+  restartApprovals?: Prisma.RestartRequestListRelationFilter
+  stateLogs?: Prisma.EquipmentStateLogListRelationFilter
 }, "id" | "employeeNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -301,10 +316,15 @@ export type UserCreateInput = {
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -317,10 +337,15 @@ export type UserUncheckedCreateInput = {
   workplaceId: string
   teamId?: string | null
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
 export type UserUpdateInput = {
@@ -333,10 +358,15 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -349,10 +379,15 @@ export type UserUncheckedUpdateInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -438,6 +473,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCreateNestedManyWithoutWorkplaceInput = {
@@ -532,46 +572,76 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type UserCreateNestedOneWithoutCreatedTbmsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTbmsInput, Prisma.UserUncheckedCreateWithoutCreatedTbmsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTbmsInput
+export type UserCreateNestedOneWithoutCreatedWorksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedWorksInput, Prisma.UserUncheckedCreateWithoutCreatedWorksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedWorksInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutCreatedTbmsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTbmsInput, Prisma.UserUncheckedCreateWithoutCreatedTbmsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTbmsInput
-  upsert?: Prisma.UserUpsertWithoutCreatedTbmsInput
+export type UserUpdateOneRequiredWithoutCreatedWorksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedWorksInput, Prisma.UserUncheckedCreateWithoutCreatedWorksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedWorksInput
+  upsert?: Prisma.UserUpsertWithoutCreatedWorksInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedTbmsInput, Prisma.UserUpdateWithoutCreatedTbmsInput>, Prisma.UserUncheckedUpdateWithoutCreatedTbmsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedWorksInput, Prisma.UserUpdateWithoutCreatedWorksInput>, Prisma.UserUncheckedUpdateWithoutCreatedWorksInput>
 }
 
-export type UserCreateNestedOneWithoutAssignedTbmsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedTbmsInput, Prisma.UserUncheckedCreateWithoutAssignedTbmsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedTbmsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutAssignedTbmsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedTbmsInput, Prisma.UserUncheckedCreateWithoutAssignedTbmsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedTbmsInput
-  upsert?: Prisma.UserUpsertWithoutAssignedTbmsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedTbmsInput, Prisma.UserUpdateWithoutAssignedTbmsInput>, Prisma.UserUncheckedUpdateWithoutAssignedTbmsInput>
-}
-
-export type UserCreateNestedOneWithoutAcknowledgementsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAcknowledgementsInput, Prisma.UserUncheckedCreateWithoutAcknowledgementsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAcknowledgementsInput
+export type UserCreateNestedOneWithoutAssignedWorksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedWorksInput, Prisma.UserUncheckedCreateWithoutAssignedWorksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedWorksInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutAcknowledgementsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAcknowledgementsInput, Prisma.UserUncheckedCreateWithoutAcknowledgementsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAcknowledgementsInput
-  upsert?: Prisma.UserUpsertWithoutAcknowledgementsInput
+export type UserUpdateOneRequiredWithoutAssignedWorksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedWorksInput, Prisma.UserUncheckedCreateWithoutAssignedWorksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedWorksInput
+  upsert?: Prisma.UserUpsertWithoutAssignedWorksInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAcknowledgementsInput, Prisma.UserUpdateWithoutAcknowledgementsInput>, Prisma.UserUncheckedUpdateWithoutAcknowledgementsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedWorksInput, Prisma.UserUpdateWithoutAssignedWorksInput>, Prisma.UserUncheckedUpdateWithoutAssignedWorksInput>
+}
+
+export type UserCreateNestedOneWithoutLotoLocksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLotoLocksInput, Prisma.UserUncheckedCreateWithoutLotoLocksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLotoLocksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLotoLocksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLotoLocksInput, Prisma.UserUncheckedCreateWithoutLotoLocksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLotoLocksInput
+  upsert?: Prisma.UserUpsertWithoutLotoLocksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLotoLocksInput, Prisma.UserUpdateWithoutLotoLocksInput>, Prisma.UserUncheckedUpdateWithoutLotoLocksInput>
+}
+
+export type UserCreateNestedOneWithoutAnalysesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnalysesInput, Prisma.UserUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnalysesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAnalysesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnalysesInput, Prisma.UserUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnalysesInput
+  upsert?: Prisma.UserUpsertWithoutAnalysesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAnalysesInput, Prisma.UserUpdateWithoutAnalysesInput>, Prisma.UserUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type UserCreateNestedOneWithoutReportedEventsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportedEventsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReportedEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportedEventsInput
+  upsert?: Prisma.UserUpsertWithoutReportedEventsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReportedEventsInput, Prisma.UserUpdateWithoutReportedEventsInput>, Prisma.UserUncheckedUpdateWithoutReportedEventsInput>
 }
 
 export type UserCreateNestedOneWithoutReviewsInput = {
@@ -588,6 +658,52 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutRestartRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRestartRequestsInput, Prisma.UserUncheckedCreateWithoutRestartRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRestartRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutRestartApprovalsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRestartApprovalsInput, Prisma.UserUncheckedCreateWithoutRestartApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRestartApprovalsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRestartRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRestartRequestsInput, Prisma.UserUncheckedCreateWithoutRestartRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRestartRequestsInput
+  upsert?: Prisma.UserUpsertWithoutRestartRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRestartRequestsInput, Prisma.UserUpdateWithoutRestartRequestsInput>, Prisma.UserUncheckedUpdateWithoutRestartRequestsInput>
+}
+
+export type UserUpdateOneWithoutRestartApprovalsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRestartApprovalsInput, Prisma.UserUncheckedCreateWithoutRestartApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRestartApprovalsInput
+  upsert?: Prisma.UserUpsertWithoutRestartApprovalsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRestartApprovalsInput, Prisma.UserUpdateWithoutRestartApprovalsInput>, Prisma.UserUncheckedUpdateWithoutRestartApprovalsInput>
+}
+
+export type UserCreateNestedOneWithoutStateLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStateLogsInput, Prisma.UserUncheckedCreateWithoutStateLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStateLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutStateLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStateLogsInput, Prisma.UserUncheckedCreateWithoutStateLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStateLogsInput
+  upsert?: Prisma.UserUpsertWithoutStateLogsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStateLogsInput, Prisma.UserUpdateWithoutStateLogsInput>, Prisma.UserUncheckedUpdateWithoutStateLogsInput>
+}
+
 export type UserCreateWithoutWorkplaceInput = {
   id?: string
   employeeNumber: string
@@ -597,10 +713,15 @@ export type UserCreateWithoutWorkplaceInput = {
   approvalStatus?: string
   createdAt?: Date | string
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
 export type UserUncheckedCreateWithoutWorkplaceInput = {
@@ -612,10 +733,15 @@ export type UserUncheckedCreateWithoutWorkplaceInput = {
   approvalStatus?: string
   teamId?: string | null
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
 export type UserCreateOrConnectWithoutWorkplaceInput = {
@@ -668,10 +794,15 @@ export type UserCreateWithoutTeamInput = {
   approvalStatus?: string
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
 export type UserUncheckedCreateWithoutTeamInput = {
@@ -683,10 +814,15 @@ export type UserUncheckedCreateWithoutTeamInput = {
   approvalStatus?: string
   workplaceId: string
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
 export type UserCreateOrConnectWithoutTeamInput = {
@@ -715,7 +851,7 @@ export type UserUpdateManyWithWhereWithoutTeamInput = {
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutTeamInput>
 }
 
-export type UserCreateWithoutCreatedTbmsInput = {
+export type UserCreateWithoutCreatedWorksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -725,12 +861,17 @@ export type UserCreateWithoutCreatedTbmsInput = {
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
-export type UserUncheckedCreateWithoutCreatedTbmsInput = {
+export type UserUncheckedCreateWithoutCreatedWorksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -740,28 +881,33 @@ export type UserUncheckedCreateWithoutCreatedTbmsInput = {
   workplaceId: string
   teamId?: string | null
   createdAt?: Date | string
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
-export type UserCreateOrConnectWithoutCreatedTbmsInput = {
+export type UserCreateOrConnectWithoutCreatedWorksInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTbmsInput, Prisma.UserUncheckedCreateWithoutCreatedTbmsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedWorksInput, Prisma.UserUncheckedCreateWithoutCreatedWorksInput>
 }
 
-export type UserUpsertWithoutCreatedTbmsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTbmsInput, Prisma.UserUncheckedUpdateWithoutCreatedTbmsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTbmsInput, Prisma.UserUncheckedCreateWithoutCreatedTbmsInput>
+export type UserUpsertWithoutCreatedWorksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedWorksInput, Prisma.UserUncheckedUpdateWithoutCreatedWorksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedWorksInput, Prisma.UserUncheckedCreateWithoutCreatedWorksInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutCreatedTbmsInput = {
+export type UserUpdateToOneWithWhereWithoutCreatedWorksInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTbmsInput, Prisma.UserUncheckedUpdateWithoutCreatedTbmsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedWorksInput, Prisma.UserUncheckedUpdateWithoutCreatedWorksInput>
 }
 
-export type UserUpdateWithoutCreatedTbmsInput = {
+export type UserUpdateWithoutCreatedWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -771,12 +917,17 @@ export type UserUpdateWithoutCreatedTbmsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
-export type UserUncheckedUpdateWithoutCreatedTbmsInput = {
+export type UserUncheckedUpdateWithoutCreatedWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -786,12 +937,17 @@ export type UserUncheckedUpdateWithoutCreatedTbmsInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
-export type UserCreateWithoutAssignedTbmsInput = {
+export type UserCreateWithoutAssignedWorksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -801,12 +957,17 @@ export type UserCreateWithoutAssignedTbmsInput = {
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
-export type UserUncheckedCreateWithoutAssignedTbmsInput = {
+export type UserUncheckedCreateWithoutAssignedWorksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -816,28 +977,33 @@ export type UserUncheckedCreateWithoutAssignedTbmsInput = {
   workplaceId: string
   teamId?: string | null
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
-export type UserCreateOrConnectWithoutAssignedTbmsInput = {
+export type UserCreateOrConnectWithoutAssignedWorksInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedTbmsInput, Prisma.UserUncheckedCreateWithoutAssignedTbmsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedWorksInput, Prisma.UserUncheckedCreateWithoutAssignedWorksInput>
 }
 
-export type UserUpsertWithoutAssignedTbmsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedTbmsInput, Prisma.UserUncheckedUpdateWithoutAssignedTbmsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedTbmsInput, Prisma.UserUncheckedCreateWithoutAssignedTbmsInput>
+export type UserUpsertWithoutAssignedWorksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedWorksInput, Prisma.UserUncheckedUpdateWithoutAssignedWorksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedWorksInput, Prisma.UserUncheckedCreateWithoutAssignedWorksInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAssignedTbmsInput = {
+export type UserUpdateToOneWithWhereWithoutAssignedWorksInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedTbmsInput, Prisma.UserUncheckedUpdateWithoutAssignedTbmsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedWorksInput, Prisma.UserUncheckedUpdateWithoutAssignedWorksInput>
 }
 
-export type UserUpdateWithoutAssignedTbmsInput = {
+export type UserUpdateWithoutAssignedWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -847,12 +1013,17 @@ export type UserUpdateWithoutAssignedTbmsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAssignedTbmsInput = {
+export type UserUncheckedUpdateWithoutAssignedWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -862,12 +1033,17 @@ export type UserUncheckedUpdateWithoutAssignedTbmsInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
-export type UserCreateWithoutAcknowledgementsInput = {
+export type UserCreateWithoutLotoLocksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -877,12 +1053,17 @@ export type UserCreateWithoutAcknowledgementsInput = {
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
-export type UserUncheckedCreateWithoutAcknowledgementsInput = {
+export type UserUncheckedCreateWithoutLotoLocksInput = {
   id?: string
   employeeNumber: string
   name: string
@@ -892,28 +1073,33 @@ export type UserUncheckedCreateWithoutAcknowledgementsInput = {
   workplaceId: string
   teamId?: string | null
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
-export type UserCreateOrConnectWithoutAcknowledgementsInput = {
+export type UserCreateOrConnectWithoutLotoLocksInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAcknowledgementsInput, Prisma.UserUncheckedCreateWithoutAcknowledgementsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLotoLocksInput, Prisma.UserUncheckedCreateWithoutLotoLocksInput>
 }
 
-export type UserUpsertWithoutAcknowledgementsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAcknowledgementsInput, Prisma.UserUncheckedUpdateWithoutAcknowledgementsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAcknowledgementsInput, Prisma.UserUncheckedCreateWithoutAcknowledgementsInput>
+export type UserUpsertWithoutLotoLocksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLotoLocksInput, Prisma.UserUncheckedUpdateWithoutLotoLocksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLotoLocksInput, Prisma.UserUncheckedCreateWithoutLotoLocksInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAcknowledgementsInput = {
+export type UserUpdateToOneWithWhereWithoutLotoLocksInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAcknowledgementsInput, Prisma.UserUncheckedUpdateWithoutAcknowledgementsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLotoLocksInput, Prisma.UserUncheckedUpdateWithoutLotoLocksInput>
 }
 
-export type UserUpdateWithoutAcknowledgementsInput = {
+export type UserUpdateWithoutLotoLocksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -923,12 +1109,17 @@ export type UserUpdateWithoutAcknowledgementsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAcknowledgementsInput = {
+export type UserUncheckedUpdateWithoutLotoLocksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -938,9 +1129,206 @@ export type UserUncheckedUpdateWithoutAcknowledgementsInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutAnalysesInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutAnalysesInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutAnalysesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnalysesInput, Prisma.UserUncheckedCreateWithoutAnalysesInput>
+}
+
+export type UserUpsertWithoutAnalysesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAnalysesInput, Prisma.UserUncheckedUpdateWithoutAnalysesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnalysesInput, Prisma.UserUncheckedCreateWithoutAnalysesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAnalysesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAnalysesInput, Prisma.UserUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type UserUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutReportedEventsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutReportedEventsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutReportedEventsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
+}
+
+export type UserUpsertWithoutReportedEventsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReportedEventsInput, Prisma.UserUncheckedUpdateWithoutReportedEventsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReportedEventsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReportedEventsInput, Prisma.UserUncheckedUpdateWithoutReportedEventsInput>
+}
+
+export type UserUpdateWithoutReportedEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReportedEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -953,9 +1341,14 @@ export type UserCreateWithoutReviewsInput = {
   createdAt?: Date | string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  createdTbms?: Prisma.TbmCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -968,9 +1361,14 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   workplaceId: string
   teamId?: string | null
   createdAt?: Date | string
-  createdTbms?: Prisma.TbmUncheckedCreateNestedManyWithoutCreatedByInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedCreateNestedManyWithoutUserInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedCreateNestedManyWithoutUserInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -999,9 +1397,14 @@ export type UserUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -1014,9 +1417,302 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutRestartRequestsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutRestartRequestsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutRestartRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRestartRequestsInput, Prisma.UserUncheckedCreateWithoutRestartRequestsInput>
+}
+
+export type UserCreateWithoutRestartApprovalsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutRestartApprovalsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutRestartApprovalsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRestartApprovalsInput, Prisma.UserUncheckedCreateWithoutRestartApprovalsInput>
+}
+
+export type UserUpsertWithoutRestartRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRestartRequestsInput, Prisma.UserUncheckedUpdateWithoutRestartRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRestartRequestsInput, Prisma.UserUncheckedCreateWithoutRestartRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRestartRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRestartRequestsInput, Prisma.UserUncheckedUpdateWithoutRestartRequestsInput>
+}
+
+export type UserUpdateWithoutRestartRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRestartRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserUpsertWithoutRestartApprovalsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRestartApprovalsInput, Prisma.UserUncheckedUpdateWithoutRestartApprovalsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRestartApprovalsInput, Prisma.UserUncheckedCreateWithoutRestartApprovalsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRestartApprovalsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRestartApprovalsInput, Prisma.UserUncheckedUpdateWithoutRestartApprovalsInput>
+}
+
+export type UserUpdateWithoutRestartApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRestartApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutStateLogsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+}
+
+export type UserUncheckedCreateWithoutStateLogsInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+}
+
+export type UserCreateOrConnectWithoutStateLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStateLogsInput, Prisma.UserUncheckedCreateWithoutStateLogsInput>
+}
+
+export type UserUpsertWithoutStateLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStateLogsInput, Prisma.UserUncheckedUpdateWithoutStateLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStateLogsInput, Prisma.UserUncheckedCreateWithoutStateLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStateLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStateLogsInput, Prisma.UserUncheckedUpdateWithoutStateLogsInput>
+}
+
+export type UserUpdateWithoutStateLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStateLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
 }
 
 export type UserCreateManyWorkplaceInput = {
@@ -1039,10 +1735,15 @@ export type UserUpdateWithoutWorkplaceInput = {
   approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkplaceInput = {
@@ -1054,10 +1755,15 @@ export type UserUncheckedUpdateWithoutWorkplaceInput = {
   approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -1091,10 +1797,15 @@ export type UserUpdateWithoutTeamInput = {
   approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
-  createdTbms?: Prisma.TbmUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeamInput = {
@@ -1106,10 +1817,15 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdTbms?: Prisma.TbmUncheckedUpdateManyWithoutCreatedByNestedInput
-  assignedTbms?: Prisma.TbmAssigneeUncheckedUpdateManyWithoutUserNestedInput
-  acknowledgements?: Prisma.TbmAcknowledgementUncheckedUpdateManyWithoutUserNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTeamInput = {
@@ -1129,17 +1845,27 @@ export type UserUncheckedUpdateManyWithoutTeamInput = {
  */
 
 export type UserCountOutputType = {
-  createdTbms: number
-  assignedTbms: number
-  acknowledgements: number
+  createdWorks: number
+  assignedWorks: number
+  lotoLocks: number
   reviews: number
+  analyses: number
+  reportedEvents: number
+  restartRequests: number
+  restartApprovals: number
+  stateLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdTbms?: boolean | UserCountOutputTypeCountCreatedTbmsArgs
-  assignedTbms?: boolean | UserCountOutputTypeCountAssignedTbmsArgs
-  acknowledgements?: boolean | UserCountOutputTypeCountAcknowledgementsArgs
+  createdWorks?: boolean | UserCountOutputTypeCountCreatedWorksArgs
+  assignedWorks?: boolean | UserCountOutputTypeCountAssignedWorksArgs
+  lotoLocks?: boolean | UserCountOutputTypeCountLotoLocksArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+  analyses?: boolean | UserCountOutputTypeCountAnalysesArgs
+  reportedEvents?: boolean | UserCountOutputTypeCountReportedEventsArgs
+  restartRequests?: boolean | UserCountOutputTypeCountRestartRequestsArgs
+  restartApprovals?: boolean | UserCountOutputTypeCountRestartApprovalsArgs
+  stateLogs?: boolean | UserCountOutputTypeCountStateLogsArgs
 }
 
 /**
@@ -1155,22 +1881,22 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountCreatedTbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TbmWhereInput
+export type UserCountOutputTypeCountCreatedWorksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceWorkWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAssignedTbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TbmAssigneeWhereInput
+export type UserCountOutputTypeCountAssignedWorksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkAssigneeWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAcknowledgementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TbmAcknowledgementWhereInput
+export type UserCountOutputTypeCountLotoLocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LotoLockWhereInput
 }
 
 /**
@@ -1178,6 +1904,41 @@ export type UserCountOutputTypeCountAcknowledgementsArgs<ExtArgs extends runtime
  */
 export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VideoAnalysisWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReportedEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RiskEventWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRestartRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RestartRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRestartApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RestartRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStateLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EquipmentStateLogWhereInput
 }
 
 
@@ -1193,10 +1954,15 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
-  createdTbms?: boolean | Prisma.User$createdTbmsArgs<ExtArgs>
-  assignedTbms?: boolean | Prisma.User$assignedTbmsArgs<ExtArgs>
-  acknowledgements?: boolean | Prisma.User$acknowledgementsArgs<ExtArgs>
+  createdWorks?: boolean | Prisma.User$createdWorksArgs<ExtArgs>
+  assignedWorks?: boolean | Prisma.User$assignedWorksArgs<ExtArgs>
+  lotoLocks?: boolean | Prisma.User$lotoLocksArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
+  reportedEvents?: boolean | Prisma.User$reportedEventsArgs<ExtArgs>
+  restartRequests?: boolean | Prisma.User$restartRequestsArgs<ExtArgs>
+  restartApprovals?: boolean | Prisma.User$restartApprovalsArgs<ExtArgs>
+  stateLogs?: boolean | Prisma.User$stateLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1244,10 +2010,15 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
-  createdTbms?: boolean | Prisma.User$createdTbmsArgs<ExtArgs>
-  assignedTbms?: boolean | Prisma.User$assignedTbmsArgs<ExtArgs>
-  acknowledgements?: boolean | Prisma.User$acknowledgementsArgs<ExtArgs>
+  createdWorks?: boolean | Prisma.User$createdWorksArgs<ExtArgs>
+  assignedWorks?: boolean | Prisma.User$assignedWorksArgs<ExtArgs>
+  lotoLocks?: boolean | Prisma.User$lotoLocksArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
+  reportedEvents?: boolean | Prisma.User$reportedEventsArgs<ExtArgs>
+  restartRequests?: boolean | Prisma.User$restartRequestsArgs<ExtArgs>
+  restartApprovals?: boolean | Prisma.User$restartApprovalsArgs<ExtArgs>
+  stateLogs?: boolean | Prisma.User$stateLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1264,16 +2035,24 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     workplace: Prisma.$WorkplacePayload<ExtArgs>
     team: Prisma.$TeamPayload<ExtArgs> | null
-    createdTbms: Prisma.$TbmPayload<ExtArgs>[]
-    assignedTbms: Prisma.$TbmAssigneePayload<ExtArgs>[]
-    acknowledgements: Prisma.$TbmAcknowledgementPayload<ExtArgs>[]
+    createdWorks: Prisma.$MaintenanceWorkPayload<ExtArgs>[]
+    assignedWorks: Prisma.$WorkAssigneePayload<ExtArgs>[]
+    lotoLocks: Prisma.$LotoLockPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    analyses: Prisma.$VideoAnalysisPayload<ExtArgs>[]
+    reportedEvents: Prisma.$RiskEventPayload<ExtArgs>[]
+    restartRequests: Prisma.$RestartRequestPayload<ExtArgs>[]
+    restartApprovals: Prisma.$RestartRequestPayload<ExtArgs>[]
+    stateLogs: Prisma.$EquipmentStateLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     employeeNumber: string
     name: string
     passwordHash: string
+    /**
+     * WORKER(정비 작업자) | OPERATOR(설비 운전 담당) | SAFETY_MANAGER(안전관리자)
+     */
     role: string
     approvalStatus: string
     workplaceId: string
@@ -1675,10 +2454,15 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workplace<T extends Prisma.WorkplaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkplaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkplaceClient<runtime.Types.Result.GetResult<Prisma.$WorkplacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   team<T extends Prisma.User$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  createdTbms<T extends Prisma.User$createdTbmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTbmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TbmPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  assignedTbms<T extends Prisma.User$assignedTbmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedTbmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TbmAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  acknowledgements<T extends Prisma.User$acknowledgementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$acknowledgementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TbmAcknowledgementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdWorks<T extends Prisma.User$createdWorksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdWorksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceWorkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignedWorks<T extends Prisma.User$assignedWorksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedWorksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lotoLocks<T extends Prisma.User$lotoLocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lotoLocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotoLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  analyses<T extends Prisma.User$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reportedEvents<T extends Prisma.User$reportedEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  restartRequests<T extends Prisma.User$restartRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$restartRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  restartApprovals<T extends Prisma.User$restartApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$restartApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stateLogs<T extends Prisma.User$stateLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$stateLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EquipmentStateLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2137,75 +2921,75 @@ export type User$teamArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 
 /**
- * User.createdTbms
+ * User.createdWorks
  */
-export type User$createdTbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$createdWorksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Tbm
+   * Select specific fields to fetch from the MaintenanceWork
    */
-  select?: Prisma.TbmSelect<ExtArgs> | null
+  select?: Prisma.MaintenanceWorkSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Tbm
+   * Omit specific fields from the MaintenanceWork
    */
-  omit?: Prisma.TbmOmit<ExtArgs> | null
+  omit?: Prisma.MaintenanceWorkOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TbmInclude<ExtArgs> | null
-  where?: Prisma.TbmWhereInput
-  orderBy?: Prisma.TbmOrderByWithRelationInput | Prisma.TbmOrderByWithRelationInput[]
-  cursor?: Prisma.TbmWhereUniqueInput
+  include?: Prisma.MaintenanceWorkInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceWorkWhereInput
+  orderBy?: Prisma.MaintenanceWorkOrderByWithRelationInput | Prisma.MaintenanceWorkOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceWorkWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TbmScalarFieldEnum | Prisma.TbmScalarFieldEnum[]
+  distinct?: Prisma.MaintenanceWorkScalarFieldEnum | Prisma.MaintenanceWorkScalarFieldEnum[]
 }
 
 /**
- * User.assignedTbms
+ * User.assignedWorks
  */
-export type User$assignedTbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$assignedWorksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TbmAssignee
+   * Select specific fields to fetch from the WorkAssignee
    */
-  select?: Prisma.TbmAssigneeSelect<ExtArgs> | null
+  select?: Prisma.WorkAssigneeSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TbmAssignee
+   * Omit specific fields from the WorkAssignee
    */
-  omit?: Prisma.TbmAssigneeOmit<ExtArgs> | null
+  omit?: Prisma.WorkAssigneeOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TbmAssigneeInclude<ExtArgs> | null
-  where?: Prisma.TbmAssigneeWhereInput
-  orderBy?: Prisma.TbmAssigneeOrderByWithRelationInput | Prisma.TbmAssigneeOrderByWithRelationInput[]
-  cursor?: Prisma.TbmAssigneeWhereUniqueInput
+  include?: Prisma.WorkAssigneeInclude<ExtArgs> | null
+  where?: Prisma.WorkAssigneeWhereInput
+  orderBy?: Prisma.WorkAssigneeOrderByWithRelationInput | Prisma.WorkAssigneeOrderByWithRelationInput[]
+  cursor?: Prisma.WorkAssigneeWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TbmAssigneeScalarFieldEnum | Prisma.TbmAssigneeScalarFieldEnum[]
+  distinct?: Prisma.WorkAssigneeScalarFieldEnum | Prisma.WorkAssigneeScalarFieldEnum[]
 }
 
 /**
- * User.acknowledgements
+ * User.lotoLocks
  */
-export type User$acknowledgementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$lotoLocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TbmAcknowledgement
+   * Select specific fields to fetch from the LotoLock
    */
-  select?: Prisma.TbmAcknowledgementSelect<ExtArgs> | null
+  select?: Prisma.LotoLockSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TbmAcknowledgement
+   * Omit specific fields from the LotoLock
    */
-  omit?: Prisma.TbmAcknowledgementOmit<ExtArgs> | null
+  omit?: Prisma.LotoLockOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TbmAcknowledgementInclude<ExtArgs> | null
-  where?: Prisma.TbmAcknowledgementWhereInput
-  orderBy?: Prisma.TbmAcknowledgementOrderByWithRelationInput | Prisma.TbmAcknowledgementOrderByWithRelationInput[]
-  cursor?: Prisma.TbmAcknowledgementWhereUniqueInput
+  include?: Prisma.LotoLockInclude<ExtArgs> | null
+  where?: Prisma.LotoLockWhereInput
+  orderBy?: Prisma.LotoLockOrderByWithRelationInput | Prisma.LotoLockOrderByWithRelationInput[]
+  cursor?: Prisma.LotoLockWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TbmAcknowledgementScalarFieldEnum | Prisma.TbmAcknowledgementScalarFieldEnum[]
+  distinct?: Prisma.LotoLockScalarFieldEnum | Prisma.LotoLockScalarFieldEnum[]
 }
 
 /**
@@ -2230,6 +3014,126 @@ export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.analyses
+ */
+export type User$analysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VideoAnalysis
+   */
+  select?: Prisma.VideoAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VideoAnalysis
+   */
+  omit?: Prisma.VideoAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoAnalysisInclude<ExtArgs> | null
+  where?: Prisma.VideoAnalysisWhereInput
+  orderBy?: Prisma.VideoAnalysisOrderByWithRelationInput | Prisma.VideoAnalysisOrderByWithRelationInput[]
+  cursor?: Prisma.VideoAnalysisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VideoAnalysisScalarFieldEnum | Prisma.VideoAnalysisScalarFieldEnum[]
+}
+
+/**
+ * User.reportedEvents
+ */
+export type User$reportedEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RiskEvent
+   */
+  select?: Prisma.RiskEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RiskEvent
+   */
+  omit?: Prisma.RiskEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RiskEventInclude<ExtArgs> | null
+  where?: Prisma.RiskEventWhereInput
+  orderBy?: Prisma.RiskEventOrderByWithRelationInput | Prisma.RiskEventOrderByWithRelationInput[]
+  cursor?: Prisma.RiskEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RiskEventScalarFieldEnum | Prisma.RiskEventScalarFieldEnum[]
+}
+
+/**
+ * User.restartRequests
+ */
+export type User$restartRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RestartRequest
+   */
+  select?: Prisma.RestartRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RestartRequest
+   */
+  omit?: Prisma.RestartRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RestartRequestInclude<ExtArgs> | null
+  where?: Prisma.RestartRequestWhereInput
+  orderBy?: Prisma.RestartRequestOrderByWithRelationInput | Prisma.RestartRequestOrderByWithRelationInput[]
+  cursor?: Prisma.RestartRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RestartRequestScalarFieldEnum | Prisma.RestartRequestScalarFieldEnum[]
+}
+
+/**
+ * User.restartApprovals
+ */
+export type User$restartApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RestartRequest
+   */
+  select?: Prisma.RestartRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RestartRequest
+   */
+  omit?: Prisma.RestartRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RestartRequestInclude<ExtArgs> | null
+  where?: Prisma.RestartRequestWhereInput
+  orderBy?: Prisma.RestartRequestOrderByWithRelationInput | Prisma.RestartRequestOrderByWithRelationInput[]
+  cursor?: Prisma.RestartRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RestartRequestScalarFieldEnum | Prisma.RestartRequestScalarFieldEnum[]
+}
+
+/**
+ * User.stateLogs
+ */
+export type User$stateLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EquipmentStateLog
+   */
+  select?: Prisma.EquipmentStateLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EquipmentStateLog
+   */
+  omit?: Prisma.EquipmentStateLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EquipmentStateLogInclude<ExtArgs> | null
+  where?: Prisma.EquipmentStateLogWhereInput
+  orderBy?: Prisma.EquipmentStateLogOrderByWithRelationInput | Prisma.EquipmentStateLogOrderByWithRelationInput[]
+  cursor?: Prisma.EquipmentStateLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EquipmentStateLogScalarFieldEnum | Prisma.EquipmentStateLogScalarFieldEnum[]
 }
 
 /**

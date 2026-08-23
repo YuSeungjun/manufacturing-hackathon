@@ -1,5 +1,8 @@
-ultralytics>=8.4
+# end2end / track API 가 마이너 버전에서 바뀐 전례가 있어 상한을 건다
+ultralytics>=8.4,<8.5
 fastapi>=0.115
 uvicorn[standard]>=0.30
 python-multipart>=0.0.9
-huggingface_hub>=0.25
+lap>=0.5.12       # ByteTrack 의 헝가리안 매칭. 없으면 track() 이 런타임에 죽는다
+pillow>=11        # 애니메이션 WebP 클립 인코딩
+httpx>=0.27       # videoUrl 스트리밍 다운로드

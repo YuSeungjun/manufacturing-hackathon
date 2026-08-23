@@ -30,9 +30,9 @@ const robomono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "안전한 하루 · 제철소 TBM 안전이행 플랫폼",
+  title: "안전한 재가동 · 제철소 압연설비 끼임 예방",
   description:
-    "수기로 끝나던 작업 전 안전점검회의(TBM)를 기록하고, AI가 이행 여부를 탐지해 안전관리자의 판단을 돕습니다.",
+    "AI가 압연설비 위험구역의 작업자 잔류를 감지해 불시 재가동을 차단하고, 위험 순간을 자동 기록해 안전관리자에게 전달합니다.",
 };
 
 export const viewport: Viewport = {

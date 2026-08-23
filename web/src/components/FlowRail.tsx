@@ -7,7 +7,8 @@ import type { FlowStage } from "@/lib/flow";
 const OVERVIEW = { href: "", label: "현황판", short: "현황" };
 
 function isHere(pathname: string, href: string) {
-  if (href === "/manager" || href === "/worker") return pathname === href;
+  if (href.includes("#")) return false;
+  if (href === "/manager" || href === "/worker" || href === "/operator") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

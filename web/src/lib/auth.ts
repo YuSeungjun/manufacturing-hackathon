@@ -86,9 +86,35 @@ export async function assertManager() {
   return user;
 }
 
+/**
+ * 설비 운전 담당자 권한.
+ *
+ * 안전관리자도 통과시킨다 — 야간에 운전 담당자가 자리를 비웠을 때 관리자가 대리로
+ * 재가동을 요청할 수 있어야 하고, 어차피 차단/해제 판정은 evaluateInterlock 이 한다.
+ */
+export async function requireOperator() {
+  const user = await requireUser();
+  if (!isOperator(user)) redirect("/forbidden");
+  return user;
+}
+
+export async function assertOperator() {
+  const user = await getSessionUser();
+  if (!user) throw new Error("로그인이 필요합니다.");
+  if (!isOperator(user)) throw new Error("설비 운전 담당자 권한이 필요합니다. (403 Forbidden)");
+  return user;
+}
+
+function isOperator(user: { role: string; approvalStatus: string }) {
+  if (user.role === "OPERATOR") return true;
+  return user.role === "SAFETY_MANAGER" && user.approvalStatus === "APPROVED";
+}
+
 export function homePathFor(user: { role: string; approvalStatus: string }) {
   if (user.role === "SAFETY_MANAGER") {
     return user.approvalStatus === "APPROVED" ? "/manager" : "/pending";
   }
+  if (user.role === "OPERATOR") return "/operator";
   return "/worker";
 }
+

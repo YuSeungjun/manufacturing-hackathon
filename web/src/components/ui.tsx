@@ -1,4 +1,10 @@
-import { DETECTION_STATUS_LABEL } from "@/lib/ppe";
+import {
+  INTERLOCK_LABEL,
+  LEVEL_LABEL,
+  LEVEL_MARK,
+  RISK_STATUS_LABEL,
+  RUN_STATE_LABEL,
+} from "@/lib/zone";
 
 /* ── 화면 머리 ─────────────────────────────────────────────
    단계 번호를 크게 달아 레일과 짝을 맞춘다. 어느 단계에 있는지
@@ -79,7 +85,7 @@ export function StatusTag({ status }: { status: string }) {
   return (
     <span className={`tag ${STATUS_TAG[status] ?? ""}`}>
       <span className="dot" aria-hidden />
-      {DETECTION_STATUS_LABEL[status] ?? status}
+      {RISK_STATUS_LABEL[status] ?? status}
     </span>
   );
 }
@@ -94,7 +100,7 @@ const STATUS_STAMP: Record<string, string> = {
 export function JudgmentStamp({ decision }: { decision: string }) {
   const tone = STATUS_STAMP[decision];
   if (!tone) return null;
-  return <span className={`stamp ${tone}`}>{DETECTION_STATUS_LABEL[decision] ?? decision}</span>;
+  return <span className={`stamp ${tone}`}>{RISK_STATUS_LABEL[decision] ?? decision}</span>;
 }
 
 /** 라벨 + 계측값 한 쌍. 좁은 자리에 늘어놓는다. */
@@ -115,5 +121,44 @@ export function Empty({ children }: { children: React.ReactNode }) {
     <p className="rounded-md border border-dashed border-rule px-4 py-7 text-center text-[13.5px] leading-6 text-ink-3">
       {children}
     </p>
+  );
+}
+
+/* ── 설비와 인터록 ─────────────────────────────────────────
+   인터록은 이 앱에서 가장 중요한 한 글자다. 색만으로 말하지 않고
+   기호와 낱말을 함께 쓴다. */
+
+export function InterlockBadge({ interlock, reason }: { interlock: string; reason?: string }) {
+  const blocked = interlock === "BLOCKED";
+  return (
+    <span
+      className={`tag ${blocked ? "tag-deny" : "tag-safe"}`}
+      title={blocked && reason ? reason : undefined}
+    >
+      <span aria-hidden>{blocked ? "⛔" : "✓"}</span>
+      {INTERLOCK_LABEL[interlock] ?? interlock}
+    </span>
+  );
+}
+
+export function RunStateTag({ state }: { state: string }) {
+  const tone = state === "RUNNING" ? "tag-act" : state === "MAINTENANCE" ? "tag-hold" : "";
+  return (
+    <span className={`tag ${tone}`}>
+      <span className="dot" aria-hidden />
+      {RUN_STATE_LABEL[state] ?? state}
+    </span>
+  );
+}
+
+/** AI 가 매긴 위험 수준. 사람의 판정(StatusTag)과 다른 축이라 모양을 달리한다. */
+export function LevelTag({ level }: { level: string }) {
+  const tone =
+    level === "CRITICAL" ? "tag-deny" : level === "WARNING" ? "tag-hold" : level === "CAUTION" ? "tag-act" : "";
+  return (
+    <span className={`tag ${tone}`}>
+      <span aria-hidden>{LEVEL_MARK[level] ?? "·"}</span>
+      {LEVEL_LABEL[level] ?? level}
+    </span>
   );
 }

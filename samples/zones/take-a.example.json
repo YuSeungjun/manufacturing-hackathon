@@ -1,0 +1,24 @@
+{
+  "_설명": "촬영한 클립마다 이 파일을 하나씩 만든다. take-a.json 처럼 .example 을 뺀 이름으로 저장하면 채점 대상이 된다.",
+  "video": "samples/take-a.mp4",
+  "zones": [
+    {
+      "id": "Z1",
+      "name": "롤 갭 하부",
+      "polygon": [[0.31, 0.52], [0.68, 0.50], [0.72, 0.93], [0.27, 0.95]],
+      "kind": "PINCH",
+      "dwellWarnSec": 5.0
+    }
+  ],
+  "_machineStates": "실제 현장에서는 PLC·LOTO 가 준다. 촬영본에서는 스위치를 올린 시각을 적는다.",
+  "machineStates": [
+    { "tSec": 0.0, "state": "STOPPED" },
+    { "tSec": 12.5, "state": "RESTART_REQUESTED" },
+    { "tSec": 14.0, "state": "RUNNING" }
+  ],
+  "_expect": "영상을 보며 손으로 적은 정답 구간. 시간 IoU 0.3 이상이면 적중으로 센다.",
+  "expect": [
+    { "code": "PROLONGED_DWELL", "at": [9.1, 16.8] },
+    { "code": "RESTART_WITH_WORKER_INSIDE", "at": [12.5, 16.8] }
+  ]
+}

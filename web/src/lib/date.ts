@@ -101,3 +101,26 @@ export function formatStamp(date: Date) {
   }).format(date);
   return `${d} ${t}`;
 }
+
+/**
+ * 초를 사람이 읽는 길이로. 새 화면은 전부 초 단위를 다룬다 —
+ * "6.4초", "1분 42초", "0.4초" 처럼 자릿수를 상황에 맞춰 준다.
+ */
+export function formatDurationKo(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "—";
+  if (seconds < 10) return `${seconds.toFixed(1)}초`;
+  const whole = Math.round(seconds);
+  if (whole < 60) return `${whole}초`;
+  const minutes = Math.floor(whole / 60);
+  const rest = whole % 60;
+  if (minutes < 60) return rest === 0 ? `${minutes}분` : `${minutes}분 ${rest}초`;
+  const hours = Math.floor(minutes / 60);
+  return `${hours}시간 ${minutes % 60}분`;
+}
+
+/** 영상 안의 시각. 00:12 처럼 재생기 표기를 따른다. */
+export function formatClock(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
+  const whole = Math.floor(seconds);
+  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
+}

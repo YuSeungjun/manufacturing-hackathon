@@ -4,16 +4,16 @@ import { dayRange, todayLocalISO } from "@/lib/date";
 /**
  * 오늘의 흐름.
  *
- * 이 앱에는 실제 순서가 있다 — TBM 작성 → 확인 서명 → 영상 분석 → 탐지 검토.
+ * 이 앱에는 실제 순서가 있다 — 위험구역 설정 → 영상 분석 → 위험 사건 검토 → 재가동 승인.
  * 레일과 홈 보드가 같은 값을 보게 하려고 여기 한 곳에서만 계산한다.
  */
 
 export type StageState =
   /** 오늘 몫이 끝났다 */
   | "done"
-  /** 지금 안전관리자가 손대야 한다 */
+  /** 지금 손대야 한다 */
   | "active"
-  /** 아직 안 됐지만 급하지 않다 (작업자 몫이거나 순서가 안 왔다) */
+  /** 아직 안 됐지만 급하지 않다 */
   | "todo"
   /** 해당 없음 */
   | "idle";
@@ -29,107 +29,207 @@ export type FlowStage = {
   state: StageState;
 };
 
+export type NextAction = { label: string; href: string; cta: string } | null;
+
 export type ManagerFlow = {
   stages: FlowStage[];
-  tbmCount: number;
-  signed: number;
-  expected: number;
+  equipmentCount: number;
+  zoneCount: number;
   analyzed: number;
-  pending: number;
-  confirmed: number;
-  /** 지금 당장 해야 할 한 가지. 없으면 null. */
-  next: { label: string; href: string; cta: string } | null;
+  pendingEvents: number;
+  criticalEvents: number;
+  blockedRestarts: number;
+  blockedEquipment: number;
+  next: NextAction;
 };
 
 export async function managerFlow(workplaceId: string): Promise<ManagerFlow> {
   const { from, to } = dayRange(todayLocalISO());
   const scope = { workplaceId };
 
-  const [tbms, detections] = await Promise.all([
-    prisma.tbm.findMany({
-      where: { ...scope, workDate: { gte: from, lt: to } },
-      // 서명 대상은 TBM 마다 지정된다. 작업조 전원이 아니다.
-      include: { acknowledgements: true, assignees: true },
-    }),
-    prisma.detection.findMany({
-      where: { tbm: scope, detectedAt: { gte: from, lt: to } },
-      select: { status: true },
-    }),
-  ]);
+  const [equipmentCount, zoneCount, analyzed, events, blockedRestarts, blockedEquipment] =
+    await Promise.all([
+      prisma.equipment.count({ where: scope }),
+      prisma.dangerZone.count({ where: { active: true, equipment: scope } }),
+      prisma.videoAnalysis.count({ where: { ...scope, analyzedAt: { gte: from, lt: to } } }),
+      prisma.riskEvent.findMany({
+        where: { ...scope, detectedAt: { gte: from, lt: to } },
+        select: { status: true, level: true },
+      }),
+      prisma.restartRequest.count({
+        where: { ...scope, decision: "BLOCKED", outcome: "OPEN", approvedAt: null },
+      }),
+      prisma.equipment.count({ where: { ...scope, interlock: "BLOCKED" } }),
+    ]);
 
-  let signed = 0;
-  let expected = 0;
-  for (const tbm of tbms) {
-    const targets = new Set(tbm.assignees.map((a) => a.userId));
-    expected += targets.size;
-    signed += tbm.acknowledgements.filter((ack) => targets.has(ack.userId)).length;
-  }
-
-  const tbmCount = tbms.length;
-  const analyzed = detections.length;
-  const pending = detections.filter((d) => d.status === "PENDING").length;
-  const confirmed = detections.filter((d) => d.status === "CONFIRMED").length;
+  const pendingEvents = events.filter((e) => e.status === "PENDING").length;
+  const criticalEvents = events.filter((e) => e.level === "CRITICAL").length;
 
   const stages: FlowStage[] = [
     {
       stage: 1,
-      href: "/manager/tbm/new",
-      label: "TBM 작성",
-      short: "TBM",
-      value: tbmCount > 0 ? `${tbmCount}` : "필요",
-      state: tbmCount > 0 ? "done" : "active",
+      href: "/manager/equipment",
+      label: "위험구역 설정",
+      short: "구역",
+      value: zoneCount > 0 ? `${zoneCount}` : "필요",
+      state: zoneCount > 0 ? "done" : "active",
     },
     {
       stage: 2,
-      href: "/manager/signatures",
-      label: "확인 서명",
-      short: "서명",
-      value: expected === 0 ? "—" : `${signed}/${expected}`,
-      state: expected === 0 ? "idle" : signed >= expected ? "done" : "todo",
-    },
-    {
-      stage: 3,
       href: "/manager/analyze",
       label: "영상 분석",
       short: "분석",
       value: `${analyzed}`,
-      state: analyzed > 0 ? "done" : tbmCount > 0 ? "todo" : "idle",
+      state: analyzed > 0 ? "done" : zoneCount > 0 ? "todo" : "idle",
+    },
+    {
+      stage: 3,
+      href: "/manager/events",
+      label: "위험 사건",
+      short: "사건",
+      value: `${pendingEvents}`,
+      state: pendingEvents > 0 ? "active" : events.length > 0 ? "done" : "idle",
     },
     {
       stage: 4,
-      href: "/manager/detections",
-      label: "탐지 검토",
-      short: "검토",
-      value: `${pending}`,
-      state: pending > 0 ? "active" : analyzed > 0 ? "done" : "idle",
+      href: "/manager/restarts",
+      label: "재가동 승인",
+      short: "승인",
+      value: `${blockedRestarts}`,
+      state: blockedRestarts > 0 ? "active" : "idle",
     },
   ];
 
-  return { stages, tbmCount, signed, expected, analyzed, pending, confirmed, next: nextAction() };
+  return {
+    stages,
+    equipmentCount,
+    zoneCount,
+    analyzed,
+    pendingEvents,
+    criticalEvents,
+    blockedRestarts,
+    blockedEquipment,
+    next: nextAction(),
+  };
 
-  /** 지금 할 일은 하나만 고른다. 검토 대기 > TBM 미작성 > 서명 미완 순. */
-  function nextAction() {
-    if (pending > 0) {
+  /**
+   * 지금 할 일은 하나만 고른다.
+   * 사람이 차단당한 채 라인 앞에 서 있는 상황이 가장 급하다.
+   */
+  function nextAction(): NextAction {
+    if (blockedRestarts > 0) {
       return {
-        label: `검토 대기 ${pending}건이 판단을 기다립니다`,
-        href: "/manager/detections",
+        label: `재가동 요청 ${blockedRestarts}건이 차단된 채 승인을 기다립니다`,
+        href: "/manager/restarts",
+        cta: "현장 확인하러 가기",
+      };
+    }
+    if (pendingEvents > 0) {
+      return {
+        label: `위험 사건 ${pendingEvents}건이 판단을 기다립니다`,
+        href: "/manager/events",
         cta: "검토하러 가기",
       };
     }
-    if (tbmCount === 0) {
+    if (zoneCount === 0) {
       return {
-        label: "오늘 작업일의 TBM이 아직 없습니다",
-        href: "/manager/tbm/new",
-        cta: "TBM 작성하기",
+        label: "아직 위험구역이 설정되지 않았습니다",
+        href: "/manager/equipment",
+        cta: "위험구역 그리기",
       };
     }
-    if (expected > 0 && signed < expected) {
+    if (analyzed === 0) {
       return {
-        label: `작업자 ${expected - signed}명이 안전수칙 확인 서명을 하지 않았습니다`,
-        href: "/manager/signatures",
-        cta: "서명 현황 보기",
+        label: "오늘 분석한 CCTV 영상이 없습니다",
+        href: "/manager/analyze",
+        cta: "영상 분석하기",
       };
     }
     return null;
   }
+}
+
+export type OperatorFlow = { stages: FlowStage[]; blocked: number; awaiting: number; ready: number };
+
+export async function operatorFlow(workplaceId: string, userId: string): Promise<OperatorFlow> {
+  const [equipment, awaiting] = await Promise.all([
+    prisma.equipment.findMany({ where: { workplaceId }, select: { interlock: true } }),
+    prisma.restartRequest.count({
+      where: { workplaceId, requestedById: userId, decision: "BLOCKED", outcome: "OPEN", approvedAt: null },
+    }),
+  ]);
+  const blocked = equipment.filter((e) => e.interlock === "BLOCKED").length;
+  const ready = equipment.length - blocked;
+
+  return {
+    blocked,
+    awaiting,
+    ready,
+    stages: [
+      {
+        stage: 1,
+        href: "/operator",
+        label: "설비 상태",
+        short: "설비",
+        value: `${ready}/${equipment.length}`,
+        state: blocked > 0 ? "todo" : "done",
+      },
+      {
+        stage: 2,
+        href: "/operator/requests",
+        label: "내 재가동 요청",
+        short: "요청",
+        value: `${awaiting}`,
+        state: awaiting > 0 ? "active" : "idle",
+      },
+    ],
+  };
+}
+
+export type WorkerFlow = { stages: FlowStage[]; myLocks: number; openLocks: number; alerts: number };
+
+export async function workerFlow(workplaceId: string, userId: string): Promise<WorkerFlow> {
+  const { from, to } = dayRange(todayLocalISO());
+  const [locks, alerts] = await Promise.all([
+    prisma.lotoLock.findMany({
+      where: { userId, work: { status: { in: ["OPEN", "IN_PROGRESS"] } } },
+      select: { releasedAt: true },
+    }),
+    prisma.riskEvent.count({
+      where: { workplaceId, detectedAt: { gte: from, lt: to }, level: { in: ["WARNING", "CRITICAL"] } },
+    }),
+  ]);
+  const openLocks = locks.filter((l) => l.releasedAt === null).length;
+
+  return {
+    myLocks: locks.length,
+    openLocks,
+    alerts,
+    stages: [
+      {
+        stage: 1,
+        href: "/worker",
+        label: "오늘의 정비 작업",
+        short: "작업",
+        value: `${locks.length}`,
+        state: locks.length > 0 ? "done" : "idle",
+      },
+      {
+        stage: 2,
+        href: "/worker#loto",
+        label: "개인 시건",
+        short: "시건",
+        value: openLocks > 0 ? `${openLocks} 시건중` : "해제됨",
+        state: openLocks > 0 ? "active" : locks.length > 0 ? "done" : "idle",
+      },
+      {
+        stage: 3,
+        href: "/worker#alerts",
+        label: "안전 알림",
+        short: "알림",
+        value: `${alerts}`,
+        state: alerts > 0 ? "todo" : "idle",
+      },
+    ],
+  };
 }

@@ -33,33 +33,60 @@ export type Team = Prisma.TeamModel
  */
 export type User = Prisma.UserModel
 /**
- * Model Tbm
+ * Model Equipment
+ * 압연 라인의 개별 설비. 인터록의 대상 단위다.
+ */
+export type Equipment = Prisma.EquipmentModel
+/**
+ * Model DangerZone
+ * 설비 주변의 끼임 위험구역. 카메라 화면 기준 정규화 폴리곤.
+ */
+export type DangerZone = Prisma.DangerZoneModel
+/**
+ * Model CameraFeed
  * 
  */
-export type Tbm = Prisma.TbmModel
+export type CameraFeed = Prisma.CameraFeedModel
 /**
- * Model TbmAssignee
- * 이 TBM 에 서명해야 하는 작업자.
- * 작업조 전원이 아니라 그날 실제 투입되는 사람만 지정한다.
+ * Model MaintenanceWork
+ * 정비 작업 허가 = LOTO 대장.
+ * 기존 LOTO 를 대체하지 않는다. AI 판정과 함께 인터록의 두 번째 근거가 된다 —
+ * "AI가 사람을 봤다"만으로 차단하면 오탐 하나에 라인이 서기 때문이다.
  */
-export type TbmAssignee = Prisma.TbmAssigneeModel
+export type MaintenanceWork = Prisma.MaintenanceWorkModel
 /**
- * Model SafetyRule
- * 
+ * Model WorkAssignee
+ * 이 작업에 실제로 투입되는 사람. 작업조 전원이 아니다.
  */
-export type SafetyRule = Prisma.SafetyRuleModel
+export type WorkAssignee = Prisma.WorkAssigneeModel
 /**
- * Model TbmAcknowledgement
- * 
+ * Model LotoLock
+ * 작업자가 건 개인 시건. 하나라도 안 풀렸으면 재가동은 불가다.
  */
-export type TbmAcknowledgement = Prisma.TbmAcknowledgementModel
+export type LotoLock = Prisma.LotoLockModel
 /**
- * Model Detection
- * 
+ * Model VideoAnalysis
+ * 업로드한 CCTV 영상 1건의 분석 결과. 타임라인 재생 화면의 원본.
  */
-export type Detection = Prisma.DetectionModel
+export type VideoAnalysis = Prisma.VideoAnalysisModel
+/**
+ * Model RiskEvent
+ * AI가 본 위험. 잔류와 설비 가동/재가동 명령이 겹친 순간.
+ * 판단은 하지 않는다 — Review 가 그 몫이다.
+ */
+export type RiskEvent = Prisma.RiskEventModel
 /**
  * Model Review
- * 
+ * 사람의 판단. AI 의 의심(RiskEvent)과 분리해서 둔다.
  */
 export type Review = Prisma.ReviewModel
+/**
+ * Model RestartRequest
+ * 운전 담당자의 재가동 요청과 그 결과. 차단 이력이 곧 이 시스템의 성과 지표다.
+ */
+export type RestartRequest = Prisma.RestartRequestModel
+/**
+ * Model EquipmentStateLog
+ * 
+ */
+export type EquipmentStateLog = Prisma.EquipmentStateLogModel

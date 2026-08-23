@@ -1,29 +1,38 @@
-# PPE 탐지 서비스 컨테이너 (Railway / Render / Fly 공통)
 FROM python:3.13-slim
 
-# ultralytics 가 쓰는 OpenCV 런타임 의존성
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      libgl1 libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# torch 는 CPU 휠로 받는다. CUDA 판을 받으면 이미지가 3GB 를 넘는다.
 COPY requirements.txt .
-RUN pip install --no-cache-dir torch torchvision \
-      --index-url https://download.pytorch.org/whl/cpu \
+# torch 는 CPU 휠로 따로 받는다. 기본 인덱스는 CUDA 런타임까지 끌고 와 이미지가 3GB 를 넘는다.
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu \
  && pip install --no-cache-dir -r requirements.txt
 
-COPY server.py .
+# 서비스 코드는 패키지로 넣는다 (모듈 간 상대 import 를 쓴다)
+COPY *.py /app/ai/
+COPY trackers/ /app/ai/trackers/
 
-# 모델을 이미지에 미리 넣어 둔다. 첫 요청 때 받으면 콜드 스타트가 수십 초로 늘어난다.
-ENV PPE_MODEL_REPO=Hansung-Cho/yolov8-ppe-detection \
-    PPE_MODEL_FILE=best.pt \
-    HF_HOME=/app/.hf
-RUN python -c "import os; from huggingface_hub import hf_hub_download; \
-hf_hub_download(os.environ['PPE_MODEL_REPO'], os.environ['PPE_MODEL_FILE'])"
+# ★ 2 vCPU 환경에서 스레드 과할당을 막는다.
+#   호스트 코어 수대로 8~16 스레드를 띄우면 오히려 2~3배 느려진다.
+ENV OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 TORCH_THREADS=2
 
-ENV PORT=8000
+# ★ HF Space 의 HOME 은 쓰기 가능하다고 믿을 수 없다. 경로를 고정하고
+#   기동할 때마다 나가는 버전 체크 왕복을 끈다.
+ENV YOLO_CONFIG_DIR=/app/.ultralytics MPLCONFIGDIR=/app/.mpl YOLO_OFFLINE=1
+RUN mkdir -p /app/.ultralytics /app/.mpl /app/ai/models /tmp/captures
+
+# 콜드 스타트에 가중치를 받으면 첫 요청이 30초 넘게 걸린다. 빌드 때 미리 받아 둔다.
+ENV PERSON_MODEL=/app/ai/models/yolo26n.pt
+RUN python -c "from ultralytics import YOLO; YOLO('yolo26n.pt')" \
+ && mv yolo26n.pt /app/ai/models/yolo26n.pt
+
+ENV IMGSZ=640 TARGET_FPS=6 MAX_VIDEO_MB=80 MAX_DURATION_SEC=60 \
+    CAPTURE_DIR=/tmp/captures PORT=8000
 EXPOSE 8000
-# 컨테이너 밖에서 접근해야 하므로 0.0.0.0 에 바인딩한다. (로컬 run.sh 는 127.0.0.1 유지)
-CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-8000}"]
+
+# ★ --workers 1 필수: 추적기 상태와 잡 레지스트리가 프로세스 메모리에 있다.
+#   워커가 둘이면 서로의 track id 를 오염시키고 폴링이 엉뚱한 워커에 닿는다.
+CMD ["sh", "-c", "uvicorn ai.server:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1 --timeout-keep-alive 75"]

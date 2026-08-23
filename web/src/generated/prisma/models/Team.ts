@@ -176,7 +176,7 @@ export type TeamWhereInput = {
   workplaceId?: Prisma.StringFilter<"Team"> | string
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   users?: Prisma.UserListRelationFilter
-  tbms?: Prisma.TbmListRelationFilter
+  works?: Prisma.MaintenanceWorkListRelationFilter
 }
 
 export type TeamOrderByWithRelationInput = {
@@ -186,7 +186,7 @@ export type TeamOrderByWithRelationInput = {
   workplaceId?: Prisma.SortOrder
   workplace?: Prisma.WorkplaceOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
-  tbms?: Prisma.TbmOrderByRelationAggregateInput
+  works?: Prisma.MaintenanceWorkOrderByRelationAggregateInput
 }
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -200,7 +200,7 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<{
   workplaceId?: Prisma.StringFilter<"Team"> | string
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   users?: Prisma.UserListRelationFilter
-  tbms?: Prisma.TbmListRelationFilter
+  works?: Prisma.MaintenanceWorkListRelationFilter
 }, "id" | "workplaceId_name">
 
 export type TeamOrderByWithAggregationInput = {
@@ -229,7 +229,7 @@ export type TeamCreateInput = {
   workArea: string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
-  tbms?: Prisma.TbmCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateInput = {
@@ -238,7 +238,7 @@ export type TeamUncheckedCreateInput = {
   workArea: string
   workplaceId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
-  tbms?: Prisma.TbmUncheckedCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUpdateInput = {
@@ -247,7 +247,7 @@ export type TeamUpdateInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
-  tbms?: Prisma.TbmUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateInput = {
@@ -256,7 +256,7 @@ export type TeamUncheckedUpdateInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
-  tbms?: Prisma.TbmUncheckedUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateManyInput = {
@@ -383,18 +383,18 @@ export type TeamUpdateOneWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutUsersInput, Prisma.TeamUpdateWithoutUsersInput>, Prisma.TeamUncheckedUpdateWithoutUsersInput>
 }
 
-export type TeamCreateNestedOneWithoutTbmsInput = {
-  create?: Prisma.XOR<Prisma.TeamCreateWithoutTbmsInput, Prisma.TeamUncheckedCreateWithoutTbmsInput>
-  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutTbmsInput
+export type TeamCreateNestedOneWithoutWorksInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutWorksInput, Prisma.TeamUncheckedCreateWithoutWorksInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutWorksInput
   connect?: Prisma.TeamWhereUniqueInput
 }
 
-export type TeamUpdateOneRequiredWithoutTbmsNestedInput = {
-  create?: Prisma.XOR<Prisma.TeamCreateWithoutTbmsInput, Prisma.TeamUncheckedCreateWithoutTbmsInput>
-  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutTbmsInput
-  upsert?: Prisma.TeamUpsertWithoutTbmsInput
+export type TeamUpdateOneRequiredWithoutWorksNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutWorksInput, Prisma.TeamUncheckedCreateWithoutWorksInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutWorksInput
+  upsert?: Prisma.TeamUpsertWithoutWorksInput
   connect?: Prisma.TeamWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutTbmsInput, Prisma.TeamUpdateWithoutTbmsInput>, Prisma.TeamUncheckedUpdateWithoutTbmsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutWorksInput, Prisma.TeamUpdateWithoutWorksInput>, Prisma.TeamUncheckedUpdateWithoutWorksInput>
 }
 
 export type TeamCreateWithoutWorkplaceInput = {
@@ -402,7 +402,7 @@ export type TeamCreateWithoutWorkplaceInput = {
   name: string
   workArea: string
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
-  tbms?: Prisma.TbmCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutWorkplaceInput = {
@@ -410,7 +410,7 @@ export type TeamUncheckedCreateWithoutWorkplaceInput = {
   name: string
   workArea: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
-  tbms?: Prisma.TbmUncheckedCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutWorkplaceInput = {
@@ -454,7 +454,7 @@ export type TeamCreateWithoutUsersInput = {
   name: string
   workArea: string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
-  tbms?: Prisma.TbmCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutUsersInput = {
@@ -462,7 +462,7 @@ export type TeamUncheckedCreateWithoutUsersInput = {
   name: string
   workArea: string
   workplaceId: string
-  tbms?: Prisma.TbmUncheckedCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutUsersInput = {
@@ -486,7 +486,7 @@ export type TeamUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
-  tbms?: Prisma.TbmUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutUsersInput = {
@@ -494,10 +494,10 @@ export type TeamUncheckedUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
-  tbms?: Prisma.TbmUncheckedUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
 }
 
-export type TeamCreateWithoutTbmsInput = {
+export type TeamCreateWithoutWorksInput = {
   id?: string
   name: string
   workArea: string
@@ -505,7 +505,7 @@ export type TeamCreateWithoutTbmsInput = {
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
 }
 
-export type TeamUncheckedCreateWithoutTbmsInput = {
+export type TeamUncheckedCreateWithoutWorksInput = {
   id?: string
   name: string
   workArea: string
@@ -513,23 +513,23 @@ export type TeamUncheckedCreateWithoutTbmsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
 }
 
-export type TeamCreateOrConnectWithoutTbmsInput = {
+export type TeamCreateOrConnectWithoutWorksInput = {
   where: Prisma.TeamWhereUniqueInput
-  create: Prisma.XOR<Prisma.TeamCreateWithoutTbmsInput, Prisma.TeamUncheckedCreateWithoutTbmsInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutWorksInput, Prisma.TeamUncheckedCreateWithoutWorksInput>
 }
 
-export type TeamUpsertWithoutTbmsInput = {
-  update: Prisma.XOR<Prisma.TeamUpdateWithoutTbmsInput, Prisma.TeamUncheckedUpdateWithoutTbmsInput>
-  create: Prisma.XOR<Prisma.TeamCreateWithoutTbmsInput, Prisma.TeamUncheckedCreateWithoutTbmsInput>
+export type TeamUpsertWithoutWorksInput = {
+  update: Prisma.XOR<Prisma.TeamUpdateWithoutWorksInput, Prisma.TeamUncheckedUpdateWithoutWorksInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutWorksInput, Prisma.TeamUncheckedCreateWithoutWorksInput>
   where?: Prisma.TeamWhereInput
 }
 
-export type TeamUpdateToOneWithWhereWithoutTbmsInput = {
+export type TeamUpdateToOneWithWhereWithoutWorksInput = {
   where?: Prisma.TeamWhereInput
-  data: Prisma.XOR<Prisma.TeamUpdateWithoutTbmsInput, Prisma.TeamUncheckedUpdateWithoutTbmsInput>
+  data: Prisma.XOR<Prisma.TeamUpdateWithoutWorksInput, Prisma.TeamUncheckedUpdateWithoutWorksInput>
 }
 
-export type TeamUpdateWithoutTbmsInput = {
+export type TeamUpdateWithoutWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
@@ -537,7 +537,7 @@ export type TeamUpdateWithoutTbmsInput = {
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
 }
 
-export type TeamUncheckedUpdateWithoutTbmsInput = {
+export type TeamUncheckedUpdateWithoutWorksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
@@ -556,7 +556,7 @@ export type TeamUpdateWithoutWorkplaceInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
-  tbms?: Prisma.TbmUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutWorkplaceInput = {
@@ -564,7 +564,7 @@ export type TeamUncheckedUpdateWithoutWorkplaceInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
-  tbms?: Prisma.TbmUncheckedUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -580,12 +580,12 @@ export type TeamUncheckedUpdateManyWithoutWorkplaceInput = {
 
 export type TeamCountOutputType = {
   users: number
-  tbms: number
+  works: number
 }
 
 export type TeamCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | TeamCountOutputTypeCountUsersArgs
-  tbms?: boolean | TeamCountOutputTypeCountTbmsArgs
+  works?: boolean | TeamCountOutputTypeCountWorksArgs
 }
 
 /**
@@ -608,8 +608,8 @@ export type TeamCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Exte
 /**
  * TeamCountOutputType without action
  */
-export type TeamCountOutputTypeCountTbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TbmWhereInput
+export type TeamCountOutputTypeCountWorksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceWorkWhereInput
 }
 
 
@@ -620,7 +620,7 @@ export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   workplaceId?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Team$usersArgs<ExtArgs>
-  tbms?: boolean | Prisma.Team$tbmsArgs<ExtArgs>
+  works?: boolean | Prisma.Team$worksArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["team"]>
 
@@ -651,7 +651,7 @@ export type TeamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type TeamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Team$usersArgs<ExtArgs>
-  tbms?: boolean | Prisma.Team$tbmsArgs<ExtArgs>
+  works?: boolean | Prisma.Team$worksArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TeamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -666,7 +666,7 @@ export type $TeamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     workplace: Prisma.$WorkplacePayload<ExtArgs>
     users: Prisma.$UserPayload<ExtArgs>[]
-    tbms: Prisma.$TbmPayload<ExtArgs>[]
+    works: Prisma.$MaintenanceWorkPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1069,7 +1069,7 @@ export interface Prisma__TeamClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workplace<T extends Prisma.WorkplaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkplaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkplaceClient<runtime.Types.Result.GetResult<Prisma.$WorkplacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.Team$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tbms<T extends Prisma.Team$tbmsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$tbmsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TbmPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  works<T extends Prisma.Team$worksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$worksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceWorkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1528,27 +1528,27 @@ export type Team$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }
 
 /**
- * Team.tbms
+ * Team.works
  */
-export type Team$tbmsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Team$worksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Tbm
+   * Select specific fields to fetch from the MaintenanceWork
    */
-  select?: Prisma.TbmSelect<ExtArgs> | null
+  select?: Prisma.MaintenanceWorkSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Tbm
+   * Omit specific fields from the MaintenanceWork
    */
-  omit?: Prisma.TbmOmit<ExtArgs> | null
+  omit?: Prisma.MaintenanceWorkOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TbmInclude<ExtArgs> | null
-  where?: Prisma.TbmWhereInput
-  orderBy?: Prisma.TbmOrderByWithRelationInput | Prisma.TbmOrderByWithRelationInput[]
-  cursor?: Prisma.TbmWhereUniqueInput
+  include?: Prisma.MaintenanceWorkInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceWorkWhereInput
+  orderBy?: Prisma.MaintenanceWorkOrderByWithRelationInput | Prisma.MaintenanceWorkOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceWorkWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TbmScalarFieldEnum | Prisma.TbmScalarFieldEnum[]
+  distinct?: Prisma.MaintenanceWorkScalarFieldEnum | Prisma.MaintenanceWorkScalarFieldEnum[]
 }
 
 /**

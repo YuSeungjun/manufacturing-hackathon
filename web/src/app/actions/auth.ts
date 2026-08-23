@@ -15,7 +15,7 @@ const signupSchema = z.object({
   password: z.string().min(8, "비밀번호는 8자 이상이어야 합니다."),
   workplaceId: z.string().min(1, "소속 사업장을 선택해 주세요."),
   teamId: z.string().min(1, "부서 또는 작업조를 선택해 주세요."),
-  role: z.enum(["WORKER", "SAFETY_MANAGER"]),
+  role: z.enum(["WORKER", "OPERATOR", "SAFETY_MANAGER"]),
   managerCode: z.string().optional(),
 });
 

@@ -22,7 +22,7 @@ function SubmitButton() {
 export function SignupForm({ workplaces }: { workplaces: Workplace[] }) {
   const [state, formAction] = useActionState<FormState, FormData>(signupAction, null);
   const [workplaceId, setWorkplaceId] = useState(workplaces[0]?.id ?? "");
-  const [role, setRole] = useState<"WORKER" | "SAFETY_MANAGER">("WORKER");
+  const [role, setRole] = useState<"WORKER" | "OPERATOR" | "SAFETY_MANAGER">("WORKER");
 
   const teams = workplaces.find((w) => w.id === workplaceId)?.teams ?? [];
 
@@ -92,20 +92,27 @@ export function SignupForm({ workplaces }: { workplaces: Workplace[] }) {
 
       <fieldset>
         <legend className="label">역할 선택</legend>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-3">
           <RoleCard
             value="WORKER"
             checked={role === "WORKER"}
             onSelect={setRole}
-            title="작업자"
-            description="배정된 TBM을 확인하고 안전수칙에 서명합니다. 본인의 이행 현황과 알림을 봅니다."
+            title="정비 작업자"
+            description="설비 안에서 작업하는 동안 개인 시건을 겁니다. 내 시건이 풀리기 전에는 설비가 재가동되지 않습니다."
+          />
+          <RoleCard
+            value="OPERATOR"
+            checked={role === "OPERATOR"}
+            onSelect={setRole}
+            title="설비 운전 담당자"
+            description="설비 재가동을 요청합니다. 위험구역에 사람이 남아 있으면 요청이 차단됩니다."
           />
           <RoleCard
             value="SAFETY_MANAGER"
             checked={role === "SAFETY_MANAGER"}
             onSelect={setRole}
             title="안전관리자"
-            description="TBM 작성, 전체 안전 현황 조회, AI 탐지 결과의 최종 판단에 사용되며 소속 확인 후 승인됩니다."
+            description="위험구역 설정, 영상 분석, 위험 사건 판단, 재가동 해제 승인. 소속 확인 후 승인됩니다."
           />
         </div>
       </fieldset>
@@ -150,9 +157,9 @@ function RoleCard({
   title,
   description,
 }: {
-  value: "WORKER" | "SAFETY_MANAGER";
+  value: "WORKER" | "OPERATOR" | "SAFETY_MANAGER";
   checked: boolean;
-  onSelect: (value: "WORKER" | "SAFETY_MANAGER") => void;
+  onSelect: (value: "WORKER" | "OPERATOR" | "SAFETY_MANAGER") => void;
   title: string;
   description: string;
 }) {

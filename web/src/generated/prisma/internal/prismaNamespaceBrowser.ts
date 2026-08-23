@@ -54,12 +54,17 @@ export const ModelName = {
   Workplace: 'Workplace',
   Team: 'Team',
   User: 'User',
-  Tbm: 'Tbm',
-  TbmAssignee: 'TbmAssignee',
-  SafetyRule: 'SafetyRule',
-  TbmAcknowledgement: 'TbmAcknowledgement',
-  Detection: 'Detection',
-  Review: 'Review'
+  Equipment: 'Equipment',
+  DangerZone: 'DangerZone',
+  CameraFeed: 'CameraFeed',
+  MaintenanceWork: 'MaintenanceWork',
+  WorkAssignee: 'WorkAssignee',
+  LotoLock: 'LotoLock',
+  VideoAnalysis: 'VideoAnalysis',
+  RiskEvent: 'RiskEvent',
+  Review: 'Review',
+  RestartRequest: 'RestartRequest',
+  EquipmentStateLog: 'EquipmentStateLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -112,77 +117,158 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const TbmScalarFieldEnum = {
+export const EquipmentScalarFieldEnum = {
   id: 'id',
-  workDate: 'workDate',
-  workType: 'workType',
-  workArea: 'workArea',
-  summary: 'summary',
-  status: 'status',
-  createdById: 'createdById',
+  code: 'code',
+  name: 'name',
+  line: 'line',
   workplaceId: 'workplaceId',
-  teamId: 'teamId',
+  runState: 'runState',
+  interlock: 'interlock',
+  interlockReason: 'interlockReason',
+  interlockedAt: 'interlockedAt',
+  clearedAt: 'clearedAt',
   createdAt: 'createdAt'
 } as const
 
-export type TbmScalarFieldEnum = (typeof TbmScalarFieldEnum)[keyof typeof TbmScalarFieldEnum]
+export type EquipmentScalarFieldEnum = (typeof EquipmentScalarFieldEnum)[keyof typeof EquipmentScalarFieldEnum]
 
 
-export const TbmAssigneeScalarFieldEnum = {
+export const DangerZoneScalarFieldEnum = {
   id: 'id',
-  tbmId: 'tbmId',
-  userId: 'userId'
-} as const
-
-export type TbmAssigneeScalarFieldEnum = (typeof TbmAssigneeScalarFieldEnum)[keyof typeof TbmAssigneeScalarFieldEnum]
-
-
-export const SafetyRuleScalarFieldEnum = {
-  id: 'id',
-  tbmId: 'tbmId',
-  hazard: 'hazard',
-  description: 'description',
-  detectionType: 'detectionType',
-  ppeCode: 'ppeCode',
+  equipmentId: 'equipmentId',
+  cameraId: 'cameraId',
+  name: 'name',
+  polygon: 'polygon',
+  dwellThresholdSec: 'dwellThresholdSec',
+  kind: 'kind',
   severity: 'severity',
-  penalty: 'penalty',
+  active: 'active',
   order: 'order'
 } as const
 
-export type SafetyRuleScalarFieldEnum = (typeof SafetyRuleScalarFieldEnum)[keyof typeof SafetyRuleScalarFieldEnum]
+export type DangerZoneScalarFieldEnum = (typeof DangerZoneScalarFieldEnum)[keyof typeof DangerZoneScalarFieldEnum]
 
 
-export const TbmAcknowledgementScalarFieldEnum = {
+export const CameraFeedScalarFieldEnum = {
   id: 'id',
-  tbmId: 'tbmId',
-  userId: 'userId',
-  signedAt: 'signedAt'
+  workplaceId: 'workplaceId',
+  equipmentId: 'equipmentId',
+  code: 'code',
+  name: 'name',
+  posterPath: 'posterPath',
+  active: 'active'
 } as const
 
-export type TbmAcknowledgementScalarFieldEnum = (typeof TbmAcknowledgementScalarFieldEnum)[keyof typeof TbmAcknowledgementScalarFieldEnum]
+export type CameraFeedScalarFieldEnum = (typeof CameraFeedScalarFieldEnum)[keyof typeof CameraFeedScalarFieldEnum]
 
 
-export const DetectionScalarFieldEnum = {
+export const MaintenanceWorkScalarFieldEnum = {
   id: 'id',
-  tbmId: 'tbmId',
-  safetyRuleId: 'safetyRuleId',
-  ppeCode: 'ppeCode',
-  detectedAt: 'detectedAt',
-  location: 'location',
-  source: 'source',
-  evidencePath: 'evidencePath',
-  confidence: 'confidence',
-  boxes: 'boxes',
+  workDate: 'workDate',
+  title: 'title',
+  summary: 'summary',
   status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  equipmentId: 'equipmentId',
+  workplaceId: 'workplaceId',
+  teamId: 'teamId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceWorkScalarFieldEnum = (typeof MaintenanceWorkScalarFieldEnum)[keyof typeof MaintenanceWorkScalarFieldEnum]
+
+
+export const WorkAssigneeScalarFieldEnum = {
+  id: 'id',
+  workId: 'workId',
+  userId: 'userId'
+} as const
+
+export type WorkAssigneeScalarFieldEnum = (typeof WorkAssigneeScalarFieldEnum)[keyof typeof WorkAssigneeScalarFieldEnum]
+
+
+export const LotoLockScalarFieldEnum = {
+  id: 'id',
+  workId: 'workId',
+  userId: 'userId',
+  lockedAt: 'lockedAt',
+  releasedAt: 'releasedAt'
+} as const
+
+export type LotoLockScalarFieldEnum = (typeof LotoLockScalarFieldEnum)[keyof typeof LotoLockScalarFieldEnum]
+
+
+export const VideoAnalysisScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  equipmentId: 'equipmentId',
+  cameraId: 'cameraId',
+  jobId: 'jobId',
+  status: 'status',
+  error: 'error',
+  videoPath: 'videoPath',
+  posterPath: 'posterPath',
+  durationSec: 'durationSec',
+  sourceFps: 'sourceFps',
+  sampledFps: 'sampledFps',
+  frameCount: 'frameCount',
+  timeline: 'timeline',
+  machineStates: 'machineStates',
+  zoneStats: 'zoneStats',
+  warnings: 'warnings',
+  modelRepo: 'modelRepo',
+  processingSec: 'processingSec',
+  analyzedAt: 'analyzedAt',
+  analyzedById: 'analyzedById'
+} as const
+
+export type VideoAnalysisScalarFieldEnum = (typeof VideoAnalysisScalarFieldEnum)[keyof typeof VideoAnalysisScalarFieldEnum]
+
+
+export const RiskEventScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  equipmentId: 'equipmentId',
+  zoneId: 'zoneId',
+  cameraId: 'cameraId',
+  analysisId: 'analysisId',
+  source: 'source',
+  reportedById: 'reportedById',
+  code: 'code',
+  level: 'level',
+  reason: 'reason',
+  enteredAt: 'enteredAt',
+  detectedAt: 'detectedAt',
+  clearedAt: 'clearedAt',
+  dwellSec: 'dwellSec',
+  occupantsAtPeak: 'occupantsAtPeak',
+  trackIds: 'trackIds',
+  clipStartSec: 'clipStartSec',
+  clipEndSec: 'clipEndSec',
+  peakSec: 'peakSec',
+  machineState: 'machineState',
+  severity: 'severity',
+  confidence: 'confidence',
+  evidencePath: 'evidencePath',
+  clipPath: 'clipPath',
+  boxes: 'boxes',
+  zonePolygon: 'zonePolygon',
+  interlockEngaged: 'interlockEngaged',
+  status: 'status',
+  notifiedAt: 'notifiedAt',
+  acknowledgedAt: 'acknowledgedAt',
   modelRepo: 'modelRepo'
 } as const
 
-export type DetectionScalarFieldEnum = (typeof DetectionScalarFieldEnum)[keyof typeof DetectionScalarFieldEnum]
+export type RiskEventScalarFieldEnum = (typeof RiskEventScalarFieldEnum)[keyof typeof RiskEventScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
   id: 'id',
-  detectionId: 'detectionId',
+  riskEventId: 'riskEventId',
   reviewedById: 'reviewedById',
   decision: 'decision',
   comment: 'comment',
@@ -190,6 +276,42 @@ export const ReviewScalarFieldEnum = {
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const RestartRequestScalarFieldEnum = {
+  id: 'id',
+  equipmentId: 'equipmentId',
+  workplaceId: 'workplaceId',
+  requestedById: 'requestedById',
+  requestedAt: 'requestedAt',
+  reason: 'reason',
+  decision: 'decision',
+  decidedAt: 'decidedAt',
+  blockReason: 'blockReason',
+  blockedById: 'blockedById',
+  occupancyAtRequest: 'occupancyAtRequest',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  approvalNote: 'approvalNote',
+  outcome: 'outcome',
+  restartedAt: 'restartedAt'
+} as const
+
+export type RestartRequestScalarFieldEnum = (typeof RestartRequestScalarFieldEnum)[keyof typeof RestartRequestScalarFieldEnum]
+
+
+export const EquipmentStateLogScalarFieldEnum = {
+  id: 'id',
+  equipmentId: 'equipmentId',
+  fromState: 'fromState',
+  toState: 'toState',
+  cause: 'cause',
+  note: 'note',
+  at: 'at',
+  actorId: 'actorId'
+} as const
+
+export type EquipmentStateLogScalarFieldEnum = (typeof EquipmentStateLogScalarFieldEnum)[keyof typeof EquipmentStateLogScalarFieldEnum]
 
 
 export const SortOrder = {

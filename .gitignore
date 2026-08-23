@@ -8,3 +8,6 @@ __pycache__/
 web/public/evidence/*
 !web/public/evidence/.gitkeep
 .DS_Store
+ai/models/
+data/*
+!data/README.md

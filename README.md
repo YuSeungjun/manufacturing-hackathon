@@ -1,116 +1,162 @@
-# 안전한 하루 — 제철소 TBM 안전이행 플랫폼
+# 안전한 재가동
 
-수기로 작성하고 끝나던 **작업 전 안전점검회의(TBM)** 를 기록으로 남기고,
-현장 영상에서 **AI가 이행 여부를 탐지**한 뒤, **안전관리자가 최종 판단**하는 구조입니다.
+> AI가 압연설비 위험구역에 남아 있는 작업자를 감지하고, 위험한 설비 재가동을 **차단**한 뒤
+> 그 장면을 자동 기록하는 제철소 끼임 사고 예방 시스템.
 
-> AI는 탐지를 지원하고, 권한을 가진 사람이 최종 판단한다.
+## 왜
+
+제철소 압연설비를 정비·청소할 때 작업자가 설비 내부에 들어간다. 이때 다른 작업자가 내부
+작업자를 확인하지 못하고 설비를 재가동하면 치명적인 끼임 사고가 된다.
+
+2024년 제조업 사고재해자의 **28.07%**, 사고사망자의 **29.41%** 가 끼임이었고, 제조업 끼임
+사망사고의 약 **54%** 가 정비·청소 같은 비정형 작업 중 발생했다.
+([안전보건공단 산업재해 자료](https://www.kosha.or.kr/ebook/fcatalog/access/ecatalogt.jsp?Dir=636&callmode=normal&catimage=&eclang=ko&start=52&um=s),
+[끼임 사망사고 분석](https://www.kosha.or.kr/ebook/fcatalog/access/ecatalogt.jsp?Dir=493&callmode=normal&catimage=&eclang=ko&start=38&um=s))
+
+## 무엇이 다른가
+
+포스코를 포함해 위험구역 진입을 감지하고 알람을 보내는 AI CCTV 는 이미 현장에 있다.
+"진입 감지 후 알림"만으로는 차별성이 없다.
+
+**이 시스템은 알림에서 멈추지 않는다.**
+
+```
+작업자가 위험구역 내부에 잔류  ─┐
+                              ├─→  끼임 위험  →  재가동 차단  →  관리자 현장 확인  →  해제 승인
+설비 가동 또는 재가동 명령    ─┘
+```
+
+- 차단은 기계가, **해제는 사람만** 한다
+- 위험 사건을 오탐으로 판정해도 인터록은 자동으로 풀리지 않는다 — 판정은 기록, 해제는 조치
+- 개인 시건(LOTO)이 하나라도 남아 있으면 **안전관리자도 해제할 수 없다**
+- AI 서비스가 죽어도 인터록 판정은 DB 만 보고 동작한다 (fail-safe)
+
+기존 LOTO 와 방호장치를 대체하지 않는다. 안전절차 누락과 작업자 간 의사소통 오류를 보완하는
+**AI 이중 안전장치**다.
 
 ## 흐름
 
-```text
-안전관리자: TBM 작성 (위험 요인 + 안전 대책, 보호구 항목은 AI 확인으로 지정)
-    ↓
-작업자: 오늘의 TBM 확인 → 안전수칙 확인 서명
-    ↓
-CCTV 캡처 이미지 업로드 → YOLOv8 PPE 모델 추론
-    ↓
-TBM 안전수칙과 매칭되는 위반 의심 항목만 "검토 대기" 등록
-    ↓
-안전관리자: 근거 이미지 + 탐지 박스 확인 → 위반 확정 / 오탐 / 판단 보류
-    ↓
-확정된 건만 안전이행 점수에 반영 → 작업자·작업조에 알림
-```
+| 단계 | 화면 | 하는 일 |
+|---|---|---|
+| 1 | `/manager/equipment/[id]/zones` | 카메라 화면 위에 위험구역 폴리곤을 그린다 |
+| 2 | `/manager/analyze` | CCTV 영상 업로드 → AI 분석 → 타임라인 재생 |
+| 3 | `/manager/events` | 위험 사건을 사람이 확정 / 오탐 / 보류로 판단 |
+| 4 | `/manager/restarts` | 차단된 재가동 요청을 현장 확인 후 해제 승인 |
+| — | `/operator` | **운전 담당자가 재가동을 요청하고, 차단당하는 자리** |
+| — | `/worker` | 정비 작업자가 개인 시건을 걸고 푼다 |
+| — | `/manager/metrics` | 도입 효과 6개 지표 |
 
-## 구성
+## AI가 하는 일 · 하지 않는 일
 
-| 디렉터리 | 내용 |
+**한다** — 작업자 탐지, 위치 추적, 위험구역 진입·잔류 판단, 설비 상태 결합, 위험 순간 자동
+캡처, 반복 위험 시간대·구역 통계.
+
+**하지 않는다** — 얼굴 인식, 개인 식별, 보호구 착용 판정, 작업자 감시.
+
+COCO `person` 클래스 하나만 본다. `track id` 는 한 영상 안에서만 쓰이는 익명 번호이고 분석이
+끝나면 사라진다. 저장되는 캡처는 머리 부분을 흐리게 처리한다. 이 선언은 문서가 아니라
+`GET /health` 의 `identifiesIndividuals: false`, `faceBlur: true` 로 응답에 박혀 있다.
+
+## 증명 지표
+
+사고 건수로 효과를 주장하지 않는다. 실제로 잰 시간과 횟수로만 말한다.
+
+| 지표 | 계산 |
 |---|---|
-| `web/` | Next.js 16 (App Router) + Prisma 7 + SQLite. 로그인·권한·TBM·검토 대시보드 |
-| `ai/` | FastAPI + Ultralytics YOLOv8 PPE 탐지 서비스 (포트 8000) |
-| `samples/` | 데모용 현장 이미지 |
-
-### AI 모델
-
-[`Hansung-Cho/yolov8-ppe-detection`](https://huggingface.co/Hansung-Cho/yolov8-ppe-detection) (MIT)
-— 클래스 10개: `Hardhat`, `NO-Hardhat`, `Mask`, `NO-Mask`, `Safety Vest`, `NO-Safety Vest`,
-`Person`, `Safety Cone`, `machinery`, `vehicle`.
-
-`NO-*` 클래스만 위반 의심으로 다루고, 서비스 내부 코드(`NO_HARDHAT` 등)로 변환해
-TBM 안전수칙의 `ppeCode`와 매칭합니다.
+| 위험 감지 소요시간 | 구역 진입 → AI 위험 판정 |
+| 관리자 조치 소요시간 | 통보 → 인지 / 판단 / 해제 승인 |
+| 위험구역 노출시간 | 구역별 · 24시간대 히트맵 |
+| 차단한 위험 재가동 | 차단 요청 수, 그중 사람이 확정한 수 |
+| CCTV 확인 업무시간 | 전체 영상 길이 대비 실제로 본 구간 |
+| 오탐 / 미탐율 | 미판단(보류·대기)은 분모에서 제외 |
 
 ## 실행
 
-터미널 두 개가 필요합니다.
-
 ```bash
-# 1) AI 탐지 서비스 (최초 실행 시 모델을 자동 내려받습니다)
-./ai/run.sh
-
-# 2) 웹
-cd web
-npm run dev      # http://localhost:3000
-```
-
-처음 세팅할 때만:
-
-```bash
-# Python 환경
-python3.13 -m venv ai/.venv
+# 1) AI 서비스
+python3 -m venv ai/.venv
 ai/.venv/bin/pip install -r ai/requirements.txt
 
-# 웹 환경
-cd web
-npm install
-npx prisma migrate dev
-npx prisma db seed
+# 2) 웹
+cd web && npm install
+cp .env.example .env          # DATABASE_URL, JWT_SECRET 채우기
+npx prisma migrate deploy && npx prisma db seed
+cd ..
+
+# 3) 함께 띄우기
+./start-dev.sh                # AI :8000 + 웹 :3000
 ```
 
-### 데모 계정
+### 데모 계정 (비밀번호 전부 `test1234`)
 
-| 역할 | 사번 | 비밀번호 |
+| 사번 | 이름 | 역할 |
 |---|---|---|
-| 안전관리자 | `M0001` | `test1234` |
-| 작업자 | `W1001` ~ `W1004` | `test1234` |
+| `M0001` | 김안전 | 안전관리자 |
+| `O2001` | 한운전 | 설비 운전 담당자 |
+| `W1001` `W1002` `W1003` | 박정비 · 이현장 · 최압연 | 정비 작업자 |
 
-안전관리자 인증번호: 광양제철소 `GY-SAFETY-2026`, 포항제철소 `PH-SAFETY-2026`
+안전관리자 가입 인증번호 — 광양 `GY-SAFETY-2026`, 포항 `PH-SAFETY-2026`
 
 ### 데모 시나리오
 
-1. `M0001` 로그인 → **현장 영상 분석** → `samples/site-3.jpg` 업로드 (임계값 0.25)
-   → 안전모·안전조끼·방진마스크 미착용 3건이 검토 대기로 등록됩니다.
-2. **AI 탐지 검토** → 근거 이미지의 탐지 박스를 보고 `위반 확정` / `오탐` 선택
-3. `W1001` 로그인 → 오늘의 TBM 서명, 확정된 위반 알림과 안전이행 점수 확인
+1. `M0001` → 위험구역을 그린다 → 영상을 올린다 → 타임라인에서 잔류 구간을 확인한다
+2. `O2001` → `/operator` 에서 **재가동 요청** → **차단** + 근거 캡처
+3. `W1001` → `/worker` 에서 개인 시건 해제
+4. `M0001` → 사건 확정 → 재가동 승인
+5. `O2001` → 재요청 → **허용** → 재가동
 
-## 권한 설계
+## 데모 영상 촬영
 
-가입할 때 역할을 선택하되, **안전관리자 권한은 가입만으로 주지 않습니다.**
-사업장 인증번호가 맞으면 즉시 승인, 모르면 `PENDING` 상태로 두고 기존 안전관리자가 승인합니다.
+핵심: **설비가 실제로 재가동하는 영상은 필요 없다.** 설비 상태 타임라인이 요청 파라미터라
+"사람이 구역 안에 머무는 영상"만 있으면 되고, 재가동 순간은 JSON 으로 주입한다. 실운영에서는
+PLC / LOTO 가 그 값을 준다 — 눈속임이 아니라 정확히 그 시스템의 실제 구조다.
 
-| 기능 | 작업자 | 안전관리자 |
-|---|:--:|:--:|
-| 본인 작업조 TBM 확인 · 서명 | O | O |
-| 본인 관련 안전 알림 확인 | O | O |
-| TBM 생성 | X | O |
-| 전체 작업구역 현황 조회 | X | O |
-| AI 탐지 결과 확인 | 본인 조 결과만 | 전체 |
-| 위반 확정 / 오탐 판단 | X | O |
-| 안전관리자 가입 승인 | X | O |
+삼각대 위 휴대폰(내려다보는 각도, 고정), 바닥에 마스킹테이프 사각형, 사람 2명. 각 15~25초:
 
-화면에서 버튼을 숨기는 것과 별개로, 서버 액션마다 `assertManager()` 로 역할을 다시
-검사합니다 (`web/src/lib/auth.ts`). 작업자가 `/manager` 로 직접 접근하면 `/forbidden` 으로
-보냅니다.
+| 테이크 | 내용 | 기대 결과 |
+|---|---|---|
+| A | 구역에 들어가 12초 작업 → 동료가 스위치 ON | WARNING → **CRITICAL** 로 에스컬레이션 |
+| B | 같은 작업, 설비는 계속 정지 | WARNING 까지만. **CRITICAL 없음** |
+| C | 경계를 스치며 지나감 | **아무 이벤트도 안 남** |
 
-## 데이터 모델
+테이크 C 가 심사에서 가장 강하다. 대부분 "탐지됩니다"만 보여주고, "탐지 안 됩니다"를
+의도적으로 보여주는 팀은 드물다.
 
-`User` · `Workplace` · `Team` · `Tbm` · `SafetyRule` · `TbmAcknowledgement` ·
-`Detection` · `Review` — 자세한 정의는 `web/prisma/schema.prisma`.
+`samples/` 에 클립을 넣고 `samples/zones/take-a.json`(예시는 `*.example.json`)에 구역·설비
+타임라인·정답 구간을 적으면 채점된다:
 
-핵심은 **`Detection`(AI가 만든 의심)과 `Review`(사람이 내린 판단)를 분리**한 점입니다.
-안전이행 점수는 `Review.decision === "CONFIRMED"` 인 건만 감점합니다
-(`web/src/lib/score.ts`).
+```bash
+ai/.venv/bin/python -m ai.eval.score_demo
+```
 
-## 개인정보
+## 데이터
 
-MVP는 얼굴 인식으로 개인을 특정하지 않습니다. 탐지는 **작업구역·작업조 단위**로만
-연결되며, 안전모·마스크를 착용한 제철소 환경에서 개인 식별 정확도를 확보하기 어렵다는
-점도 함께 고려했습니다.
+AI-Hub [「스마트 제조 시설 안전 감시를 위한 데이터」](https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=71679)
+(끼임 CCTV 영상 2,000개 · 추출 이미지 40,000장). 원천데이터가 100GB 분할압축이라 부분
+다운로드가 불가능해 **원천 영상은 쓰지 않는다.** 라벨은 로직층 평가에 쓴다.
+자세한 사정과 받는 방법은 [`data/README.md`](data/README.md).
+
+## 기술 구성
+
+| 층 | 구성 |
+|---|---|
+| 웹 | Next.js 16 App Router · React 19 · Tailwind v4 · Server Actions |
+| DB | Neon Postgres · Prisma 7 (driver adapter) |
+| 인증 | jose HS256 JWT · httpOnly 쿠키 12시간 |
+| 저장 | Vercel Blob (없으면 `public/evidence` 로컬) |
+| AI | FastAPI · Ultralytics YOLO26n (COCO person) · ByteTrack · CPU |
+| 배포 | Vercel (웹) · Hugging Face Docker Space (AI) |
+
+`ai/` 의 설계 근거와 함정은 [`ai/README.md`](ai/README.md), 주제 정리는
+[`docs/주제정리.md`](docs/주제정리.md).
+
+### 알아 둘 것
+
+- **CCTV 영상은 브라우저 → Vercel Blob 으로 직접 올라간다.** Vercel Function 요청 본문이
+  4.5MB 하드 리밋이라 서버 액션으로 중계할 수 없다.
+- **영상 분석은 잡+폴링이다.** HF Space 게이트웨이(~60초)와 업로드 시간을 우회하고, 덤으로
+  진행률 바가 생긴다.
+- **AI 캡처는 휘발성이다.** HF Space 는 재시작하면 디스크가 날아간다. 안전관리자가 위험으로
+  확정한 건만 Blob 으로 옮겨 영구 보관한다 — AI 의 의심은 휘발, 사람의 판단은 영구.
+- 데모는 업로드 영상 기반이다. 상용 배포에서는 RTSP 게이트웨이를 붙인다.
+- `ultralytics` 와 COCO 가중치는 **AGPL-3.0**.

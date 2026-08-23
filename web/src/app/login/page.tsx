@@ -5,11 +5,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LoginForm } from "./LoginForm";
 
 const FLOW = [
-  "안전관리자가 TBM에 위험 요인과 안전 대책을 적는다",
-  "작업자가 안전수칙을 읽고 확인 서명한다",
-  "현장 영상에서 AI가 보호구 착용 여부를 확인한다",
-  "안전관리자가 위반 확정 · 오탐을 판정한다",
-  "확정된 건만 안전이행 점수에 반영된다",
+  "안전관리자가 압연설비 위험구역을 카메라 화면 위에 그려 둔다",
+  "AI가 CCTV 영상에서 작업자를 추적해 구역 잔류를 잰다",
+  "잔류 중 재가동 명령이 겹치면 재가동을 즉시 차단한다",
+  "위험 순간을 자동 캡처해 안전관리자에게 통보한다",
+  "현장 확인 후 안전관리자가 승인해야 다시 돌아간다",
 ];
 
 export default async function LoginPage() {
@@ -19,7 +19,7 @@ export default async function LoginPage() {
   return (
     <>
       <header className="mx-auto flex h-14 w-full max-w-5xl items-center px-5">
-        <span className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 하루</span>
+        <span className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 재가동</span>
         <span className="ml-auto">
           <ThemeToggle />
         </span>
@@ -27,15 +27,15 @@ export default async function LoginPage() {
 
       <main className="mx-auto grid w-full max-w-5xl flex-1 content-center gap-10 px-5 py-8 md:grid-cols-[1.05fr_1fr] md:py-12">
         <section className="hidden md:block">
-          <p className="eyebrow">제철소 작업 전 안전점검회의</p>
+          <p className="eyebrow">제철소 압연설비 끼임 예방</p>
           <h1 className="mt-2.5 text-[2.375rem] font-extrabold leading-[1.15] tracking-[-0.035em]">
-            수기로 끝나던 TBM을
+            사람이 남아 있으면
             <br />
-            지켜지는 TBM으로
+            설비는 돌지 않는다
           </h1>
           <p className="mt-4 max-w-md text-[15px] leading-7 text-ink-2">
-            오늘 작성한 안전수칙을 AI가 현장 영상에서 확인하고, 위반이 의심되면 안전관리자에게
-            알립니다. 최종 판단은 언제나 사람이 합니다.
+            정비 중 불시 재가동으로 인한 끼임을 막습니다. AI는 알림에서 멈추지 않고 재가동
+            자체를 차단하고, 해제는 현장을 확인한 사람만 할 수 있습니다.
           </p>
 
           {/* 흐름 자체가 순서를 가지므로 번호를 붙인다. */}

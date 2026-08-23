@@ -1,0 +1,15 @@
+{
+  "_설명": "테이크 C — 구역 경계를 스치고 지나간다. 아무 이벤트도 나오면 안 된다. 오탐을 안 낸다는 증명이라 심사에서 가장 강한 한 장이다.",
+  "video": "samples/take-c.mp4",
+  "zones": [
+    {
+      "id": "Z1",
+      "name": "롤 갭 하부",
+      "polygon": [[0.31, 0.52], [0.68, 0.50], [0.72, 0.93], [0.27, 0.95]],
+      "kind": "PINCH",
+      "dwellWarnSec": 5.0
+    }
+  ],
+  "machineStates": [{ "tSec": 0.0, "state": "STOPPED" }],
+  "expect": []
+}

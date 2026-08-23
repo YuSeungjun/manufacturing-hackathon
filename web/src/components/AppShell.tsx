@@ -4,6 +4,7 @@ import { BottomTabs, RailNav } from "@/components/FlowRail";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { IconLogout } from "@/components/icons";
 import type { FlowStage } from "@/lib/flow";
+import { ROLE_LABEL } from "@/lib/zone";
 
 type ShellUser = {
   name: string;
@@ -30,14 +31,14 @@ export function AppShell({
   switchTo?: { href: string; label: string };
   children: React.ReactNode;
 }) {
-  const roleLabel = user.role === "SAFETY_MANAGER" ? "안전관리자" : "작업자";
+  const roleLabel = ROLE_LABEL[user.role] ?? "작업자";
 
   return (
     <div className="flex flex-1">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[232px] flex-col border-r border-rule bg-paper lg:flex">
         <div className="px-6 py-5">
           <Link href={overviewHref} className="block">
-            <p className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 하루</p>
+            <p className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 재가동</p>
             <p className="mt-0.5 text-[12px] text-ink-3">{user.workplace.name}</p>
           </Link>
         </div>
@@ -74,7 +75,7 @@ export function AppShell({
         <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-rule bg-paper/90 px-4 backdrop-blur lg:hidden">
           <Link href={overviewHref} className="min-w-0">
             <span className="block truncate text-[14px] font-extrabold tracking-[-0.02em]">
-              안전한 하루
+              안전한 재가동
             </span>
             <span className="block truncate text-[11px] text-ink-3">{user.workplace.name}</span>
           </Link>

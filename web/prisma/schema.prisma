@@ -8,130 +8,324 @@ datasource db {
 }
 
 model Workplace {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id          String            @id @default(cuid())
+  name        String            @unique
   managerCode String
-  teams     Team[]
-  users     User[]
-  tbms      Tbm[]
+  teams       Team[]
+  users       User[]
+  equipment   Equipment[]
+  cameras     CameraFeed[]
+  works       MaintenanceWork[]
+  analyses    VideoAnalysis[]
+  riskEvents  RiskEvent[]
+  restarts    RestartRequest[]
 }
 
 model Team {
-  id          String    @id @default(cuid())
+  id          String            @id @default(cuid())
   name        String
   workArea    String
-  workplace   Workplace @relation(fields: [workplaceId], references: [id])
+  workplace   Workplace         @relation(fields: [workplaceId], references: [id])
   workplaceId String
   users       User[]
-  tbms        Tbm[]
+  works       MaintenanceWork[]
 
   @@unique([workplaceId, name])
 }
 
 model User {
-  id             String         @id @default(cuid())
-  employeeNumber String         @unique
+  id             String    @id @default(cuid())
+  employeeNumber String    @unique
   name           String
   passwordHash   String
-  role           String         @default("WORKER") // WORKER | SAFETY_MANAGER
-  approvalStatus String         @default("APPROVED") // PENDING | APPROVED | REJECTED
-  workplace      Workplace      @relation(fields: [workplaceId], references: [id])
+  /// WORKER(정비 작업자) | OPERATOR(설비 운전 담당) | SAFETY_MANAGER(안전관리자)
+  role           String    @default("WORKER")
+  approvalStatus String    @default("APPROVED") // PENDING | APPROVED | REJECTED
+  workplace      Workplace @relation(fields: [workplaceId], references: [id])
   workplaceId    String
-  team           Team?          @relation(fields: [teamId], references: [id])
+  team           Team?     @relation(fields: [teamId], references: [id])
   teamId         String?
-  createdAt      DateTime       @default(now())
+  createdAt      DateTime  @default(now())
 
-  createdTbms    Tbm[]              @relation("TbmCreatedBy")
-  assignedTbms   TbmAssignee[]
-  acknowledgements TbmAcknowledgement[]
-  reviews        Review[]
+  createdWorks     MaintenanceWork[]   @relation("WorkCreatedBy")
+  assignedWorks    WorkAssignee[]
+  lotoLocks        LotoLock[]
+  reviews          Review[]
+  analyses         VideoAnalysis[]
+  reportedEvents   RiskEvent[]         @relation("RiskReportedBy")
+  restartRequests  RestartRequest[]    @relation("RestartRequestedBy")
+  restartApprovals RestartRequest[]    @relation("RestartApprovedBy")
+  stateLogs        EquipmentStateLog[]
 }
 
-model Tbm {
-  id          String       @id @default(cuid())
-  workDate    DateTime
-  workType    String
-  workArea    String
-  summary     String       @default("")
-  status      String       @default("PUBLISHED") // DRAFT | PUBLISHED
-  createdBy   User         @relation("TbmCreatedBy", fields: [createdById], references: [id])
-  createdById String
-  workplace   Workplace    @relation(fields: [workplaceId], references: [id])
+/// 압연 라인의 개별 설비. 인터록의 대상 단위다.
+model Equipment {
+  id          String    @id @default(cuid())
+  code        String // "RM-02"
+  name        String // "조압연기 2호"
+  line        String    @default("") // "열연 1라인"
+  workplace   Workplace @relation(fields: [workplaceId], references: [id])
   workplaceId String
-  team        Team         @relation(fields: [teamId], references: [id])
-  teamId      String
-  createdAt   DateTime     @default(now())
 
-  rules            SafetyRule[]
-  assignees        TbmAssignee[]
-  acknowledgements TbmAcknowledgement[]
-  detections       Detection[]
+  /// RUNNING | STOPPED | MAINTENANCE
+  runState        String    @default("STOPPED")
+  /// CLEAR | BLOCKED — BLOCKED 면 운전 담당자가 재가동할 수 없다.
+  interlock       String    @default("CLEAR")
+  interlockReason String    @default("")
+  interlockedAt   DateTime?
+  clearedAt       DateTime?
+  createdAt       DateTime  @default(now())
+
+  zones      DangerZone[]
+  cameras    CameraFeed[]
+  works      MaintenanceWork[]
+  analyses   VideoAnalysis[]
+  riskEvents RiskEvent[]
+  restarts   RestartRequest[]
+  stateLogs  EquipmentStateLog[]
+
+  @@unique([workplaceId, code])
 }
 
-/// 이 TBM 에 서명해야 하는 작업자.
-/// 작업조 전원이 아니라 그날 실제 투입되는 사람만 지정한다.
-model TbmAssignee {
-  id     String @id @default(cuid())
-  tbm    Tbm    @relation(fields: [tbmId], references: [id], onDelete: Cascade)
-  tbmId  String
-  user   User   @relation(fields: [userId], references: [id])
+/// 설비 주변의 끼임 위험구역. 카메라 화면 기준 정규화 폴리곤.
+model DangerZone {
+  id                String      @id @default(cuid())
+  equipment         Equipment   @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  equipmentId       String
+  camera            CameraFeed? @relation(fields: [cameraId], references: [id])
+  /// 폴리곤은 카메라 화각에 종속된다. 어느 화각 기준인지 남겨야 나중에 못 알아보는 일이 없다.
+  cameraId          String?
+  name              String // "롤 갭 하부"
+  /// JSON: [[x,y], ...] 0~1 정규화
+  polygon           String      @default("[]")
+  /// 이 시간(초) 이상 머무르면 잔류로 본다. 지나가는 것과 구분한다.
+  dwellThresholdSec Float       @default(5)
+  /// PINCH | ROTATING | TRAVEL | GENERAL
+  kind              String      @default("PINCH")
+  severity          String      @default("HIGH") // LOW | MEDIUM | HIGH
+  active            Boolean     @default(true)
+  order             Int         @default(0)
+
+  riskEvents RiskEvent[]
+}
+
+model CameraFeed {
+  id          String     @id @default(cuid())
+  workplace   Workplace  @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  equipment   Equipment? @relation(fields: [equipmentId], references: [id])
+  equipmentId String?
+  code        String // "CAM-RM02-N"
+  name        String // "조압연 2호 북측"
+  /// 구역을 그릴 때 배경으로 쓰는 정지 프레임
+  posterPath  String     @default("")
+  active      Boolean    @default(true)
+
+  zones      DangerZone[]
+  analyses   VideoAnalysis[]
+  riskEvents RiskEvent[]
+
+  @@unique([workplaceId, code])
+}
+
+/// 정비 작업 허가 = LOTO 대장.
+/// 기존 LOTO 를 대체하지 않는다. AI 판정과 함께 인터록의 두 번째 근거가 된다 —
+/// "AI가 사람을 봤다"만으로 차단하면 오탐 하나에 라인이 서기 때문이다.
+model MaintenanceWork {
+  id          String    @id @default(cuid())
+  workDate    DateTime
+  title       String
+  summary     String    @default("")
+  /// OPEN | IN_PROGRESS | COMPLETED
+  status      String    @default("OPEN")
+  startedAt   DateTime?
+  endedAt     DateTime?
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+  workplace   Workplace @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  team        Team      @relation(fields: [teamId], references: [id])
+  teamId      String
+  createdBy   User      @relation("WorkCreatedBy", fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime  @default(now())
+
+  assignees WorkAssignee[]
+  locks     LotoLock[]
+}
+
+/// 이 작업에 실제로 투입되는 사람. 작업조 전원이 아니다.
+model WorkAssignee {
+  id     String          @id @default(cuid())
+  work   MaintenanceWork @relation(fields: [workId], references: [id], onDelete: Cascade)
+  workId String
+  user   User            @relation(fields: [userId], references: [id])
   userId String
 
-  @@unique([tbmId, userId])
+  @@unique([workId, userId])
 }
 
-model SafetyRule {
-  id            String  @id @default(cuid())
-  tbm           Tbm     @relation(fields: [tbmId], references: [id], onDelete: Cascade)
-  tbmId         String
-  hazard        String  // 위험 요인
-  description   String  // 안전 대책 (지켜야 할 것)
-  detectionType String  @default("MANUAL") // CCTV | SENSOR | MANUAL
-  ppeCode       String? // NO_HARDHAT | NO_MASK | NO_SAFETY_VEST — AI 탐지 연결 키
-  severity      String  @default("MEDIUM") // LOW | MEDIUM | HIGH
-  penalty       Int     @default(10)
-  order         Int     @default(0)
+/// 작업자가 건 개인 시건. 하나라도 안 풀렸으면 재가동은 불가다.
+model LotoLock {
+  id         String          @id @default(cuid())
+  work       MaintenanceWork @relation(fields: [workId], references: [id], onDelete: Cascade)
+  workId     String
+  user       User            @relation(fields: [userId], references: [id])
+  userId     String
+  lockedAt   DateTime        @default(now())
+  releasedAt DateTime?
 
-  detections Detection[]
+  @@unique([workId, userId])
 }
 
-model TbmAcknowledgement {
-  id       String   @id @default(cuid())
-  tbm      Tbm      @relation(fields: [tbmId], references: [id], onDelete: Cascade)
-  tbmId    String
-  user     User     @relation(fields: [userId], references: [id])
-  userId   String
-  signedAt DateTime @default(now())
+/// 업로드한 CCTV 영상 1건의 분석 결과. 타임라인 재생 화면의 원본.
+model VideoAnalysis {
+  id          String      @id @default(cuid())
+  workplace   Workplace   @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  equipment   Equipment   @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+  camera      CameraFeed? @relation(fields: [cameraId], references: [id])
+  cameraId    String?
 
-  @@unique([tbmId, userId])
+  jobId         String   @default("")
+  status        String   @default("RUNNING") // RUNNING | DONE | ERROR
+  error         String   @default("")
+  videoPath     String
+  posterPath    String   @default("")
+  durationSec   Float    @default(0)
+  sourceFps     Float    @default(0)
+  sampledFps    Float    @default(0)
+  frameCount    Int      @default(0)
+  /// JSON: AnalyzeResult.frames — 타임라인 재생이 이걸 읽는다
+  timeline      String   @default("[]")
+  /// 어떤 설비 상태 타임라인으로 판정했는지. 없으면 결과를 재현할 수 없다.
+  machineStates String   @default("[]")
+  zoneStats     String   @default("[]")
+  warnings      String   @default("[]")
+  modelRepo     String   @default("")
+  processingSec Float    @default(0)
+  analyzedAt    DateTime @default(now())
+  analyzedBy    User     @relation(fields: [analyzedById], references: [id])
+  analyzedById  String
+
+  riskEvents RiskEvent[]
 }
 
-model Detection {
-  id           String      @id @default(cuid())
-  tbm          Tbm         @relation(fields: [tbmId], references: [id], onDelete: Cascade)
-  tbmId        String
-  safetyRule   SafetyRule? @relation(fields: [safetyRuleId], references: [id])
-  safetyRuleId String?
-  ppeCode      String      // NO_HARDHAT 등
-  detectedAt   DateTime    @default(now())
-  location     String
-  source       String      @default("CCTV") // CCTV | SENSOR | MANUAL
-  evidencePath String
-  confidence   Float
-  boxes        String      @default("[]") // JSON: 정규화된 박스 배열
-  status       String      @default("PENDING") // PENDING | CONFIRMED | FALSE_POSITIVE | HOLD
-  modelRepo    String      @default("")
+/// AI가 본 위험. 잔류와 설비 가동/재가동 명령이 겹친 순간.
+/// 판단은 하지 않는다 — Review 가 그 몫이다.
+model RiskEvent {
+  id          String         @id @default(cuid())
+  workplace   Workplace      @relation(fields: [workplaceId], references: [id])
+  workplaceId String
+  equipment   Equipment      @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+  zone        DangerZone?    @relation(fields: [zoneId], references: [id])
+  zoneId      String?
+  camera      CameraFeed?    @relation(fields: [cameraId], references: [id])
+  cameraId    String?
+  analysis    VideoAnalysis? @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  analysisId  String?
 
-  review Review?
+  /// AI | MANUAL — MANUAL 은 관리자가 "AI가 놓쳤다"고 올린 건. 미탐율의 분자다.
+  source       String  @default("AI")
+  reportedBy   User?   @relation("RiskReportedBy", fields: [reportedById], references: [id])
+  reportedById String?
+
+  /// ZONE_INTRUSION | PROLONGED_DWELL | LOTO_MISSING
+  /// | ENTRY_WHILE_RUNNING | RESTART_WITH_WORKER_INSIDE | MANUAL
+  code   String @default("ZONE_INTRUSION")
+  /// INFO | CAUTION | WARNING | CRITICAL
+  level  String @default("CAUTION")
+  /// AI가 만든 한국어 한 문장. 화면에 그대로 나간다.
+  reason String @default("")
+
+  enteredAt       DateTime
+  detectedAt      DateTime  @default(now())
+  clearedAt       DateTime?
+  dwellSec        Float     @default(0)
+  occupantsAtPeak Int       @default(1)
+  /// JSON: [3, 7] — 개인 식별이 아니라 프레임 안의 익명 추적 번호
+  trackIds        String    @default("[]")
+  clipStartSec    Float?
+  clipEndSec      Float?
+  peakSec         Float?
+
+  machineState String @default("STOPPED")
+  severity     String @default("HIGH")
+  confidence   Float  @default(0)
+
+  evidencePath String @default("")
+  clipPath     String @default("")
+  /// JSON: 정규화 박스 배열
+  boxes        String @default("[]")
+  /// 판정 당시 폴리곤 스냅샷. 나중에 구역을 고쳐도 근거가 흔들리지 않는다.
+  zonePolygon  String @default("[]")
+
+  /// 이 건이 실제로 설비를 잠갔는가
+  interlockEngaged Boolean   @default(false)
+  status           String    @default("PENDING") // PENDING | CONFIRMED | FALSE_POSITIVE | HOLD
+  notifiedAt       DateTime?
+  acknowledgedAt   DateTime?
+  modelRepo        String    @default("")
+
+  review  Review?
+  blocked RestartRequest[] @relation("BlockedBy")
 }
 
+/// 사람의 판단. AI 의 의심(RiskEvent)과 분리해서 둔다.
 model Review {
   id           String    @id @default(cuid())
-  detection    Detection @relation(fields: [detectionId], references: [id], onDelete: Cascade)
-  detectionId  String    @unique
+  riskEvent    RiskEvent @relation(fields: [riskEventId], references: [id], onDelete: Cascade)
+  riskEventId  String    @unique
   reviewedBy   User      @relation(fields: [reviewedById], references: [id])
   reviewedById String
-  decision     String    // CONFIRMED | FALSE_POSITIVE | HOLD
+  decision     String // CONFIRMED | FALSE_POSITIVE | HOLD
   comment      String    @default("")
   reviewedAt   DateTime  @default(now())
+}
+
+/// 운전 담당자의 재가동 요청과 그 결과. 차단 이력이 곧 이 시스템의 성과 지표다.
+model RestartRequest {
+  id            String    @id @default(cuid())
+  equipment     Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId   String
+  workplace     Workplace @relation(fields: [workplaceId], references: [id])
+  workplaceId   String
+  requestedBy   User      @relation("RestartRequestedBy", fields: [requestedById], references: [id])
+  requestedById String
+  requestedAt   DateTime  @default(now())
+  reason        String    @default("")
+
+  /// ALLOWED | BLOCKED — 인터록 엔진이 즉시 내리는 기계 판정
+  decision           String
+  decidedAt          DateTime   @default(now())
+  blockReason        String     @default("")
+  blockedBy          RiskEvent? @relation("BlockedBy", fields: [blockedById], references: [id])
+  blockedById        String?
+  occupancyAtRequest Int        @default(0)
+
+  /// 차단된 요청에만 붙는 사람의 해제 승인
+  approvedBy   User?     @relation("RestartApprovedBy", fields: [approvedById], references: [id])
+  approvedById String?
+  approvedAt   DateTime?
+  approvalNote String    @default("")
+
+  /// OPEN | RESTARTED | CANCELLED | REJECTED
+  outcome     String    @default("OPEN")
+  restartedAt DateTime?
+}
+
+model EquipmentStateLog {
+  id          String    @id @default(cuid())
+  equipment   Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  equipmentId String
+  fromState   String
+  toState     String
+  /// AI_INTERLOCK | OPERATOR | MANAGER_CLEAR | MAINTENANCE
+  cause       String
+  note        String    @default("")
+  at          DateTime  @default(now())
+  actor       User?     @relation(fields: [actorId], references: [id])
+  actorId     String?
 }

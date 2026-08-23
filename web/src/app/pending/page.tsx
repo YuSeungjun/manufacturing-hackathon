@@ -9,7 +9,7 @@ export default async function PendingPage() {
   return (
     <>
       <header className="mx-auto flex h-14 w-full max-w-lg items-center px-5">
-        <span className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 하루</span>
+        <span className="text-[15px] font-extrabold tracking-[-0.02em]">안전한 재가동</span>
         <span className="ml-auto">
           <ThemeToggle />
         </span>

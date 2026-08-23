@@ -1,0 +1,22 @@
+# 압연설비 위험구역 감시용 ByteTrack 설정.
+# 기본값(ultralytics/cfg/trackers/bytetrack.yaml) 대비 바꾼 값에 이유를 달았다.
+
+tracker_type: bytetrack
+
+track_high_thresh: 0.35   # 기본 0.25 → 상향. 산업 배경(파이프·그림자)의 유령 검출을 억제한다
+track_low_thresh: 0.10    # 2단계 매칭용. 기본값 유지
+new_track_thresh: 0.40    # 기본 0.25 → 상향. 스플릿보다 머지가 낫다 —
+                          # 잔류시간 누적에서 id 가 쪼개지면 시간이 초기화된다
+
+# ★ track_buffer 는 초가 아니라 "처리한 프레임 수" 단위다.
+#   ultralytics/trackers/byte_tracker.py:262 → self.max_frames_lost = args.track_buffer
+#   6fps 로 샘플링하므로 기본값 30 은 5초가 되어 유령이 부활한다. 18 = 3초.
+track_buffer: 18
+
+# ★ 프레임 샘플링으로 프레임 간 이동량이 커진다.
+#   1.4 m/s 로 걷는 작업자는 6fps 에서 프레임당 23cm 이동하고, 사람 bbox 폭은 ~50cm.
+#   연속 bbox IoU 는 0.35~0.55 수준. 기본 0.8(IoU ≥ 0.2 요구)은 아슬아슬하다.
+#   0.90 이면 IoU ≥ 0.1 까지 허용해 안전 마진이 생긴다.
+match_thresh: 0.90
+
+fuse_score: True
