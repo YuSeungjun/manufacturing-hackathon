@@ -410,7 +410,9 @@ export const ModelName = {
   RiskEvent: 'RiskEvent',
   Review: 'Review',
   RestartRequest: 'RestartRequest',
-  EquipmentStateLog: 'EquipmentStateLog'
+  EquipmentStateLog: 'EquipmentStateLog',
+  StoppageEpisode: 'StoppageEpisode',
+  CameraSnapshot: 'CameraSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -426,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "workplace" | "team" | "user" | "equipment" | "dangerZone" | "cameraFeed" | "maintenanceWork" | "workAssignee" | "lotoLock" | "videoAnalysis" | "riskEvent" | "review" | "restartRequest" | "equipmentStateLog"
+    modelProps: "workplace" | "team" | "user" | "equipment" | "dangerZone" | "cameraFeed" | "maintenanceWork" | "workAssignee" | "lotoLock" | "videoAnalysis" | "riskEvent" | "review" | "restartRequest" | "equipmentStateLog" | "stoppageEpisode" | "cameraSnapshot"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1466,6 +1468,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StoppageEpisode: {
+      payload: Prisma.$StoppageEpisodePayload<ExtArgs>
+      fields: Prisma.StoppageEpisodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StoppageEpisodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StoppageEpisodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        findFirst: {
+          args: Prisma.StoppageEpisodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StoppageEpisodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        findMany: {
+          args: Prisma.StoppageEpisodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>[]
+        }
+        create: {
+          args: Prisma.StoppageEpisodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        createMany: {
+          args: Prisma.StoppageEpisodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StoppageEpisodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>[]
+        }
+        delete: {
+          args: Prisma.StoppageEpisodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        update: {
+          args: Prisma.StoppageEpisodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        deleteMany: {
+          args: Prisma.StoppageEpisodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StoppageEpisodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StoppageEpisodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>[]
+        }
+        upsert: {
+          args: Prisma.StoppageEpisodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StoppageEpisodePayload>
+        }
+        aggregate: {
+          args: Prisma.StoppageEpisodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStoppageEpisode>
+        }
+        groupBy: {
+          args: Prisma.StoppageEpisodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoppageEpisodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StoppageEpisodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StoppageEpisodeCountAggregateOutputType> | number
+        }
+      }
+    }
+    CameraSnapshot: {
+      payload: Prisma.$CameraSnapshotPayload<ExtArgs>
+      fields: Prisma.CameraSnapshotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CameraSnapshotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CameraSnapshotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        findFirst: {
+          args: Prisma.CameraSnapshotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CameraSnapshotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        findMany: {
+          args: Prisma.CameraSnapshotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>[]
+        }
+        create: {
+          args: Prisma.CameraSnapshotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        createMany: {
+          args: Prisma.CameraSnapshotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CameraSnapshotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>[]
+        }
+        delete: {
+          args: Prisma.CameraSnapshotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        update: {
+          args: Prisma.CameraSnapshotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        deleteMany: {
+          args: Prisma.CameraSnapshotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CameraSnapshotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CameraSnapshotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>[]
+        }
+        upsert: {
+          args: Prisma.CameraSnapshotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CameraSnapshotPayload>
+        }
+        aggregate: {
+          args: Prisma.CameraSnapshotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCameraSnapshot>
+        }
+        groupBy: {
+          args: Prisma.CameraSnapshotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CameraSnapshotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CameraSnapshotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CameraSnapshotCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1545,6 +1695,8 @@ export const EquipmentScalarFieldEnum = {
   name: 'name',
   line: 'line',
   workplaceId: 'workplaceId',
+  kind: 'kind',
+  downtimeCostPerMin: 'downtimeCostPerMin',
   runState: 'runState',
   interlock: 'interlock',
   interlockReason: 'interlockReason',
@@ -1565,6 +1717,7 @@ export const DangerZoneScalarFieldEnum = {
   dwellThresholdSec: 'dwellThresholdSec',
   kind: 'kind',
   severity: 'severity',
+  requiresHarness: 'requiresHarness',
   active: 'active',
   order: 'order'
 } as const
@@ -1579,6 +1732,7 @@ export const CameraFeedScalarFieldEnum = {
   code: 'code',
   name: 'name',
   posterPath: 'posterPath',
+  purpose: 'purpose',
   active: 'active'
 } as const
 
@@ -1631,6 +1785,8 @@ export const VideoAnalysisScalarFieldEnum = {
   jobId: 'jobId',
   status: 'status',
   error: 'error',
+  sourceKind: 'sourceKind',
+  frameUrls: 'frameUrls',
   videoPath: 'videoPath',
   posterPath: 'posterPath',
   durationSec: 'durationSec',
@@ -1678,11 +1834,21 @@ export const RiskEventScalarFieldEnum = {
   clipPath: 'clipPath',
   boxes: 'boxes',
   zonePolygon: 'zonePolygon',
+  harnessAiStatus: 'harnessAiStatus',
+  harnessAiConfidence: 'harnessAiConfidence',
+  harnessStatus: 'harnessStatus',
+  harnessCheckedAt: 'harnessCheckedAt',
+  harnessCheckedById: 'harnessCheckedById',
   interlockEngaged: 'interlockEngaged',
   status: 'status',
+  startedAt: 'startedAt',
+  resolvedAt: 'resolvedAt',
+  chargedTeamId: 'chargedTeamId',
+  penaltyPoints: 'penaltyPoints',
   notifiedAt: 'notifiedAt',
   acknowledgedAt: 'acknowledgedAt',
-  modelRepo: 'modelRepo'
+  modelRepo: 'modelRepo',
+  episodeId: 'episodeId'
 } as const
 
 export type RiskEventScalarFieldEnum = (typeof RiskEventScalarFieldEnum)[keyof typeof RiskEventScalarFieldEnum]
@@ -1734,6 +1900,59 @@ export const EquipmentStateLogScalarFieldEnum = {
 } as const
 
 export type EquipmentStateLogScalarFieldEnum = (typeof EquipmentStateLogScalarFieldEnum)[keyof typeof EquipmentStateLogScalarFieldEnum]
+
+
+export const StoppageEpisodeScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  equipmentId: 'equipmentId',
+  analysisId: 'analysisId',
+  cause: 'cause',
+  source: 'source',
+  startedAt: 'startedAt',
+  restartedAt: 'restartedAt',
+  recoverySec: 'recoverySec',
+  riskApproach: 'riskApproach',
+  approachCount: 'approachCount',
+  approachDwellSec: 'approachDwellSec',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type StoppageEpisodeScalarFieldEnum = (typeof StoppageEpisodeScalarFieldEnum)[keyof typeof StoppageEpisodeScalarFieldEnum]
+
+
+export const CameraSnapshotScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  cameraId: 'cameraId',
+  equipmentId: 'equipmentId',
+  imagePath: 'imagePath',
+  capturedAt: 'capturedAt',
+  width: 'width',
+  height: 'height',
+  trigger: 'trigger',
+  personCount: 'personCount',
+  boxes: 'boxes',
+  zoneOccupancy: 'zoneOccupancy',
+  riskLevel: 'riskLevel',
+  modelRepo: 'modelRepo',
+  detectedAt: 'detectedAt',
+  harnessVerdict: 'harnessVerdict',
+  harnessConfidence: 'harnessConfidence',
+  hookVerdict: 'hookVerdict',
+  hookConfidence: 'hookConfidence',
+  harnessProvider: 'harnessProvider',
+  harnessModel: 'harnessModel',
+  harnessBoxes: 'harnessBoxes',
+  harnessAt: 'harnessAt',
+  harnessError: 'harnessError',
+  note: 'note',
+  lastAnalysisId: 'lastAnalysisId',
+  createdAt: 'createdAt'
+} as const
+
+export type CameraSnapshotScalarFieldEnum = (typeof CameraSnapshotScalarFieldEnum)[keyof typeof CameraSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1795,6 +2014,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1812,20 +2045,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 /**
@@ -1993,6 +2212,8 @@ export type GlobalOmitConfig = {
   review?: Prisma.ReviewOmit
   restartRequest?: Prisma.RestartRequestOmit
   equipmentStateLog?: Prisma.EquipmentStateLogOmit
+  stoppageEpisode?: Prisma.StoppageEpisodeOmit
+  cameraSnapshot?: Prisma.CameraSnapshotOmit
 }
 
 /* Types for Logging */

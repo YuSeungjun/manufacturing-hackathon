@@ -164,6 +164,95 @@ export async function startVideoAnalysis(input: {
   );
 }
 
+/**
+ * 정지 이미지 시퀀스 분석 잡을 띄운다.
+ *
+ * 이미지도 영상과 같은 이유로 Blob 을 거친다 — 몇 장만 모이면 Vercel Function 요청 본문
+ * 4.5MB 를 넘는다. 여기에는 URL 목록과 각 장의 초만 넘어간다.
+ *
+ * 결과 계약(AnalyzeResult)이 영상과 같아서 폴링 화면과 저장 코드를 그대로 쓴다.
+ */
+export async function startFrameAnalysis(input: {
+  frameUrls: string[];
+  frameTimes: number[];
+  zones: ZoneSpec[];
+  machineStates: MachineStatePoint[];
+  recordedAt?: Date;
+}): Promise<{ jobId: string; frameCount: number }> {
+  const body = new FormData();
+  body.append(
+    "body",
+    JSON.stringify({
+      frameUrls: input.frameUrls,
+      frameTimes: input.frameTimes,
+      zones: input.zones.map((z) => ({
+        id: z.id,
+        name: z.name,
+        polygon: z.polygon,
+        kind: z.kind ?? "PINCH",
+        dwellWarnSec: z.dwellWarnSec ?? 5,
+      })),
+      machineStates: input.machineStates,
+      options: {
+        captureMode: "url",
+        // 정지 이미지에는 이어붙일 앞뒤 프레임이 없다. 클립을 만들지 않는다.
+        clipFormat: "none",
+        blurFaces: true,
+        recordedAt: (input.recordedAt ?? new Date()).toISOString(),
+      },
+    }),
+  );
+
+  return call<{ jobId: string; frameCount: number }>(
+    "/analyze/frames",
+    { method: "POST", headers: authHeaders(), body },
+    "이미지 분석 요청",
+  );
+}
+
+export type HarnessCheckResult = {
+  /** none | roboflow | local — 남의 학습 결과면 화면에 그렇게 적는다 */
+  provider: string;
+  model: string;
+  personCount: number;
+  persons: {
+    confidence: number;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    harness: {
+      status: "WORN" | "NOT_WORN" | "UNKNOWN";
+      confidence: number;
+      hookStatus: "ATTACHED" | "NOT_ATTACHED" | "UNKNOWN";
+      hookConfidence: number;
+      cropPx: number;
+    };
+  }[];
+  verdict: "WORN" | "NOT_WORN" | "UNKNOWN";
+  confidence: number;
+  hookVerdict: "ATTACHED" | "NOT_ATTACHED" | "UNKNOWN";
+  hookConfidence: number;
+  error: string;
+};
+
+/**
+ * 안전대 착용·체결 판정 — 이미지 한 장.
+ *
+ * 위험구역 분석과 갈라 둔 호출이다. 진입·잔류는 우리 로직이지만 안전대는 별도 모델에
+ * 의존하므로, 한쪽이 죽는 날 다른 쪽 결과까지 못 믿게 되면 안 된다.
+ */
+export async function analyzeHarness(file: File, conf = 0.3): Promise<HarnessCheckResult> {
+  const body = new FormData();
+  body.append("file", file, file.name || "frame.jpg");
+  body.append("conf", String(conf));
+  return call<HarnessCheckResult>(
+    "/analyze/harness",
+    { method: "POST", headers: authHeaders(), body },
+    "안전대 판정",
+  );
+}
+
 export async function getJob(jobId: string): Promise<AiJobStatus> {
   return call<AiJobStatus>(`/analyze/jobs/${jobId}`, { headers: authHeaders() }, "분석 진행 상황 조회");
 }

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { assertManager, assertOperator } from "@/lib/auth";
+import { assertOperator } from "@/lib/auth";
 import { evaluateInterlock, logStateChange } from "@/lib/interlock";
 
 export type RestartState =
@@ -103,6 +103,16 @@ export async function requestRestartAction(
       "AI_INTERLOCK", operator.id, verdict.reason,
     );
   } else {
+    // 같은 설비의 이전 차단 요청은 원인이 해소되어 새 요청으로 대체됐다.
+    await prisma.restartRequest.updateMany({
+      where: {
+        equipmentId: equipment.id,
+        decision: "BLOCKED",
+        outcome: "OPEN",
+        id: { not: request.id },
+      },
+      data: { outcome: "RESOLVED" },
+    });
     await prisma.equipment.update({
       where: { id: equipment.id },
       data: { interlock: "CLEAR", interlockReason: "", clearedAt: new Date() },
@@ -122,82 +132,6 @@ export async function requestRestartAction(
   };
 }
 
-/**
- * 현장 확인 후 해제 승인. 인터록을 푸는 유일한 경로다.
- *
- * 위험 사건을 오탐으로 판정해도 인터록은 자동으로 풀리지 않는다.
- * 판정은 기록이고 해제는 조치다. 두 행동을 분리한다.
- */
-export async function approveRestartAction(formData: FormData) {
-  const manager = await assertManager();
-  const requestId = String(formData.get("requestId") ?? "");
-  const note = String(formData.get("approvalNote") ?? "").slice(0, 300);
-
-  const request = await prisma.restartRequest.findFirst({
-    where: { id: requestId, workplaceId: manager.workplaceId },
-    include: { blockedBy: true, equipment: true },
-  });
-  if (!request) throw new Error("재가동 요청을 찾을 수 없습니다.");
-  if (request.decision !== "BLOCKED") throw new Error("차단되지 않은 요청입니다.");
-  if (request.approvedAt) throw new Error("이미 승인된 요청입니다.");
-
-  // 가드 ① — AI 가 올린 건을 사람이 아직 안 봤으면 승인할 수 없다
-  if (request.blockedBy && request.blockedBy.status === "PENDING") {
-    throw new Error("먼저 위험 사건을 확정 또는 오탐으로 판단해 주세요.");
-  }
-
-  // 가드 ② — 개인 시건은 관리자도 대신 풀 수 없다. 건 사람만 푼다.
-  const openLocks = await prisma.lotoLock.count({
-    where: {
-      releasedAt: null,
-      work: { equipmentId: request.equipmentId, status: { in: ["OPEN", "IN_PROGRESS"] } },
-    },
-  });
-  if (openLocks > 0) {
-    throw new Error(`개인 시건 ${openLocks}건이 해제되지 않았습니다. 작업자 본인이 해제해야 합니다.`);
-  }
-
-  const now = new Date();
-  await prisma.$transaction([
-    prisma.restartRequest.update({
-      where: { id: request.id },
-      data: { approvedById: manager.id, approvedAt: now, approvalNote: note },
-    }),
-    prisma.equipment.update({
-      where: { id: request.equipmentId },
-      data: { interlock: "CLEAR", interlockReason: "", clearedAt: now },
-    }),
-    // 인터록을 걸었던 사건은 여기서 종결된다 — 노출시간의 끝점이다
-    prisma.riskEvent.updateMany({
-      where: { equipmentId: request.equipmentId, clearedAt: null, interlockEngaged: true },
-      data: { clearedAt: now },
-    }),
-  ]);
-  await logStateChange(
-    request.equipmentId, request.equipment.runState, request.equipment.runState,
-    "MANAGER_CLEAR", manager.id, note,
-  );
-
-  revalidateAll();
-}
-
-export async function rejectRestartAction(formData: FormData) {
-  const manager = await assertManager();
-  const requestId = String(formData.get("requestId") ?? "");
-  const note = String(formData.get("approvalNote") ?? "").slice(0, 300);
-
-  const request = await prisma.restartRequest.findFirst({
-    where: { id: requestId, workplaceId: manager.workplaceId },
-  });
-  if (!request) throw new Error("재가동 요청을 찾을 수 없습니다.");
-
-  await prisma.restartRequest.update({
-    where: { id: request.id },
-    data: { outcome: "REJECTED", approvalNote: note, approvedById: manager.id },
-  });
-  revalidateAll();
-}
-
 /** 실제로 재가동했다. 지표의 종점. */
 export async function confirmRestartedAction(formData: FormData) {
   const operator = await assertOperator();
@@ -208,6 +142,9 @@ export async function confirmRestartedAction(formData: FormData) {
     include: { equipment: true },
   });
   if (!request) throw new Error("재가동 요청을 찾을 수 없습니다.");
+  if (request.decision !== "ALLOWED" || request.outcome !== "OPEN") {
+    throw new Error("재가동 가능한 요청이 아닙니다. 설비 화면에서 다시 요청해 주세요.");
+  }
 
   const verdict = await evaluateInterlock(request.equipmentId);
   if (verdict.decision === "BLOCKED") {

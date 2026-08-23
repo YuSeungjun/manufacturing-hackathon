@@ -13,10 +13,7 @@ const signupSchema = z.object({
   name: z.string().min(2, "이름을 입력해 주세요."),
   employeeNumber: z.string().min(3, "사번을 정확히 입력해 주세요."),
   password: z.string().min(8, "비밀번호는 8자 이상이어야 합니다."),
-  workplaceId: z.string().min(1, "소속 사업장을 선택해 주세요."),
-  teamId: z.string().min(1, "부서 또는 작업조를 선택해 주세요."),
-  role: z.enum(["WORKER", "OPERATOR", "SAFETY_MANAGER"]),
-  managerCode: z.string().optional(),
+  role: z.enum(["WORKER", "SAFETY_MANAGER"]),
 });
 
 export async function signupAction(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -24,10 +21,7 @@ export async function signupAction(_prev: FormState, formData: FormData): Promis
     name: formData.get("name"),
     employeeNumber: formData.get("employeeNumber"),
     password: formData.get("password"),
-    workplaceId: formData.get("workplaceId"),
-    teamId: formData.get("teamId"),
     role: formData.get("role"),
-    managerCode: formData.get("managerCode") ?? "",
   });
 
   if (!parsed.success) {
@@ -35,27 +29,30 @@ export async function signupAction(_prev: FormState, formData: FormData): Promis
   }
   const input = parsed.data;
 
-  const workplace = await prisma.workplace.findUnique({ where: { id: input.workplaceId } });
-  if (!workplace) return { error: "선택한 사업장을 찾을 수 없습니다." };
-
-  const team = await prisma.team.findFirst({
-    where: { id: input.teamId, workplaceId: workplace.id },
-  });
-  if (!team) return { error: "선택한 작업조가 해당 사업장에 없습니다." };
+  /**
+   * 사업장은 묻지 않고 등록된 것에 붙인다.
+   *
+   * 가입 화면에서 소속을 고르게 하면 아무나 아무 사업장을 고를 수 있고, 그건 소속 확인이
+   * 아니라 소속 자기신고다. 실제 확인은 안전관리자의 승인에서 일어난다.
+   */
+  const workplace = await prisma.workplace.findFirst({ orderBy: { name: "asc" } });
+  if (!workplace) return { error: "등록된 사업장이 없습니다. 관리자에게 문의해 주세요." };
 
   const duplicated = await prisma.user.findUnique({
     where: { employeeNumber: input.employeeNumber },
   });
   if (duplicated) return { error: "이미 가입된 사번입니다." };
 
-  // 안전관리자 권한은 가입만으로 주지 않는다.
-  // 사업장 인증번호가 맞으면 즉시 승인, 아니면 승인 대기 상태로 만든다.
-  let approvalStatus = "APPROVED";
-  if (input.role === "SAFETY_MANAGER") {
-    const codeMatches =
-      !!input.managerCode && input.managerCode.trim() === workplace.managerCode;
-    approvalStatus = codeMatches ? "APPROVED" : "PENDING";
-  }
+  /**
+   * 가입하면 고른 역할의 권한을 바로 준다.
+   *
+   * 승인 단계를 두면 승인해 줄 사람이 먼저 있어야 하고, 첫 안전관리자를 만들 방법이
+   * 없어진다. 사내망 안에서 사번으로 가입하는 시스템이라 가입 자체가 1차 관문이다.
+   *
+   * 승인 대기(PENDING)는 상태로 남아 있고 현황판의 승인 화면도 그대로다 —
+   * 이전에 대기로 남은 계정과, 나중에 승인 절차를 다시 켤 때를 위해서다.
+   */
+  const approvalStatus = "APPROVED";
 
   const user = await prisma.user.create({
     data: {
@@ -65,7 +62,9 @@ export async function signupAction(_prev: FormState, formData: FormData): Promis
       role: input.role,
       approvalStatus,
       workplaceId: workplace.id,
-      teamId: team.id,
+      // 작업조는 가입 때 고르지 않는다. 안전관리자가 조 설정에서 배정한다 —
+      // 누가 어느 조인지는 본인 신고가 아니라 관리가 정하는 일이다.
+      teamId: null,
     },
   });
 

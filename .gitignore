@@ -11,3 +11,6 @@ web/public/evidence/*
 ai/models/
 data/*
 !data/README.md
+
+# 모델 가중치는 저장소에 넣지 않는다. 실행 시 자동으로 받거나 컨테이너 빌드에 포함된다.
+weights/

@@ -54,7 +54,7 @@ export function WorkForm({
 
       <label className="flex flex-col gap-1.5">
         <span className="label">작업 이름</span>
-        <input name="title" className="input" placeholder="조압연 2호 백업롤 교체" required maxLength={80} />
+        <input name="title" className="input" placeholder="원료 컨베이어 1호 테일 풀리 이물 제거" required maxLength={80} />
       </label>
 
       <label className="flex flex-col gap-1.5">
@@ -62,7 +62,7 @@ export function WorkForm({
         <textarea
           name="summary"
           className="input min-h-20"
-          placeholder="상부 백업롤 교체 및 롤 갭 청소. 작업 중 설비 재가동 금지."
+          placeholder="원료 걸림으로 벨트 정지. 테일 풀리 하부 이물 제거 후 재가동. 작업 중 재가동 금지."
           maxLength={500}
         />
       </label>

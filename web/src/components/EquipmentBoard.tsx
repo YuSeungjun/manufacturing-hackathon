@@ -15,7 +15,6 @@ export type EquipmentRow = {
   /** 오늘 이 설비에서 사람이 위험구역에 노출된 시간 */
   exposureSec: number;
   pendingEvents: number;
-  blockedRestarts: number;
   openLocks: number;
   /** 최근 7일 노출시간. 색이 아니라 높이로 값을 말한다. */
   week: { iso: string; sec: number }[];
@@ -87,12 +86,6 @@ export function EquipmentBoard({ rows }: { rows: EquipmentRow[] }) {
               </dd>
             </span>
             <span className="flex items-baseline gap-1.5">
-              <dt className="text-ink-3">차단 요청</dt>
-              <dd className="num font-bold" style={{ color: row.blockedRestarts > 0 ? "var(--deny)" : undefined }}>
-                {row.blockedRestarts}
-              </dd>
-            </span>
-            <span className="flex items-baseline gap-1.5">
               <dt className="text-ink-3">미해제 시건</dt>
               <dd className="num font-bold">{row.openLocks}</dd>
             </span>
@@ -102,11 +95,6 @@ export function EquipmentBoard({ rows }: { rows: EquipmentRow[] }) {
             <Link href={`/manager/equipment/${row.id}/zones`} className="btn-quiet btn-sm">
               위험구역
             </Link>
-            {row.blockedRestarts > 0 ? (
-              <Link href="/manager/restarts" className="btn-act btn-sm">
-                재가동 승인 {row.blockedRestarts}건
-              </Link>
-            ) : null}
           </div>
         </li>
       ))}

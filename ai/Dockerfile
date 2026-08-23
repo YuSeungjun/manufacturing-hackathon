@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+ && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 git \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -28,6 +28,11 @@ RUN mkdir -p /app/.ultralytics /app/.mpl /app/ai/models /tmp/captures
 ENV PERSON_MODEL=/app/ai/models/yolo26n.pt
 RUN python -c "from ultralytics import YOLO; YOLO('yolo26n.pt')" \
  && mv yolo26n.pt /app/ai/models/yolo26n.pt
+
+# CLIP(ViT-B/32) 가중치도 미리 받는다. 첫 안전대 판정에서 받으면 수십 초가 더 붙는다.
+ENV CLIP_CACHE=/app/.clip
+RUN mkdir -p /app/.clip \
+ && python -c "import clip; clip.load('ViT-B/32', device='cpu', download_root='/app/.clip')" || true
 
 ENV IMGSZ=640 TARGET_FPS=6 MAX_VIDEO_MB=80 MAX_DURATION_SEC=60 \
     CAPTURE_DIR=/tmp/captures PORT=8000

@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "db:deploy": "prisma migrate deploy"
+    "db:deploy": "prisma migrate deploy",
+    "test:logic": "tsx scripts/verify-episodes.ts",
+    "fix:dedupe": "tsx scripts/dedupe-risk-events.ts",
+    "fix:clear-events": "tsx scripts/clear-risk-events.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",

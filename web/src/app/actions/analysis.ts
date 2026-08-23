@@ -7,110 +7,10 @@ import {
   AiServiceError,
   analyzeFrameZones,
   getJob,
-  startVideoAnalysis,
   type MachineStatePoint,
 } from "@/lib/aiClient";
-import { parsePolygon, type RiskLevel } from "@/lib/zone";
-
-export type StartAnalysisState =
-  | null
-  | { error: string }
-  | { ok: true; analysisId: string; jobId: string };
-
-/**
- * 영상 분석 시작.
- *
- * 영상은 이미 Blob 에 올라와 있고 여기에는 URL 만 온다 — Vercel Function 요청 본문이
- * 4.5MB 로 막혀 있어서 영상을 서버 액션으로 중계할 수 없다.
- */
-export async function startVideoAnalysisAction(
-  _prev: StartAnalysisState,
-  formData: FormData,
-): Promise<StartAnalysisState> {
-  const manager = await assertManager();
-  const equipmentId = String(formData.get("equipmentId") ?? "");
-  const videoUrl = String(formData.get("videoUrl") ?? "");
-  if (!videoUrl) return { error: "분석할 영상을 먼저 올려 주세요." };
-
-  const equipment = await prisma.equipment.findFirst({
-    where: { id: equipmentId, workplaceId: manager.workplaceId },
-    include: {
-      zones: { where: { active: true }, orderBy: { order: "asc" }, include: { camera: true } },
-      cameras: true,
-    },
-  });
-  if (!equipment) return { error: "설비를 찾을 수 없습니다." };
-  if (equipment.zones.length === 0) {
-    return { error: "이 설비에 위험구역이 없습니다. 먼저 위험구역을 그려 주세요." };
-  }
-
-  const machineStates = parseMachineStates(formData);
-
-  let jobId: string;
-  try {
-    const started = await startVideoAnalysis({
-      videoUrl,
-      zones: equipment.zones.map((zone) => ({
-        id: zone.id,
-        name: zone.name,
-        polygon: parsePolygon(zone.polygon),
-        kind: zone.kind,
-        dwellWarnSec: zone.dwellThresholdSec,
-      })),
-      machineStates,
-    });
-    jobId = started.jobId;
-  } catch (error) {
-    return {
-      error: error instanceof AiServiceError ? error.message : "AI 분석을 시작하지 못했습니다.",
-    };
-  }
-
-  const cameraId =
-    String(formData.get("cameraId") ?? "") || equipment.zones[0]?.cameraId || equipment.cameras[0]?.id || null;
-
-  const analysis = await prisma.videoAnalysis.create({
-    data: {
-      workplaceId: manager.workplaceId,
-      equipmentId: equipment.id,
-      cameraId,
-      jobId,
-      status: "RUNNING",
-      videoPath: videoUrl,
-      machineStates: JSON.stringify(machineStates),
-      analyzedById: manager.id,
-    },
-  });
-
-  revalidatePath("/manager", "layout");
-  return { ok: true, analysisId: analysis.id, jobId };
-}
-
-/**
- * 설비 상태 타임라인.
- *
- * 실운영에서는 PLC / MES / LOTO 시건 시스템이 준다. 데모에서는 화면에서 입력받는다.
- * 이게 파라미터라서 설비가 실제로 재가동하는 영상이 없어도 재가동 순간을 재현할 수 있다.
- */
-function parseMachineStates(formData: FormData): MachineStatePoint[] {
-  const raw = String(formData.get("machineStates") ?? "");
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed as MachineStatePoint[];
-    } catch {
-      /* 아래 단순 입력으로 넘어간다 */
-    }
-  }
-  const initial = String(formData.get("initialState") ?? "STOPPED") as MachineStatePoint["state"];
-  const points: MachineStatePoint[] = [{ tSec: 0, state: initial }];
-  const restartAt = Number(formData.get("restartAtSec"));
-  if (Number.isFinite(restartAt) && restartAt > 0) {
-    points.push({ tSec: restartAt, state: "RESTART_REQUESTED" });
-    points.push({ tSec: restartAt + 1.5, state: "RUNNING" });
-  }
-  return points;
-}
+import { parsePolygon, type RiskLevel, type TrackBox } from "@/lib/zone";
+import { atSec, overlapsInterval, recordingBase, stoppageIntervals } from "@/lib/episodes";
 
 export type PersistState =
   | { status: "RUNNING"; progress: number; processedFrames: number; totalFrames: number }
@@ -170,9 +70,55 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
   const zoneById = new Map(zones.map((z) => [z.id, z]));
   const now = new Date();
 
-  const events = result.events.filter((e) => e.level !== "INFO" && e.level !== "SAFE");
+  /**
+   * SAFE 만 버린다. 사건이 아니라 "아무 일도 없었다" 는 뜻이기 때문이다.
+   *
+   * INFO 는 남긴다 — 시건(LOTO)을 걸고 들어간 정상 작업이다. ai/risk.py 는 이걸
+   * "기록은 남기되 경보는 아니다" 로 정의하는데, 전에는 여기서 통째로 버려서
+   * 기록조차 남지 않았다. 그래서 컨베이어를 분석해도 사건이 0건으로 보였다.
+   * 대신 판정 대기(PENDING)로는 올리지 않는다 — 정상 작업까지 사람이 판단할 이유는 없다.
+   */
+  const events = result.events.filter((e) => e.level !== "SAFE");
 
-  await prisma.$transaction([
+  /**
+   * 같은 순간의 같은 사건은 다시 만들지 않는다.
+   *
+   * 장면을 다시 분석했다고 그 순간이 두 번 일어난 건 아니다. 그런데 재분석마다 새 사건이
+   * 생기면 검토 대기가 같은 사건의 복사본으로 채워지고, 관리자는 같은 장면을 몇 번씩
+   * 판단하게 된다 — 그러면 큐 자체를 안 믿는다.
+   *
+   * 자연키는 (사업장, 설비, 구역, 코드, 진입시각) 이다. 진입시각은 AI 가 촬영 시각을
+   * 받았을 때만 실제 벽시계 시각이 되므로(`startedAt`), **그때만** 중복으로 본다.
+   * 촬영 시각 없이 돌린 분석은 매번 now 라서 같은 순간인지 알 수 없고, 알 수 없는 것을
+   * 같다고 처리하면 서로 다른 사건이 조용히 합쳐진다.
+   */
+  const anchored = events
+    .map((event) => ({ event, zone: zoneById.get(event.zoneId) }))
+    .filter((item) => item.event.startedAt != null);
+
+  const priorEvents =
+    anchored.length === 0
+      ? []
+      : await prisma.riskEvent.findMany({
+          where: {
+            OR: anchored.map(({ event, zone }) => ({
+              workplaceId: analysis.workplaceId,
+              equipmentId: analysis.equipmentId,
+              zoneId: zone?.id ?? null,
+              code: event.code,
+              enteredAt: new Date(event.startedAt!),
+            })),
+          },
+        });
+
+  const priorByKey = new Map(
+    priorEvents.map((row) => [
+      `${row.zoneId}|${row.code}|${row.enteredAt.toISOString()}`,
+      row,
+    ]),
+  );
+
+  const written = await prisma.$transaction([
     prisma.videoAnalysis.update({
       where: { id: analysis.id },
       data: {
@@ -192,6 +138,44 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
       const zone = zoneById.get(event.zoneId);
       const enteredAt = event.startedAt ? new Date(event.startedAt) : now;
       const frame = result.frames.find((f) => Math.abs(f.tSec - event.peakSec) < 0.5);
+      const prior = event.startedAt
+        ? priorByKey.get(`${zone?.id ?? null}|${event.code}|${enteredAt.toISOString()}`)
+        : undefined;
+
+      if (prior) {
+        // 이미 있는 사건이면 근거만 새로 고친다. 사람의 판단(status·notifiedAt·review)은
+        // 건드리지 않는다 — 재분석은 판단을 되돌리는 행위가 아니다.
+        //
+        // 확정된 건의 근거 이미지는 Blob 으로 옮겨져 영구 보관 중이다. 휘발성 AI 캡처
+        // 주소로 덮으면 근거가 사라진다.
+        const keepEvidence = prior.status === "CONFIRMED";
+        return prisma.riskEvent.update({
+          where: { id: prior.id },
+          data: {
+            analysisId: analysis.id,
+            level: event.level,
+            reason: event.reason,
+            dwellSec: event.dwellSec,
+            occupantsAtPeak: event.occupantsAtPeak,
+            trackIds: JSON.stringify(event.trackIds),
+            clipStartSec: event.startSec,
+            clipEndSec: event.endSec,
+            peakSec: event.peakSec,
+            machineState: event.machineState,
+            confidence: frame?.persons[0]?.confidence ?? prior.confidence,
+            boxes: JSON.stringify(frame?.persons ?? []),
+            modelRepo: result.model,
+            ...harnessGuessOf(frame, zone?.id),
+            ...(keepEvidence
+              ? {}
+              : {
+                  evidencePath: event.captures.find((c) => c.kind === "frame")?.url ?? "",
+                  clipPath: event.captures.find((c) => c.kind === "clip")?.url ?? "",
+                }),
+          },
+        });
+      }
+
       return prisma.riskEvent.create({
         data: {
           workplaceId: analysis.workplaceId,
@@ -221,13 +205,27 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
           boxes: JSON.stringify(frame?.persons ?? []),
           zonePolygon: zone?.polygon ?? "[]",
           interlockEngaged: event.level === "CRITICAL",
-          status: "PENDING",
+          // AI 가 말할 수 있는 건 착용까지다. 이건 제안이고 확정이 아니다.
+          ...harnessGuessOf(frame, zone?.id),
+          // 체결 확정은 사람 몫이다. 필요한 구역이면 사람이 채울 칸을 열어 둔다.
+          harnessStatus: zone?.requiresHarness ? "PENDING" : "NA",
+          // 정상 작업 기록은 판정 큐에 올리지 않는다.
+          status: event.level === "INFO" ? "LOGGED" : "PENDING",
           notifiedAt: now,
           modelRepo: result.model,
         },
       });
     }),
   ]);
+
+  await recordStoppageEpisodes({
+    analysis,
+    durationSec: result.videoDurationSec,
+    aiEvents: result.events.map((e) => ({ startedAt: e.startedAt ?? null, startSec: e.startSec })),
+    // 트랜잭션 결과의 첫 칸은 VideoAnalysis 갱신이고, 그 뒤가 생성된 위험 사건들이다.
+    created: written.slice(1) as CreatedRiskEvent[],
+    base: now,
+  });
 
   const criticalCount = events.filter((e) => e.level === "CRITICAL").length;
   if (criticalCount > 0 && analysis.equipment.interlock !== "BLOCKED") {
@@ -260,6 +258,115 @@ export async function persistAnalysisResultAction(analysisId: string): Promise<P
     criticalCount,
     blocked: criticalCount > 0 || analysis.equipment.interlock === "BLOCKED",
   };
+}
+
+/**
+ * 피크 프레임에서 이 구역 사람들의 하네스 착용 추정을 하나로 모은다.
+ *
+ * 미착용 의심이 하나라도 있으면 그게 결론이다 — 세 명 중 한 명이 안 입었으면
+ * "한 명이 안 입었다" 가 관리자가 알아야 하는 사실이다.
+ *
+ * 모델이 없으면 빈 문자열로 남긴다. UNKNOWN 으로 채우면 "모델이 봤는데 모르겠다" 가
+ * 되어 화면 문구가 거짓이 된다.
+ */
+function harnessGuessOf(
+  frame: { persons: TrackBox[] } | undefined,
+  zoneId: string | undefined,
+): { harnessAiStatus: string; harnessAiConfidence: number } {
+  const persons = frame?.persons ?? [];
+  const inZone = zoneId ? persons.filter((p) => p.zoneIds.includes(zoneId)) : persons;
+  const guesses = (inZone.length > 0 ? inZone : persons)
+    .map((p) => p.harness)
+    .filter((g): g is NonNullable<typeof g> => g != null);
+
+  if (guesses.length === 0) return { harnessAiStatus: "", harnessAiConfidence: 0 };
+
+  const missing = guesses.filter((g) => g.status === "NOT_WORN");
+  if (missing.length > 0) {
+    return {
+      harnessAiStatus: "NOT_WORN",
+      harnessAiConfidence: Math.max(...missing.map((g) => g.confidence)),
+    };
+  }
+  const worn = guesses.filter((g) => g.status === "WORN");
+  if (worn.length > 0) {
+    return {
+      harnessAiStatus: "WORN",
+      harnessAiConfidence: Math.max(...worn.map((g) => g.confidence)),
+    };
+  }
+  return { harnessAiStatus: "UNKNOWN", harnessAiConfidence: 0 };
+}
+
+type CreatedRiskEvent = {
+  id: string;
+  dwellSec: number;
+  clipStartSec: number | null;
+  clipEndSec: number | null;
+};
+
+/**
+ * 정지 에피소드를 남긴다.
+ *
+ * 이 함수가 이 시스템의 "사업성" 쪽 절반이다. 인터록은 지금 이 사고를 막고, 에피소드는
+ * 같은 상황이 몇 번 반복되는지와 그때마다 라인이 몇 분 섰는지를 남긴다. 후자가 없으면
+ * 사업주에게 보여줄 숫자가 없다.
+ */
+async function recordStoppageEpisodes(input: {
+  analysis: { id: string; workplaceId: string; equipmentId: string; machineStates: string };
+  durationSec: number;
+  aiEvents: { startedAt: string | null; startSec: number }[];
+  created: CreatedRiskEvent[];
+  base: Date;
+}) {
+  const { analysis, durationSec, aiEvents, created, base } = input;
+
+  let states: MachineStatePoint[] = [];
+  try {
+    const parsed = JSON.parse(analysis.machineStates);
+    if (Array.isArray(parsed)) states = parsed as MachineStatePoint[];
+  } catch {
+    return; // 상태 타임라인이 깨졌으면 에피소드를 만들지 않는다. 추측해서 채우면 지표가 거짓이 된다.
+  }
+
+  const intervals = stoppageIntervals(states, durationSec);
+  if (intervals.length === 0) return;
+
+  const recordedFrom = recordingBase(aiEvents, base);
+
+  for (const interval of intervals) {
+    const inside = created.filter(
+      (e) =>
+        e.clipStartSec != null &&
+        e.clipEndSec != null &&
+        overlapsInterval(interval, e.clipStartSec, e.clipEndSec, durationSec),
+    );
+
+    const episode = await prisma.stoppageEpisode.create({
+      data: {
+        workplaceId: analysis.workplaceId,
+        equipmentId: analysis.equipmentId,
+        analysisId: analysis.id,
+        // 원인을 AI 가 아는 척하지 않는다. 위험접근이 동반된 정지만 걸림 대응으로 "추정"하고,
+        // 관리자가 화면에서 계획 정비로 되돌릴 수 있게 둔다.
+        cause: inside.length > 0 ? "JAM" : "OTHER",
+        source: "AI",
+        startedAt: atSec(recordedFrom, interval.startSec),
+        restartedAt: interval.restartSec == null ? null : atSec(recordedFrom, interval.restartSec),
+        recoverySec: interval.restartSec == null ? 0 : interval.restartSec - interval.startSec,
+        riskApproach: inside.length > 0,
+        approachCount: inside.length,
+        approachDwellSec: inside.reduce((sum, e) => sum + e.dwellSec, 0),
+      },
+    });
+
+    if (inside.length > 0) {
+      await prisma.riskEvent.updateMany({
+        where: { id: { in: inside.map((e) => e.id) } },
+        data: { episodeId: episode.id },
+      });
+    }
+  }
 }
 
 export type OccupancyState =

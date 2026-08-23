@@ -225,6 +225,7 @@ export type UserWhereInput = {
   restartRequests?: Prisma.RestartRequestListRelationFilter
   restartApprovals?: Prisma.RestartRequestListRelationFilter
   stateLogs?: Prisma.EquipmentStateLogListRelationFilter
+  harnessChecks?: Prisma.RiskEventListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -248,6 +249,7 @@ export type UserOrderByWithRelationInput = {
   restartRequests?: Prisma.RestartRequestOrderByRelationAggregateInput
   restartApprovals?: Prisma.RestartRequestOrderByRelationAggregateInput
   stateLogs?: Prisma.EquipmentStateLogOrderByRelationAggregateInput
+  harnessChecks?: Prisma.RiskEventOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   restartRequests?: Prisma.RestartRequestListRelationFilter
   restartApprovals?: Prisma.RestartRequestListRelationFilter
   stateLogs?: Prisma.EquipmentStateLogListRelationFilter
+  harnessChecks?: Prisma.RiskEventListRelationFilter
 }, "id" | "employeeNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -325,6 +328,7 @@ export type UserCreateInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -346,6 +350,7 @@ export type UserUncheckedCreateInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUpdateInput = {
@@ -367,6 +372,7 @@ export type UserUpdateInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -388,6 +394,7 @@ export type UserUncheckedUpdateInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -634,6 +641,12 @@ export type UserCreateNestedOneWithoutReportedEventsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutHarnessChecksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHarnessChecksInput, Prisma.UserUncheckedCreateWithoutHarnessChecksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHarnessChecksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneWithoutReportedEventsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportedEventsInput
@@ -642,6 +655,16 @@ export type UserUpdateOneWithoutReportedEventsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReportedEventsInput, Prisma.UserUpdateWithoutReportedEventsInput>, Prisma.UserUncheckedUpdateWithoutReportedEventsInput>
+}
+
+export type UserUpdateOneWithoutHarnessChecksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHarnessChecksInput, Prisma.UserUncheckedCreateWithoutHarnessChecksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHarnessChecksInput
+  upsert?: Prisma.UserUpsertWithoutHarnessChecksInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutHarnessChecksInput, Prisma.UserUpdateWithoutHarnessChecksInput>, Prisma.UserUncheckedUpdateWithoutHarnessChecksInput>
 }
 
 export type UserCreateNestedOneWithoutReviewsInput = {
@@ -722,6 +745,7 @@ export type UserCreateWithoutWorkplaceInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutWorkplaceInput = {
@@ -742,6 +766,7 @@ export type UserUncheckedCreateWithoutWorkplaceInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutWorkplaceInput = {
@@ -803,6 +828,7 @@ export type UserCreateWithoutTeamInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutTeamInput = {
@@ -823,6 +849,7 @@ export type UserUncheckedCreateWithoutTeamInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutTeamInput = {
@@ -869,6 +896,7 @@ export type UserCreateWithoutCreatedWorksInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutCreatedWorksInput = {
@@ -889,6 +917,7 @@ export type UserUncheckedCreateWithoutCreatedWorksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutCreatedWorksInput = {
@@ -925,6 +954,7 @@ export type UserUpdateWithoutCreatedWorksInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedWorksInput = {
@@ -945,6 +975,7 @@ export type UserUncheckedUpdateWithoutCreatedWorksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutAssignedWorksInput = {
@@ -965,6 +996,7 @@ export type UserCreateWithoutAssignedWorksInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutAssignedWorksInput = {
@@ -985,6 +1017,7 @@ export type UserUncheckedCreateWithoutAssignedWorksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutAssignedWorksInput = {
@@ -1021,6 +1054,7 @@ export type UserUpdateWithoutAssignedWorksInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedWorksInput = {
@@ -1041,6 +1075,7 @@ export type UserUncheckedUpdateWithoutAssignedWorksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutLotoLocksInput = {
@@ -1061,6 +1096,7 @@ export type UserCreateWithoutLotoLocksInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutLotoLocksInput = {
@@ -1081,6 +1117,7 @@ export type UserUncheckedCreateWithoutLotoLocksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutLotoLocksInput = {
@@ -1117,6 +1154,7 @@ export type UserUpdateWithoutLotoLocksInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLotoLocksInput = {
@@ -1137,6 +1175,7 @@ export type UserUncheckedUpdateWithoutLotoLocksInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1157,6 +1196,7 @@ export type UserCreateWithoutAnalysesInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1177,6 +1217,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1213,6 +1254,7 @@ export type UserUpdateWithoutAnalysesInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1233,6 +1275,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutReportedEventsInput = {
@@ -1253,6 +1296,7 @@ export type UserCreateWithoutReportedEventsInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutReportedEventsInput = {
@@ -1273,11 +1317,59 @@ export type UserUncheckedCreateWithoutReportedEventsInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutReportedEventsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutReportedEventsInput, Prisma.UserUncheckedCreateWithoutReportedEventsInput>
+}
+
+export type UserCreateWithoutHarnessChecksInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  createdWorks?: Prisma.MaintenanceWorkCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutHarnessChecksInput = {
+  id?: string
+  employeeNumber: string
+  name: string
+  passwordHash: string
+  role?: string
+  approvalStatus?: string
+  workplaceId: string
+  teamId?: string | null
+  createdAt?: Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutCreatedByInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedCreateNestedManyWithoutUserInput
+  lotoLocks?: Prisma.LotoLockUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewedByInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutAnalyzedByInput
+  reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
+  restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutHarnessChecksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutHarnessChecksInput, Prisma.UserUncheckedCreateWithoutHarnessChecksInput>
 }
 
 export type UserUpsertWithoutReportedEventsInput = {
@@ -1309,6 +1401,7 @@ export type UserUpdateWithoutReportedEventsInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportedEventsInput = {
@@ -1326,6 +1419,60 @@ export type UserUncheckedUpdateWithoutReportedEventsInput = {
   lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
+}
+
+export type UserUpsertWithoutHarnessChecksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutHarnessChecksInput, Prisma.UserUncheckedUpdateWithoutHarnessChecksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutHarnessChecksInput, Prisma.UserUncheckedCreateWithoutHarnessChecksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutHarnessChecksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutHarnessChecksInput, Prisma.UserUncheckedUpdateWithoutHarnessChecksInput>
+}
+
+export type UserUpdateWithoutHarnessChecksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  createdWorks?: Prisma.MaintenanceWorkUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
+  restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
+  restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutHarnessChecksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employeeNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  approvalStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdWorks?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutCreatedByNestedInput
+  assignedWorks?: Prisma.WorkAssigneeUncheckedUpdateManyWithoutUserNestedInput
+  lotoLocks?: Prisma.LotoLockUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewedByNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByNestedInput
+  reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
@@ -1349,6 +1496,7 @@ export type UserCreateWithoutReviewsInput = {
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1369,6 +1517,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1405,6 +1554,7 @@ export type UserUpdateWithoutReviewsInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -1425,6 +1575,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutRestartRequestsInput = {
@@ -1445,6 +1596,7 @@ export type UserCreateWithoutRestartRequestsInput = {
   reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutRestartRequestsInput = {
@@ -1465,6 +1617,7 @@ export type UserUncheckedCreateWithoutRestartRequestsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutRestartRequestsInput = {
@@ -1490,6 +1643,7 @@ export type UserCreateWithoutRestartApprovalsInput = {
   reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutRestartApprovalsInput = {
@@ -1510,6 +1664,7 @@ export type UserUncheckedCreateWithoutRestartApprovalsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutActorInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutRestartApprovalsInput = {
@@ -1546,6 +1701,7 @@ export type UserUpdateWithoutRestartRequestsInput = {
   reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRestartRequestsInput = {
@@ -1566,6 +1722,7 @@ export type UserUncheckedUpdateWithoutRestartRequestsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUpsertWithoutRestartApprovalsInput = {
@@ -1597,6 +1754,7 @@ export type UserUpdateWithoutRestartApprovalsInput = {
   reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRestartApprovalsInput = {
@@ -1617,6 +1775,7 @@ export type UserUncheckedUpdateWithoutRestartApprovalsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateWithoutStateLogsInput = {
@@ -1637,6 +1796,7 @@ export type UserCreateWithoutStateLogsInput = {
   reportedEvents?: Prisma.RiskEventCreateNestedManyWithoutReportedByInput
   restartRequests?: Prisma.RestartRequestCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestCreateNestedManyWithoutApprovedByInput
+  harnessChecks?: Prisma.RiskEventCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserUncheckedCreateWithoutStateLogsInput = {
@@ -1657,6 +1817,7 @@ export type UserUncheckedCreateWithoutStateLogsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutReportedByInput
   restartRequests?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutRequestedByInput
   restartApprovals?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutApprovedByInput
+  harnessChecks?: Prisma.RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput
 }
 
 export type UserCreateOrConnectWithoutStateLogsInput = {
@@ -1693,6 +1854,7 @@ export type UserUpdateWithoutStateLogsInput = {
   reportedEvents?: Prisma.RiskEventUpdateManyWithoutReportedByNestedInput
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStateLogsInput = {
@@ -1713,6 +1875,7 @@ export type UserUncheckedUpdateWithoutStateLogsInput = {
   reportedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutReportedByNestedInput
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserCreateManyWorkplaceInput = {
@@ -1744,6 +1907,7 @@ export type UserUpdateWithoutWorkplaceInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkplaceInput = {
@@ -1764,6 +1928,7 @@ export type UserUncheckedUpdateWithoutWorkplaceInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -1806,6 +1971,7 @@ export type UserUpdateWithoutTeamInput = {
   restartRequests?: Prisma.RestartRequestUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeamInput = {
@@ -1826,6 +1992,7 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   restartRequests?: Prisma.RestartRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   restartApprovals?: Prisma.RestartRequestUncheckedUpdateManyWithoutApprovedByNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutActorNestedInput
+  harnessChecks?: Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTeamInput = {
@@ -1854,6 +2021,7 @@ export type UserCountOutputType = {
   restartRequests: number
   restartApprovals: number
   stateLogs: number
+  harnessChecks: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1866,6 +2034,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   restartRequests?: boolean | UserCountOutputTypeCountRestartRequestsArgs
   restartApprovals?: boolean | UserCountOutputTypeCountRestartApprovalsArgs
   stateLogs?: boolean | UserCountOutputTypeCountStateLogsArgs
+  harnessChecks?: boolean | UserCountOutputTypeCountHarnessChecksArgs
 }
 
 /**
@@ -1941,6 +2110,13 @@ export type UserCountOutputTypeCountStateLogsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.EquipmentStateLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountHarnessChecksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RiskEventWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1963,6 +2139,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   restartRequests?: boolean | Prisma.User$restartRequestsArgs<ExtArgs>
   restartApprovals?: boolean | Prisma.User$restartApprovalsArgs<ExtArgs>
   stateLogs?: boolean | Prisma.User$stateLogsArgs<ExtArgs>
+  harnessChecks?: boolean | Prisma.User$harnessChecksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2019,6 +2196,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   restartRequests?: boolean | Prisma.User$restartRequestsArgs<ExtArgs>
   restartApprovals?: boolean | Prisma.User$restartApprovalsArgs<ExtArgs>
   stateLogs?: boolean | Prisma.User$stateLogsArgs<ExtArgs>
+  harnessChecks?: boolean | Prisma.User$harnessChecksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2044,6 +2222,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     restartRequests: Prisma.$RestartRequestPayload<ExtArgs>[]
     restartApprovals: Prisma.$RestartRequestPayload<ExtArgs>[]
     stateLogs: Prisma.$EquipmentStateLogPayload<ExtArgs>[]
+    harnessChecks: Prisma.$RiskEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2463,6 +2642,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   restartRequests<T extends Prisma.User$restartRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$restartRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   restartApprovals<T extends Prisma.User$restartApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$restartApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stateLogs<T extends Prisma.User$stateLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$stateLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EquipmentStateLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  harnessChecks<T extends Prisma.User$harnessChecksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$harnessChecksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3134,6 +3314,30 @@ export type User$stateLogsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.EquipmentStateLogScalarFieldEnum | Prisma.EquipmentStateLogScalarFieldEnum[]
+}
+
+/**
+ * User.harnessChecks
+ */
+export type User$harnessChecksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RiskEvent
+   */
+  select?: Prisma.RiskEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RiskEvent
+   */
+  omit?: Prisma.RiskEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RiskEventInclude<ExtArgs> | null
+  where?: Prisma.RiskEventWhereInput
+  orderBy?: Prisma.RiskEventOrderByWithRelationInput | Prisma.RiskEventOrderByWithRelationInput[]
+  cursor?: Prisma.RiskEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RiskEventScalarFieldEnum | Prisma.RiskEventScalarFieldEnum[]
 }
 
 /**

@@ -50,6 +50,8 @@ export type VideoAnalysisMinAggregateOutputType = {
   jobId: string | null
   status: string | null
   error: string | null
+  sourceKind: string | null
+  frameUrls: string | null
   videoPath: string | null
   posterPath: string | null
   durationSec: number | null
@@ -74,6 +76,8 @@ export type VideoAnalysisMaxAggregateOutputType = {
   jobId: string | null
   status: string | null
   error: string | null
+  sourceKind: string | null
+  frameUrls: string | null
   videoPath: string | null
   posterPath: string | null
   durationSec: number | null
@@ -98,6 +102,8 @@ export type VideoAnalysisCountAggregateOutputType = {
   jobId: number
   status: number
   error: number
+  sourceKind: number
+  frameUrls: number
   videoPath: number
   posterPath: number
   durationSec: number
@@ -140,6 +146,8 @@ export type VideoAnalysisMinAggregateInputType = {
   jobId?: true
   status?: true
   error?: true
+  sourceKind?: true
+  frameUrls?: true
   videoPath?: true
   posterPath?: true
   durationSec?: true
@@ -164,6 +172,8 @@ export type VideoAnalysisMaxAggregateInputType = {
   jobId?: true
   status?: true
   error?: true
+  sourceKind?: true
+  frameUrls?: true
   videoPath?: true
   posterPath?: true
   durationSec?: true
@@ -188,6 +198,8 @@ export type VideoAnalysisCountAggregateInputType = {
   jobId?: true
   status?: true
   error?: true
+  sourceKind?: true
+  frameUrls?: true
   videoPath?: true
   posterPath?: true
   durationSec?: true
@@ -299,6 +311,8 @@ export type VideoAnalysisGroupByOutputType = {
   jobId: string
   status: string
   error: string
+  sourceKind: string
+  frameUrls: string
   videoPath: string
   posterPath: string
   durationSec: number
@@ -346,6 +360,8 @@ export type VideoAnalysisWhereInput = {
   jobId?: Prisma.StringFilter<"VideoAnalysis"> | string
   status?: Prisma.StringFilter<"VideoAnalysis"> | string
   error?: Prisma.StringFilter<"VideoAnalysis"> | string
+  sourceKind?: Prisma.StringFilter<"VideoAnalysis"> | string
+  frameUrls?: Prisma.StringFilter<"VideoAnalysis"> | string
   videoPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   posterPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   durationSec?: Prisma.FloatFilter<"VideoAnalysis"> | number
@@ -365,6 +381,8 @@ export type VideoAnalysisWhereInput = {
   camera?: Prisma.XOR<Prisma.CameraFeedNullableScalarRelationFilter, Prisma.CameraFeedWhereInput> | null
   analyzedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   riskEvents?: Prisma.RiskEventListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }
 
 export type VideoAnalysisOrderByWithRelationInput = {
@@ -375,6 +393,8 @@ export type VideoAnalysisOrderByWithRelationInput = {
   jobId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   error?: Prisma.SortOrder
+  sourceKind?: Prisma.SortOrder
+  frameUrls?: Prisma.SortOrder
   videoPath?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
@@ -394,6 +414,8 @@ export type VideoAnalysisOrderByWithRelationInput = {
   camera?: Prisma.CameraFeedOrderByWithRelationInput
   analyzedBy?: Prisma.UserOrderByWithRelationInput
   riskEvents?: Prisma.RiskEventOrderByRelationAggregateInput
+  episodes?: Prisma.StoppageEpisodeOrderByRelationAggregateInput
+  snapshots?: Prisma.CameraSnapshotOrderByRelationAggregateInput
 }
 
 export type VideoAnalysisWhereUniqueInput = Prisma.AtLeast<{
@@ -407,6 +429,8 @@ export type VideoAnalysisWhereUniqueInput = Prisma.AtLeast<{
   jobId?: Prisma.StringFilter<"VideoAnalysis"> | string
   status?: Prisma.StringFilter<"VideoAnalysis"> | string
   error?: Prisma.StringFilter<"VideoAnalysis"> | string
+  sourceKind?: Prisma.StringFilter<"VideoAnalysis"> | string
+  frameUrls?: Prisma.StringFilter<"VideoAnalysis"> | string
   videoPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   posterPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   durationSec?: Prisma.FloatFilter<"VideoAnalysis"> | number
@@ -426,6 +450,8 @@ export type VideoAnalysisWhereUniqueInput = Prisma.AtLeast<{
   camera?: Prisma.XOR<Prisma.CameraFeedNullableScalarRelationFilter, Prisma.CameraFeedWhereInput> | null
   analyzedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   riskEvents?: Prisma.RiskEventListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }, "id">
 
 export type VideoAnalysisOrderByWithAggregationInput = {
@@ -436,6 +462,8 @@ export type VideoAnalysisOrderByWithAggregationInput = {
   jobId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   error?: Prisma.SortOrder
+  sourceKind?: Prisma.SortOrder
+  frameUrls?: Prisma.SortOrder
   videoPath?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
@@ -468,6 +496,8 @@ export type VideoAnalysisScalarWhereWithAggregatesInput = {
   jobId?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
   status?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
   error?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
+  sourceKind?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
+  frameUrls?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
   videoPath?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
   posterPath?: Prisma.StringWithAggregatesFilter<"VideoAnalysis"> | string
   durationSec?: Prisma.FloatWithAggregatesFilter<"VideoAnalysis"> | number
@@ -489,6 +519,8 @@ export type VideoAnalysisCreateInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -507,6 +539,8 @@ export type VideoAnalysisCreateInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
   analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateInput = {
@@ -517,6 +551,8 @@ export type VideoAnalysisUncheckedCreateInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -532,6 +568,8 @@ export type VideoAnalysisUncheckedCreateInput = {
   analyzedAt?: Date | string
   analyzedById: string
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUpdateInput = {
@@ -539,6 +577,8 @@ export type VideoAnalysisUpdateInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -557,6 +597,8 @@ export type VideoAnalysisUpdateInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
   analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateInput = {
@@ -567,6 +609,8 @@ export type VideoAnalysisUncheckedUpdateInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -582,6 +626,8 @@ export type VideoAnalysisUncheckedUpdateInput = {
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisCreateManyInput = {
@@ -592,6 +638,8 @@ export type VideoAnalysisCreateManyInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -613,6 +661,8 @@ export type VideoAnalysisUpdateManyMutationInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -636,6 +686,8 @@ export type VideoAnalysisUncheckedUpdateManyInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -670,6 +722,8 @@ export type VideoAnalysisCountOrderByAggregateInput = {
   jobId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   error?: Prisma.SortOrder
+  sourceKind?: Prisma.SortOrder
+  frameUrls?: Prisma.SortOrder
   videoPath?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
@@ -702,6 +756,8 @@ export type VideoAnalysisMaxOrderByAggregateInput = {
   jobId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   error?: Prisma.SortOrder
+  sourceKind?: Prisma.SortOrder
+  frameUrls?: Prisma.SortOrder
   videoPath?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
@@ -726,6 +782,8 @@ export type VideoAnalysisMinOrderByAggregateInput = {
   jobId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   error?: Prisma.SortOrder
+  sourceKind?: Prisma.SortOrder
+  frameUrls?: Prisma.SortOrder
   videoPath?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
   durationSec?: Prisma.SortOrder
@@ -939,11 +997,45 @@ export type VideoAnalysisUpdateOneWithoutRiskEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VideoAnalysisUpdateToOneWithWhereWithoutRiskEventsInput, Prisma.VideoAnalysisUpdateWithoutRiskEventsInput>, Prisma.VideoAnalysisUncheckedUpdateWithoutRiskEventsInput>
 }
 
+export type VideoAnalysisCreateNestedOneWithoutEpisodesInput = {
+  create?: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.VideoAnalysisCreateOrConnectWithoutEpisodesInput
+  connect?: Prisma.VideoAnalysisWhereUniqueInput
+}
+
+export type VideoAnalysisUpdateOneWithoutEpisodesNestedInput = {
+  create?: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.VideoAnalysisCreateOrConnectWithoutEpisodesInput
+  upsert?: Prisma.VideoAnalysisUpsertWithoutEpisodesInput
+  disconnect?: Prisma.VideoAnalysisWhereInput | boolean
+  delete?: Prisma.VideoAnalysisWhereInput | boolean
+  connect?: Prisma.VideoAnalysisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VideoAnalysisUpdateToOneWithWhereWithoutEpisodesInput, Prisma.VideoAnalysisUpdateWithoutEpisodesInput>, Prisma.VideoAnalysisUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type VideoAnalysisCreateNestedOneWithoutSnapshotsInput = {
+  create?: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.VideoAnalysisCreateOrConnectWithoutSnapshotsInput
+  connect?: Prisma.VideoAnalysisWhereUniqueInput
+}
+
+export type VideoAnalysisUpdateOneWithoutSnapshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.VideoAnalysisCreateOrConnectWithoutSnapshotsInput
+  upsert?: Prisma.VideoAnalysisUpsertWithoutSnapshotsInput
+  disconnect?: Prisma.VideoAnalysisWhereInput | boolean
+  delete?: Prisma.VideoAnalysisWhereInput | boolean
+  connect?: Prisma.VideoAnalysisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VideoAnalysisUpdateToOneWithWhereWithoutSnapshotsInput, Prisma.VideoAnalysisUpdateWithoutSnapshotsInput>, Prisma.VideoAnalysisUncheckedUpdateWithoutSnapshotsInput>
+}
+
 export type VideoAnalysisCreateWithoutWorkplaceInput = {
   id?: string
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -961,6 +1053,8 @@ export type VideoAnalysisCreateWithoutWorkplaceInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
   analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateWithoutWorkplaceInput = {
@@ -970,6 +1064,8 @@ export type VideoAnalysisUncheckedCreateWithoutWorkplaceInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -985,6 +1081,8 @@ export type VideoAnalysisUncheckedCreateWithoutWorkplaceInput = {
   analyzedAt?: Date | string
   analyzedById: string
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisCreateOrConnectWithoutWorkplaceInput = {
@@ -1024,6 +1122,8 @@ export type VideoAnalysisScalarWhereInput = {
   jobId?: Prisma.StringFilter<"VideoAnalysis"> | string
   status?: Prisma.StringFilter<"VideoAnalysis"> | string
   error?: Prisma.StringFilter<"VideoAnalysis"> | string
+  sourceKind?: Prisma.StringFilter<"VideoAnalysis"> | string
+  frameUrls?: Prisma.StringFilter<"VideoAnalysis"> | string
   videoPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   posterPath?: Prisma.StringFilter<"VideoAnalysis"> | string
   durationSec?: Prisma.FloatFilter<"VideoAnalysis"> | number
@@ -1045,6 +1145,8 @@ export type VideoAnalysisCreateWithoutAnalyzedByInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1062,6 +1164,8 @@ export type VideoAnalysisCreateWithoutAnalyzedByInput = {
   equipment: Prisma.EquipmentCreateNestedOneWithoutAnalysesInput
   camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateWithoutAnalyzedByInput = {
@@ -1072,6 +1176,8 @@ export type VideoAnalysisUncheckedCreateWithoutAnalyzedByInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1086,6 +1192,8 @@ export type VideoAnalysisUncheckedCreateWithoutAnalyzedByInput = {
   processingSec?: number
   analyzedAt?: Date | string
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisCreateOrConnectWithoutAnalyzedByInput = {
@@ -1119,6 +1227,8 @@ export type VideoAnalysisCreateWithoutEquipmentInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1136,6 +1246,8 @@ export type VideoAnalysisCreateWithoutEquipmentInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
   analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateWithoutEquipmentInput = {
@@ -1145,6 +1257,8 @@ export type VideoAnalysisUncheckedCreateWithoutEquipmentInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1160,6 +1274,8 @@ export type VideoAnalysisUncheckedCreateWithoutEquipmentInput = {
   analyzedAt?: Date | string
   analyzedById: string
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisCreateOrConnectWithoutEquipmentInput = {
@@ -1193,6 +1309,8 @@ export type VideoAnalysisCreateWithoutCameraInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1210,6 +1328,8 @@ export type VideoAnalysisCreateWithoutCameraInput = {
   equipment: Prisma.EquipmentCreateNestedOneWithoutAnalysesInput
   analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateWithoutCameraInput = {
@@ -1219,6 +1339,8 @@ export type VideoAnalysisUncheckedCreateWithoutCameraInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1234,6 +1356,8 @@ export type VideoAnalysisUncheckedCreateWithoutCameraInput = {
   analyzedAt?: Date | string
   analyzedById: string
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisCreateOrConnectWithoutCameraInput = {
@@ -1267,6 +1391,8 @@ export type VideoAnalysisCreateWithoutRiskEventsInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1284,6 +1410,8 @@ export type VideoAnalysisCreateWithoutRiskEventsInput = {
   equipment: Prisma.EquipmentCreateNestedOneWithoutAnalysesInput
   camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
   analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisUncheckedCreateWithoutRiskEventsInput = {
@@ -1294,6 +1422,8 @@ export type VideoAnalysisUncheckedCreateWithoutRiskEventsInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1308,6 +1438,8 @@ export type VideoAnalysisUncheckedCreateWithoutRiskEventsInput = {
   processingSec?: number
   analyzedAt?: Date | string
   analyzedById: string
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
 }
 
 export type VideoAnalysisCreateOrConnectWithoutRiskEventsInput = {
@@ -1331,6 +1463,8 @@ export type VideoAnalysisUpdateWithoutRiskEventsInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1348,6 +1482,8 @@ export type VideoAnalysisUpdateWithoutRiskEventsInput = {
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutAnalysesNestedInput
   camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
   analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateWithoutRiskEventsInput = {
@@ -1358,6 +1494,8 @@ export type VideoAnalysisUncheckedUpdateWithoutRiskEventsInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1372,6 +1510,264 @@ export type VideoAnalysisUncheckedUpdateWithoutRiskEventsInput = {
   processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
+}
+
+export type VideoAnalysisCreateWithoutEpisodesInput = {
+  id?: string
+  jobId?: string
+  status?: string
+  error?: string
+  sourceKind?: string
+  frameUrls?: string
+  videoPath: string
+  posterPath?: string
+  durationSec?: number
+  sourceFps?: number
+  sampledFps?: number
+  frameCount?: number
+  timeline?: string
+  machineStates?: string
+  zoneStats?: string
+  warnings?: string
+  modelRepo?: string
+  processingSec?: number
+  analyzedAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutAnalysesInput
+  equipment: Prisma.EquipmentCreateNestedOneWithoutAnalysesInput
+  camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
+  analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutLastAnalysisInput
+}
+
+export type VideoAnalysisUncheckedCreateWithoutEpisodesInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  cameraId?: string | null
+  jobId?: string
+  status?: string
+  error?: string
+  sourceKind?: string
+  frameUrls?: string
+  videoPath: string
+  posterPath?: string
+  durationSec?: number
+  sourceFps?: number
+  sampledFps?: number
+  frameCount?: number
+  timeline?: string
+  machineStates?: string
+  zoneStats?: string
+  warnings?: string
+  modelRepo?: string
+  processingSec?: number
+  analyzedAt?: Date | string
+  analyzedById: string
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutLastAnalysisInput
+}
+
+export type VideoAnalysisCreateOrConnectWithoutEpisodesInput = {
+  where: Prisma.VideoAnalysisWhereUniqueInput
+  create: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedCreateWithoutEpisodesInput>
+}
+
+export type VideoAnalysisUpsertWithoutEpisodesInput = {
+  update: Prisma.XOR<Prisma.VideoAnalysisUpdateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedUpdateWithoutEpisodesInput>
+  create: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedCreateWithoutEpisodesInput>
+  where?: Prisma.VideoAnalysisWhereInput
+}
+
+export type VideoAnalysisUpdateToOneWithWhereWithoutEpisodesInput = {
+  where?: Prisma.VideoAnalysisWhereInput
+  data: Prisma.XOR<Prisma.VideoAnalysisUpdateWithoutEpisodesInput, Prisma.VideoAnalysisUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type VideoAnalysisUpdateWithoutEpisodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jobId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
+  videoPath?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  sourceFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  sampledFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  frameCount?: Prisma.IntFieldUpdateOperationsInput | number
+  timeline?: Prisma.StringFieldUpdateOperationsInput | string
+  machineStates?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneStats?: Prisma.StringFieldUpdateOperationsInput | string
+  warnings?: Prisma.StringFieldUpdateOperationsInput | string
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutAnalysesNestedInput
+  equipment?: Prisma.EquipmentUpdateOneRequiredWithoutAnalysesNestedInput
+  camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
+  analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
+}
+
+export type VideoAnalysisUncheckedUpdateWithoutEpisodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
+  videoPath?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  sourceFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  sampledFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  frameCount?: Prisma.IntFieldUpdateOperationsInput | number
+  timeline?: Prisma.StringFieldUpdateOperationsInput | string
+  machineStates?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneStats?: Prisma.StringFieldUpdateOperationsInput | string
+  warnings?: Prisma.StringFieldUpdateOperationsInput | string
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
+}
+
+export type VideoAnalysisCreateWithoutSnapshotsInput = {
+  id?: string
+  jobId?: string
+  status?: string
+  error?: string
+  sourceKind?: string
+  frameUrls?: string
+  videoPath: string
+  posterPath?: string
+  durationSec?: number
+  sourceFps?: number
+  sampledFps?: number
+  frameCount?: number
+  timeline?: string
+  machineStates?: string
+  zoneStats?: string
+  warnings?: string
+  modelRepo?: string
+  processingSec?: number
+  analyzedAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutAnalysesInput
+  equipment: Prisma.EquipmentCreateNestedOneWithoutAnalysesInput
+  camera?: Prisma.CameraFeedCreateNestedOneWithoutAnalysesInput
+  analyzedBy: Prisma.UserCreateNestedOneWithoutAnalysesInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutAnalysisInput
+}
+
+export type VideoAnalysisUncheckedCreateWithoutSnapshotsInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  cameraId?: string | null
+  jobId?: string
+  status?: string
+  error?: string
+  sourceKind?: string
+  frameUrls?: string
+  videoPath: string
+  posterPath?: string
+  durationSec?: number
+  sourceFps?: number
+  sampledFps?: number
+  frameCount?: number
+  timeline?: string
+  machineStates?: string
+  zoneStats?: string
+  warnings?: string
+  modelRepo?: string
+  processingSec?: number
+  analyzedAt?: Date | string
+  analyzedById: string
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutAnalysisInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutAnalysisInput
+}
+
+export type VideoAnalysisCreateOrConnectWithoutSnapshotsInput = {
+  where: Prisma.VideoAnalysisWhereUniqueInput
+  create: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedCreateWithoutSnapshotsInput>
+}
+
+export type VideoAnalysisUpsertWithoutSnapshotsInput = {
+  update: Prisma.XOR<Prisma.VideoAnalysisUpdateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedUpdateWithoutSnapshotsInput>
+  create: Prisma.XOR<Prisma.VideoAnalysisCreateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedCreateWithoutSnapshotsInput>
+  where?: Prisma.VideoAnalysisWhereInput
+}
+
+export type VideoAnalysisUpdateToOneWithWhereWithoutSnapshotsInput = {
+  where?: Prisma.VideoAnalysisWhereInput
+  data: Prisma.XOR<Prisma.VideoAnalysisUpdateWithoutSnapshotsInput, Prisma.VideoAnalysisUncheckedUpdateWithoutSnapshotsInput>
+}
+
+export type VideoAnalysisUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jobId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
+  videoPath?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  sourceFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  sampledFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  frameCount?: Prisma.IntFieldUpdateOperationsInput | number
+  timeline?: Prisma.StringFieldUpdateOperationsInput | string
+  machineStates?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneStats?: Prisma.StringFieldUpdateOperationsInput | string
+  warnings?: Prisma.StringFieldUpdateOperationsInput | string
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutAnalysesNestedInput
+  equipment?: Prisma.EquipmentUpdateOneRequiredWithoutAnalysesNestedInput
+  camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
+  analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+}
+
+export type VideoAnalysisUncheckedUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
+  videoPath?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  sourceFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  sampledFps?: Prisma.FloatFieldUpdateOperationsInput | number
+  frameCount?: Prisma.IntFieldUpdateOperationsInput | number
+  timeline?: Prisma.StringFieldUpdateOperationsInput | string
+  machineStates?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneStats?: Prisma.StringFieldUpdateOperationsInput | string
+  warnings?: Prisma.StringFieldUpdateOperationsInput | string
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
 }
 
 export type VideoAnalysisCreateManyWorkplaceInput = {
@@ -1381,6 +1777,8 @@ export type VideoAnalysisCreateManyWorkplaceInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1402,6 +1800,8 @@ export type VideoAnalysisUpdateWithoutWorkplaceInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1419,6 +1819,8 @@ export type VideoAnalysisUpdateWithoutWorkplaceInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
   analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateWithoutWorkplaceInput = {
@@ -1428,6 +1830,8 @@ export type VideoAnalysisUncheckedUpdateWithoutWorkplaceInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1443,6 +1847,8 @@ export type VideoAnalysisUncheckedUpdateWithoutWorkplaceInput = {
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -1452,6 +1858,8 @@ export type VideoAnalysisUncheckedUpdateManyWithoutWorkplaceInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1476,6 +1884,8 @@ export type VideoAnalysisCreateManyAnalyzedByInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1496,6 +1906,8 @@ export type VideoAnalysisUpdateWithoutAnalyzedByInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1513,6 +1925,8 @@ export type VideoAnalysisUpdateWithoutAnalyzedByInput = {
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutAnalysesNestedInput
   camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateWithoutAnalyzedByInput = {
@@ -1523,6 +1937,8 @@ export type VideoAnalysisUncheckedUpdateWithoutAnalyzedByInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1537,6 +1953,8 @@ export type VideoAnalysisUncheckedUpdateWithoutAnalyzedByInput = {
   processingSec?: Prisma.FloatFieldUpdateOperationsInput | number
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByInput = {
@@ -1547,6 +1965,8 @@ export type VideoAnalysisUncheckedUpdateManyWithoutAnalyzedByInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1569,6 +1989,8 @@ export type VideoAnalysisCreateManyEquipmentInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1590,6 +2012,8 @@ export type VideoAnalysisUpdateWithoutEquipmentInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1607,6 +2031,8 @@ export type VideoAnalysisUpdateWithoutEquipmentInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutAnalysesNestedInput
   analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateWithoutEquipmentInput = {
@@ -1616,6 +2042,8 @@ export type VideoAnalysisUncheckedUpdateWithoutEquipmentInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1631,6 +2059,8 @@ export type VideoAnalysisUncheckedUpdateWithoutEquipmentInput = {
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateManyWithoutEquipmentInput = {
@@ -1640,6 +2070,8 @@ export type VideoAnalysisUncheckedUpdateManyWithoutEquipmentInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1663,6 +2095,8 @@ export type VideoAnalysisCreateManyCameraInput = {
   jobId?: string
   status?: string
   error?: string
+  sourceKind?: string
+  frameUrls?: string
   videoPath: string
   posterPath?: string
   durationSec?: number
@@ -1684,6 +2118,8 @@ export type VideoAnalysisUpdateWithoutCameraInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1701,6 +2137,8 @@ export type VideoAnalysisUpdateWithoutCameraInput = {
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutAnalysesNestedInput
   analyzedBy?: Prisma.UserUpdateOneRequiredWithoutAnalysesNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateWithoutCameraInput = {
@@ -1710,6 +2148,8 @@ export type VideoAnalysisUncheckedUpdateWithoutCameraInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1725,6 +2165,8 @@ export type VideoAnalysisUncheckedUpdateWithoutCameraInput = {
   analyzedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analyzedById?: Prisma.StringFieldUpdateOperationsInput | string
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutAnalysisNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutAnalysisNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutLastAnalysisNestedInput
 }
 
 export type VideoAnalysisUncheckedUpdateManyWithoutCameraInput = {
@@ -1734,6 +2176,8 @@ export type VideoAnalysisUncheckedUpdateManyWithoutCameraInput = {
   jobId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   error?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceKind?: Prisma.StringFieldUpdateOperationsInput | string
+  frameUrls?: Prisma.StringFieldUpdateOperationsInput | string
   videoPath?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
   durationSec?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1757,10 +2201,14 @@ export type VideoAnalysisUncheckedUpdateManyWithoutCameraInput = {
 
 export type VideoAnalysisCountOutputType = {
   riskEvents: number
+  episodes: number
+  snapshots: number
 }
 
 export type VideoAnalysisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   riskEvents?: boolean | VideoAnalysisCountOutputTypeCountRiskEventsArgs
+  episodes?: boolean | VideoAnalysisCountOutputTypeCountEpisodesArgs
+  snapshots?: boolean | VideoAnalysisCountOutputTypeCountSnapshotsArgs
 }
 
 /**
@@ -1780,6 +2228,20 @@ export type VideoAnalysisCountOutputTypeCountRiskEventsArgs<ExtArgs extends runt
   where?: Prisma.RiskEventWhereInput
 }
 
+/**
+ * VideoAnalysisCountOutputType without action
+ */
+export type VideoAnalysisCountOutputTypeCountEpisodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoppageEpisodeWhereInput
+}
+
+/**
+ * VideoAnalysisCountOutputType without action
+ */
+export type VideoAnalysisCountOutputTypeCountSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CameraSnapshotWhereInput
+}
+
 
 export type VideoAnalysisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1789,6 +2251,8 @@ export type VideoAnalysisSelect<ExtArgs extends runtime.Types.Extensions.Interna
   jobId?: boolean
   status?: boolean
   error?: boolean
+  sourceKind?: boolean
+  frameUrls?: boolean
   videoPath?: boolean
   posterPath?: boolean
   durationSec?: boolean
@@ -1808,6 +2272,8 @@ export type VideoAnalysisSelect<ExtArgs extends runtime.Types.Extensions.Interna
   camera?: boolean | Prisma.VideoAnalysis$cameraArgs<ExtArgs>
   analyzedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   riskEvents?: boolean | Prisma.VideoAnalysis$riskEventsArgs<ExtArgs>
+  episodes?: boolean | Prisma.VideoAnalysis$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.VideoAnalysis$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.VideoAnalysisCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["videoAnalysis"]>
 
@@ -1819,6 +2285,8 @@ export type VideoAnalysisSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   jobId?: boolean
   status?: boolean
   error?: boolean
+  sourceKind?: boolean
+  frameUrls?: boolean
   videoPath?: boolean
   posterPath?: boolean
   durationSec?: boolean
@@ -1847,6 +2315,8 @@ export type VideoAnalysisSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   jobId?: boolean
   status?: boolean
   error?: boolean
+  sourceKind?: boolean
+  frameUrls?: boolean
   videoPath?: boolean
   posterPath?: boolean
   durationSec?: boolean
@@ -1875,6 +2345,8 @@ export type VideoAnalysisSelectScalar = {
   jobId?: boolean
   status?: boolean
   error?: boolean
+  sourceKind?: boolean
+  frameUrls?: boolean
   videoPath?: boolean
   posterPath?: boolean
   durationSec?: boolean
@@ -1891,13 +2363,15 @@ export type VideoAnalysisSelectScalar = {
   analyzedById?: boolean
 }
 
-export type VideoAnalysisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "cameraId" | "jobId" | "status" | "error" | "videoPath" | "posterPath" | "durationSec" | "sourceFps" | "sampledFps" | "frameCount" | "timeline" | "machineStates" | "zoneStats" | "warnings" | "modelRepo" | "processingSec" | "analyzedAt" | "analyzedById", ExtArgs["result"]["videoAnalysis"]>
+export type VideoAnalysisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "cameraId" | "jobId" | "status" | "error" | "sourceKind" | "frameUrls" | "videoPath" | "posterPath" | "durationSec" | "sourceFps" | "sampledFps" | "frameCount" | "timeline" | "machineStates" | "zoneStats" | "warnings" | "modelRepo" | "processingSec" | "analyzedAt" | "analyzedById", ExtArgs["result"]["videoAnalysis"]>
 export type VideoAnalysisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
   camera?: boolean | Prisma.VideoAnalysis$cameraArgs<ExtArgs>
   analyzedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   riskEvents?: boolean | Prisma.VideoAnalysis$riskEventsArgs<ExtArgs>
+  episodes?: boolean | Prisma.VideoAnalysis$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.VideoAnalysis$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.VideoAnalysisCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VideoAnalysisIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1921,6 +2395,8 @@ export type $VideoAnalysisPayload<ExtArgs extends runtime.Types.Extensions.Inter
     camera: Prisma.$CameraFeedPayload<ExtArgs> | null
     analyzedBy: Prisma.$UserPayload<ExtArgs>
     riskEvents: Prisma.$RiskEventPayload<ExtArgs>[]
+    episodes: Prisma.$StoppageEpisodePayload<ExtArgs>[]
+    snapshots: Prisma.$CameraSnapshotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1930,6 +2406,14 @@ export type $VideoAnalysisPayload<ExtArgs extends runtime.Types.Extensions.Inter
     jobId: string
     status: string
     error: string
+    /**
+     * VIDEO | FRAMES — 정지 이미지 시퀀스인지 영상인지. 화면 문구와 잔류시간 해석이 갈린다.
+     */
+    sourceKind: string
+    /**
+     * JSON: 이미지 시퀀스일 때 각 장의 Blob 주소. 영상이면 빈 배열이다.
+     */
+    frameUrls: string
     videoPath: string
     posterPath: string
     durationSec: number
@@ -2349,6 +2833,8 @@ export interface Prisma__VideoAnalysisClient<T, Null = never, ExtArgs extends ru
   camera<T extends Prisma.VideoAnalysis$cameraArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoAnalysis$cameraArgs<ExtArgs>>): Prisma.Prisma__CameraFeedClient<runtime.Types.Result.GetResult<Prisma.$CameraFeedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   analyzedBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   riskEvents<T extends Prisma.VideoAnalysis$riskEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoAnalysis$riskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  episodes<T extends Prisma.VideoAnalysis$episodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoAnalysis$episodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoppageEpisodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  snapshots<T extends Prisma.VideoAnalysis$snapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoAnalysis$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CameraSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2385,6 +2871,8 @@ export interface VideoAnalysisFieldRefs {
   readonly jobId: Prisma.FieldRef<"VideoAnalysis", 'String'>
   readonly status: Prisma.FieldRef<"VideoAnalysis", 'String'>
   readonly error: Prisma.FieldRef<"VideoAnalysis", 'String'>
+  readonly sourceKind: Prisma.FieldRef<"VideoAnalysis", 'String'>
+  readonly frameUrls: Prisma.FieldRef<"VideoAnalysis", 'String'>
   readonly videoPath: Prisma.FieldRef<"VideoAnalysis", 'String'>
   readonly posterPath: Prisma.FieldRef<"VideoAnalysis", 'String'>
   readonly durationSec: Prisma.FieldRef<"VideoAnalysis", 'Float'>
@@ -2840,6 +3328,54 @@ export type VideoAnalysis$riskEventsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.RiskEventScalarFieldEnum | Prisma.RiskEventScalarFieldEnum[]
+}
+
+/**
+ * VideoAnalysis.episodes
+ */
+export type VideoAnalysis$episodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoppageEpisode
+   */
+  select?: Prisma.StoppageEpisodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoppageEpisode
+   */
+  omit?: Prisma.StoppageEpisodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoppageEpisodeInclude<ExtArgs> | null
+  where?: Prisma.StoppageEpisodeWhereInput
+  orderBy?: Prisma.StoppageEpisodeOrderByWithRelationInput | Prisma.StoppageEpisodeOrderByWithRelationInput[]
+  cursor?: Prisma.StoppageEpisodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoppageEpisodeScalarFieldEnum | Prisma.StoppageEpisodeScalarFieldEnum[]
+}
+
+/**
+ * VideoAnalysis.snapshots
+ */
+export type VideoAnalysis$snapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CameraSnapshot
+   */
+  select?: Prisma.CameraSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CameraSnapshot
+   */
+  omit?: Prisma.CameraSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CameraSnapshotInclude<ExtArgs> | null
+  where?: Prisma.CameraSnapshotWhereInput
+  orderBy?: Prisma.CameraSnapshotOrderByWithRelationInput | Prisma.CameraSnapshotOrderByWithRelationInput[]
+  cursor?: Prisma.CameraSnapshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CameraSnapshotScalarFieldEnum | Prisma.CameraSnapshotScalarFieldEnum[]
 }
 
 /**

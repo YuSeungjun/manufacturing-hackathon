@@ -20,8 +20,18 @@ export type EquipmentModel = runtime.Types.Result.DefaultSelection<Prisma.$Equip
 
 export type AggregateEquipment = {
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
+}
+
+export type EquipmentAvgAggregateOutputType = {
+  downtimeCostPerMin: number | null
+}
+
+export type EquipmentSumAggregateOutputType = {
+  downtimeCostPerMin: number | null
 }
 
 export type EquipmentMinAggregateOutputType = {
@@ -30,6 +40,8 @@ export type EquipmentMinAggregateOutputType = {
   name: string | null
   line: string | null
   workplaceId: string | null
+  kind: string | null
+  downtimeCostPerMin: number | null
   runState: string | null
   interlock: string | null
   interlockReason: string | null
@@ -44,6 +56,8 @@ export type EquipmentMaxAggregateOutputType = {
   name: string | null
   line: string | null
   workplaceId: string | null
+  kind: string | null
+  downtimeCostPerMin: number | null
   runState: string | null
   interlock: string | null
   interlockReason: string | null
@@ -58,6 +72,8 @@ export type EquipmentCountAggregateOutputType = {
   name: number
   line: number
   workplaceId: number
+  kind: number
+  downtimeCostPerMin: number
   runState: number
   interlock: number
   interlockReason: number
@@ -68,12 +84,22 @@ export type EquipmentCountAggregateOutputType = {
 }
 
 
+export type EquipmentAvgAggregateInputType = {
+  downtimeCostPerMin?: true
+}
+
+export type EquipmentSumAggregateInputType = {
+  downtimeCostPerMin?: true
+}
+
 export type EquipmentMinAggregateInputType = {
   id?: true
   code?: true
   name?: true
   line?: true
   workplaceId?: true
+  kind?: true
+  downtimeCostPerMin?: true
   runState?: true
   interlock?: true
   interlockReason?: true
@@ -88,6 +114,8 @@ export type EquipmentMaxAggregateInputType = {
   name?: true
   line?: true
   workplaceId?: true
+  kind?: true
+  downtimeCostPerMin?: true
   runState?: true
   interlock?: true
   interlockReason?: true
@@ -102,6 +130,8 @@ export type EquipmentCountAggregateInputType = {
   name?: true
   line?: true
   workplaceId?: true
+  kind?: true
+  downtimeCostPerMin?: true
   runState?: true
   interlock?: true
   interlockReason?: true
@@ -149,6 +179,18 @@ export type EquipmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EquipmentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EquipmentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EquipmentMinAggregateInputType
@@ -179,6 +221,8 @@ export type EquipmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: EquipmentCountAggregateInputType | true
+  _avg?: EquipmentAvgAggregateInputType
+  _sum?: EquipmentSumAggregateInputType
   _min?: EquipmentMinAggregateInputType
   _max?: EquipmentMaxAggregateInputType
 }
@@ -189,6 +233,8 @@ export type EquipmentGroupByOutputType = {
   name: string
   line: string
   workplaceId: string
+  kind: string
+  downtimeCostPerMin: number
   runState: string
   interlock: string
   interlockReason: string
@@ -196,6 +242,8 @@ export type EquipmentGroupByOutputType = {
   clearedAt: Date | null
   createdAt: Date
   _count: EquipmentCountAggregateOutputType | null
+  _avg: EquipmentAvgAggregateOutputType | null
+  _sum: EquipmentSumAggregateOutputType | null
   _min: EquipmentMinAggregateOutputType | null
   _max: EquipmentMaxAggregateOutputType | null
 }
@@ -224,6 +272,8 @@ export type EquipmentWhereInput = {
   name?: Prisma.StringFilter<"Equipment"> | string
   line?: Prisma.StringFilter<"Equipment"> | string
   workplaceId?: Prisma.StringFilter<"Equipment"> | string
+  kind?: Prisma.StringFilter<"Equipment"> | string
+  downtimeCostPerMin?: Prisma.IntFilter<"Equipment"> | number
   runState?: Prisma.StringFilter<"Equipment"> | string
   interlock?: Prisma.StringFilter<"Equipment"> | string
   interlockReason?: Prisma.StringFilter<"Equipment"> | string
@@ -238,6 +288,8 @@ export type EquipmentWhereInput = {
   riskEvents?: Prisma.RiskEventListRelationFilter
   restarts?: Prisma.RestartRequestListRelationFilter
   stateLogs?: Prisma.EquipmentStateLogListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }
 
 export type EquipmentOrderByWithRelationInput = {
@@ -246,6 +298,8 @@ export type EquipmentOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   line?: Prisma.SortOrder
   workplaceId?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  downtimeCostPerMin?: Prisma.SortOrder
   runState?: Prisma.SortOrder
   interlock?: Prisma.SortOrder
   interlockReason?: Prisma.SortOrder
@@ -260,6 +314,8 @@ export type EquipmentOrderByWithRelationInput = {
   riskEvents?: Prisma.RiskEventOrderByRelationAggregateInput
   restarts?: Prisma.RestartRequestOrderByRelationAggregateInput
   stateLogs?: Prisma.EquipmentStateLogOrderByRelationAggregateInput
+  episodes?: Prisma.StoppageEpisodeOrderByRelationAggregateInput
+  snapshots?: Prisma.CameraSnapshotOrderByRelationAggregateInput
 }
 
 export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
@@ -272,6 +328,8 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Equipment"> | string
   line?: Prisma.StringFilter<"Equipment"> | string
   workplaceId?: Prisma.StringFilter<"Equipment"> | string
+  kind?: Prisma.StringFilter<"Equipment"> | string
+  downtimeCostPerMin?: Prisma.IntFilter<"Equipment"> | number
   runState?: Prisma.StringFilter<"Equipment"> | string
   interlock?: Prisma.StringFilter<"Equipment"> | string
   interlockReason?: Prisma.StringFilter<"Equipment"> | string
@@ -286,6 +344,8 @@ export type EquipmentWhereUniqueInput = Prisma.AtLeast<{
   riskEvents?: Prisma.RiskEventListRelationFilter
   restarts?: Prisma.RestartRequestListRelationFilter
   stateLogs?: Prisma.EquipmentStateLogListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }, "id" | "workplaceId_code">
 
 export type EquipmentOrderByWithAggregationInput = {
@@ -294,6 +354,8 @@ export type EquipmentOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   line?: Prisma.SortOrder
   workplaceId?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  downtimeCostPerMin?: Prisma.SortOrder
   runState?: Prisma.SortOrder
   interlock?: Prisma.SortOrder
   interlockReason?: Prisma.SortOrder
@@ -301,8 +363,10 @@ export type EquipmentOrderByWithAggregationInput = {
   clearedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.EquipmentCountOrderByAggregateInput
+  _avg?: Prisma.EquipmentAvgOrderByAggregateInput
   _max?: Prisma.EquipmentMaxOrderByAggregateInput
   _min?: Prisma.EquipmentMinOrderByAggregateInput
+  _sum?: Prisma.EquipmentSumOrderByAggregateInput
 }
 
 export type EquipmentScalarWhereWithAggregatesInput = {
@@ -314,6 +378,8 @@ export type EquipmentScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   line?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   workplaceId?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
+  kind?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
+  downtimeCostPerMin?: Prisma.IntWithAggregatesFilter<"Equipment"> | number
   runState?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   interlock?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
   interlockReason?: Prisma.StringWithAggregatesFilter<"Equipment"> | string
@@ -327,6 +393,8 @@ export type EquipmentCreateInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -341,6 +409,8 @@ export type EquipmentCreateInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateInput = {
@@ -349,6 +419,8 @@ export type EquipmentUncheckedCreateInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -362,6 +434,8 @@ export type EquipmentUncheckedCreateInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUpdateInput = {
@@ -369,6 +443,8 @@ export type EquipmentUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -383,6 +459,8 @@ export type EquipmentUpdateInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateInput = {
@@ -391,6 +469,8 @@ export type EquipmentUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -404,6 +484,8 @@ export type EquipmentUncheckedUpdateInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateManyInput = {
@@ -412,6 +494,8 @@ export type EquipmentCreateManyInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -425,6 +509,8 @@ export type EquipmentUpdateManyMutationInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -439,6 +525,8 @@ export type EquipmentUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -468,6 +556,8 @@ export type EquipmentCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   line?: Prisma.SortOrder
   workplaceId?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  downtimeCostPerMin?: Prisma.SortOrder
   runState?: Prisma.SortOrder
   interlock?: Prisma.SortOrder
   interlockReason?: Prisma.SortOrder
@@ -476,12 +566,18 @@ export type EquipmentCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type EquipmentAvgOrderByAggregateInput = {
+  downtimeCostPerMin?: Prisma.SortOrder
+}
+
 export type EquipmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   line?: Prisma.SortOrder
   workplaceId?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  downtimeCostPerMin?: Prisma.SortOrder
   runState?: Prisma.SortOrder
   interlock?: Prisma.SortOrder
   interlockReason?: Prisma.SortOrder
@@ -496,12 +592,18 @@ export type EquipmentMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   line?: Prisma.SortOrder
   workplaceId?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  downtimeCostPerMin?: Prisma.SortOrder
   runState?: Prisma.SortOrder
   interlock?: Prisma.SortOrder
   interlockReason?: Prisma.SortOrder
   interlockedAt?: Prisma.SortOrder
   clearedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type EquipmentSumOrderByAggregateInput = {
+  downtimeCostPerMin?: Prisma.SortOrder
 }
 
 export type EquipmentScalarRelationFilter = {
@@ -554,6 +656,14 @@ export type EquipmentUncheckedUpdateManyWithoutWorkplaceNestedInput = {
   update?: Prisma.EquipmentUpdateWithWhereUniqueWithoutWorkplaceInput | Prisma.EquipmentUpdateWithWhereUniqueWithoutWorkplaceInput[]
   updateMany?: Prisma.EquipmentUpdateManyWithWhereWithoutWorkplaceInput | Prisma.EquipmentUpdateManyWithWhereWithoutWorkplaceInput[]
   deleteMany?: Prisma.EquipmentScalarWhereInput | Prisma.EquipmentScalarWhereInput[]
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -660,11 +770,43 @@ export type EquipmentUpdateOneRequiredWithoutStateLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EquipmentUpdateToOneWithWhereWithoutStateLogsInput, Prisma.EquipmentUpdateWithoutStateLogsInput>, Prisma.EquipmentUncheckedUpdateWithoutStateLogsInput>
 }
 
+export type EquipmentCreateNestedOneWithoutEpisodesInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutEpisodesInput, Prisma.EquipmentUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutEpisodesInput
+  connect?: Prisma.EquipmentWhereUniqueInput
+}
+
+export type EquipmentUpdateOneRequiredWithoutEpisodesNestedInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutEpisodesInput, Prisma.EquipmentUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutEpisodesInput
+  upsert?: Prisma.EquipmentUpsertWithoutEpisodesInput
+  connect?: Prisma.EquipmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EquipmentUpdateToOneWithWhereWithoutEpisodesInput, Prisma.EquipmentUpdateWithoutEpisodesInput>, Prisma.EquipmentUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type EquipmentCreateNestedOneWithoutSnapshotsInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutSnapshotsInput, Prisma.EquipmentUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutSnapshotsInput
+  connect?: Prisma.EquipmentWhereUniqueInput
+}
+
+export type EquipmentUpdateOneWithoutSnapshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.EquipmentCreateWithoutSnapshotsInput, Prisma.EquipmentUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.EquipmentCreateOrConnectWithoutSnapshotsInput
+  upsert?: Prisma.EquipmentUpsertWithoutSnapshotsInput
+  disconnect?: Prisma.EquipmentWhereInput | boolean
+  delete?: Prisma.EquipmentWhereInput | boolean
+  connect?: Prisma.EquipmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EquipmentUpdateToOneWithWhereWithoutSnapshotsInput, Prisma.EquipmentUpdateWithoutSnapshotsInput>, Prisma.EquipmentUncheckedUpdateWithoutSnapshotsInput>
+}
+
 export type EquipmentCreateWithoutWorkplaceInput = {
   id?: string
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -678,6 +820,8 @@ export type EquipmentCreateWithoutWorkplaceInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutWorkplaceInput = {
@@ -685,6 +829,8 @@ export type EquipmentUncheckedCreateWithoutWorkplaceInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -698,6 +844,8 @@ export type EquipmentUncheckedCreateWithoutWorkplaceInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutWorkplaceInput = {
@@ -735,6 +883,8 @@ export type EquipmentScalarWhereInput = {
   name?: Prisma.StringFilter<"Equipment"> | string
   line?: Prisma.StringFilter<"Equipment"> | string
   workplaceId?: Prisma.StringFilter<"Equipment"> | string
+  kind?: Prisma.StringFilter<"Equipment"> | string
+  downtimeCostPerMin?: Prisma.IntFilter<"Equipment"> | number
   runState?: Prisma.StringFilter<"Equipment"> | string
   interlock?: Prisma.StringFilter<"Equipment"> | string
   interlockReason?: Prisma.StringFilter<"Equipment"> | string
@@ -748,6 +898,8 @@ export type EquipmentCreateWithoutZonesInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -761,6 +913,8 @@ export type EquipmentCreateWithoutZonesInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutZonesInput = {
@@ -769,6 +923,8 @@ export type EquipmentUncheckedCreateWithoutZonesInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -781,6 +937,8 @@ export type EquipmentUncheckedCreateWithoutZonesInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutZonesInput = {
@@ -804,6 +962,8 @@ export type EquipmentUpdateWithoutZonesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -817,6 +977,8 @@ export type EquipmentUpdateWithoutZonesInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutZonesInput = {
@@ -825,6 +987,8 @@ export type EquipmentUncheckedUpdateWithoutZonesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -837,6 +1001,8 @@ export type EquipmentUncheckedUpdateWithoutZonesInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutCamerasInput = {
@@ -844,6 +1010,8 @@ export type EquipmentCreateWithoutCamerasInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -857,6 +1025,8 @@ export type EquipmentCreateWithoutCamerasInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutCamerasInput = {
@@ -865,6 +1035,8 @@ export type EquipmentUncheckedCreateWithoutCamerasInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -877,6 +1049,8 @@ export type EquipmentUncheckedCreateWithoutCamerasInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutCamerasInput = {
@@ -900,6 +1074,8 @@ export type EquipmentUpdateWithoutCamerasInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -913,6 +1089,8 @@ export type EquipmentUpdateWithoutCamerasInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutCamerasInput = {
@@ -921,6 +1099,8 @@ export type EquipmentUncheckedUpdateWithoutCamerasInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -933,6 +1113,8 @@ export type EquipmentUncheckedUpdateWithoutCamerasInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutWorksInput = {
@@ -940,6 +1122,8 @@ export type EquipmentCreateWithoutWorksInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -953,6 +1137,8 @@ export type EquipmentCreateWithoutWorksInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutWorksInput = {
@@ -961,6 +1147,8 @@ export type EquipmentUncheckedCreateWithoutWorksInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -973,6 +1161,8 @@ export type EquipmentUncheckedCreateWithoutWorksInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutWorksInput = {
@@ -996,6 +1186,8 @@ export type EquipmentUpdateWithoutWorksInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1009,6 +1201,8 @@ export type EquipmentUpdateWithoutWorksInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutWorksInput = {
@@ -1017,6 +1211,8 @@ export type EquipmentUncheckedUpdateWithoutWorksInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1029,6 +1225,8 @@ export type EquipmentUncheckedUpdateWithoutWorksInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutAnalysesInput = {
@@ -1036,6 +1234,8 @@ export type EquipmentCreateWithoutAnalysesInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1049,6 +1249,8 @@ export type EquipmentCreateWithoutAnalysesInput = {
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutAnalysesInput = {
@@ -1057,6 +1259,8 @@ export type EquipmentUncheckedCreateWithoutAnalysesInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1069,6 +1273,8 @@ export type EquipmentUncheckedCreateWithoutAnalysesInput = {
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutAnalysesInput = {
@@ -1092,6 +1298,8 @@ export type EquipmentUpdateWithoutAnalysesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1105,6 +1313,8 @@ export type EquipmentUpdateWithoutAnalysesInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutAnalysesInput = {
@@ -1113,6 +1323,8 @@ export type EquipmentUncheckedUpdateWithoutAnalysesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1125,6 +1337,8 @@ export type EquipmentUncheckedUpdateWithoutAnalysesInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutRiskEventsInput = {
@@ -1132,6 +1346,8 @@ export type EquipmentCreateWithoutRiskEventsInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1145,6 +1361,8 @@ export type EquipmentCreateWithoutRiskEventsInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutRiskEventsInput = {
@@ -1153,6 +1371,8 @@ export type EquipmentUncheckedCreateWithoutRiskEventsInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1165,6 +1385,8 @@ export type EquipmentUncheckedCreateWithoutRiskEventsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutRiskEventsInput = {
@@ -1188,6 +1410,8 @@ export type EquipmentUpdateWithoutRiskEventsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1201,6 +1425,8 @@ export type EquipmentUpdateWithoutRiskEventsInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutRiskEventsInput = {
@@ -1209,6 +1435,8 @@ export type EquipmentUncheckedUpdateWithoutRiskEventsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1221,6 +1449,8 @@ export type EquipmentUncheckedUpdateWithoutRiskEventsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutRestartsInput = {
@@ -1228,6 +1458,8 @@ export type EquipmentCreateWithoutRestartsInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1241,6 +1473,8 @@ export type EquipmentCreateWithoutRestartsInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutEquipmentInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutRestartsInput = {
@@ -1249,6 +1483,8 @@ export type EquipmentUncheckedCreateWithoutRestartsInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1261,6 +1497,8 @@ export type EquipmentUncheckedCreateWithoutRestartsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutEquipmentInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutRestartsInput = {
@@ -1284,6 +1522,8 @@ export type EquipmentUpdateWithoutRestartsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1297,6 +1537,8 @@ export type EquipmentUpdateWithoutRestartsInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutEquipmentNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutRestartsInput = {
@@ -1305,6 +1547,8 @@ export type EquipmentUncheckedUpdateWithoutRestartsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1317,6 +1561,8 @@ export type EquipmentUncheckedUpdateWithoutRestartsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutEquipmentNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentCreateWithoutStateLogsInput = {
@@ -1324,6 +1570,8 @@ export type EquipmentCreateWithoutStateLogsInput = {
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1337,6 +1585,8 @@ export type EquipmentCreateWithoutStateLogsInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutEquipmentInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentUncheckedCreateWithoutStateLogsInput = {
@@ -1345,6 +1595,8 @@ export type EquipmentUncheckedCreateWithoutStateLogsInput = {
   name: string
   line?: string
   workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
@@ -1357,6 +1609,8 @@ export type EquipmentUncheckedCreateWithoutStateLogsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutEquipmentInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
 }
 
 export type EquipmentCreateOrConnectWithoutStateLogsInput = {
@@ -1380,6 +1634,8 @@ export type EquipmentUpdateWithoutStateLogsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1393,6 +1649,8 @@ export type EquipmentUpdateWithoutStateLogsInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutEquipmentNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateWithoutStateLogsInput = {
@@ -1401,6 +1659,8 @@ export type EquipmentUncheckedUpdateWithoutStateLogsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1413,32 +1673,88 @@ export type EquipmentUncheckedUpdateWithoutStateLogsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutEquipmentNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
-export type EquipmentCreateManyWorkplaceInput = {
+export type EquipmentCreateWithoutEpisodesInput = {
   id?: string
   code: string
   name: string
   line?: string
+  kind?: string
+  downtimeCostPerMin?: number
   runState?: string
   interlock?: string
   interlockReason?: string
   interlockedAt?: Date | string | null
   clearedAt?: Date | string | null
   createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutEquipmentInput
+  zones?: Prisma.DangerZoneCreateNestedManyWithoutEquipmentInput
+  cameras?: Prisma.CameraFeedCreateNestedManyWithoutEquipmentInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutEquipmentInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutEquipmentInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
+  restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutEquipmentInput
 }
 
-export type EquipmentUpdateWithoutWorkplaceInput = {
+export type EquipmentUncheckedCreateWithoutEpisodesInput = {
+  id?: string
+  code: string
+  name: string
+  line?: string
+  workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
+  runState?: string
+  interlock?: string
+  interlockReason?: string
+  interlockedAt?: Date | string | null
+  clearedAt?: Date | string | null
+  createdAt?: Date | string
+  zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutEquipmentInput
+  cameras?: Prisma.CameraFeedUncheckedCreateNestedManyWithoutEquipmentInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutEquipmentInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutEquipmentInput
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
+  restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutEquipmentInput
+}
+
+export type EquipmentCreateOrConnectWithoutEpisodesInput = {
+  where: Prisma.EquipmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutEpisodesInput, Prisma.EquipmentUncheckedCreateWithoutEpisodesInput>
+}
+
+export type EquipmentUpsertWithoutEpisodesInput = {
+  update: Prisma.XOR<Prisma.EquipmentUpdateWithoutEpisodesInput, Prisma.EquipmentUncheckedUpdateWithoutEpisodesInput>
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutEpisodesInput, Prisma.EquipmentUncheckedCreateWithoutEpisodesInput>
+  where?: Prisma.EquipmentWhereInput
+}
+
+export type EquipmentUpdateToOneWithWhereWithoutEpisodesInput = {
+  where?: Prisma.EquipmentWhereInput
+  data: Prisma.XOR<Prisma.EquipmentUpdateWithoutEpisodesInput, Prisma.EquipmentUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type EquipmentUpdateWithoutEpisodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
   interlockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutEquipmentNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutEquipmentNestedInput
   cameras?: Prisma.CameraFeedUpdateManyWithoutEquipmentNestedInput
   works?: Prisma.MaintenanceWorkUpdateManyWithoutEquipmentNestedInput
@@ -1446,13 +1762,17 @@ export type EquipmentUpdateWithoutWorkplaceInput = {
   riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
 }
 
-export type EquipmentUncheckedUpdateWithoutWorkplaceInput = {
+export type EquipmentUncheckedUpdateWithoutEpisodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1466,6 +1786,182 @@ export type EquipmentUncheckedUpdateWithoutWorkplaceInput = {
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
   stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
+}
+
+export type EquipmentCreateWithoutSnapshotsInput = {
+  id?: string
+  code: string
+  name: string
+  line?: string
+  kind?: string
+  downtimeCostPerMin?: number
+  runState?: string
+  interlock?: string
+  interlockReason?: string
+  interlockedAt?: Date | string | null
+  clearedAt?: Date | string | null
+  createdAt?: Date | string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutEquipmentInput
+  zones?: Prisma.DangerZoneCreateNestedManyWithoutEquipmentInput
+  cameras?: Prisma.CameraFeedCreateNestedManyWithoutEquipmentInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutEquipmentInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutEquipmentInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutEquipmentInput
+  restarts?: Prisma.RestartRequestCreateNestedManyWithoutEquipmentInput
+  stateLogs?: Prisma.EquipmentStateLogCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutEquipmentInput
+}
+
+export type EquipmentUncheckedCreateWithoutSnapshotsInput = {
+  id?: string
+  code: string
+  name: string
+  line?: string
+  workplaceId: string
+  kind?: string
+  downtimeCostPerMin?: number
+  runState?: string
+  interlock?: string
+  interlockReason?: string
+  interlockedAt?: Date | string | null
+  clearedAt?: Date | string | null
+  createdAt?: Date | string
+  zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutEquipmentInput
+  cameras?: Prisma.CameraFeedUncheckedCreateNestedManyWithoutEquipmentInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutEquipmentInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutEquipmentInput
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutEquipmentInput
+  restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutEquipmentInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedCreateNestedManyWithoutEquipmentInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutEquipmentInput
+}
+
+export type EquipmentCreateOrConnectWithoutSnapshotsInput = {
+  where: Prisma.EquipmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutSnapshotsInput, Prisma.EquipmentUncheckedCreateWithoutSnapshotsInput>
+}
+
+export type EquipmentUpsertWithoutSnapshotsInput = {
+  update: Prisma.XOR<Prisma.EquipmentUpdateWithoutSnapshotsInput, Prisma.EquipmentUncheckedUpdateWithoutSnapshotsInput>
+  create: Prisma.XOR<Prisma.EquipmentCreateWithoutSnapshotsInput, Prisma.EquipmentUncheckedCreateWithoutSnapshotsInput>
+  where?: Prisma.EquipmentWhereInput
+}
+
+export type EquipmentUpdateToOneWithWhereWithoutSnapshotsInput = {
+  where?: Prisma.EquipmentWhereInput
+  data: Prisma.XOR<Prisma.EquipmentUpdateWithoutSnapshotsInput, Prisma.EquipmentUncheckedUpdateWithoutSnapshotsInput>
+}
+
+export type EquipmentUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
+  runState?: Prisma.StringFieldUpdateOperationsInput | string
+  interlock?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutEquipmentNestedInput
+  zones?: Prisma.DangerZoneUpdateManyWithoutEquipmentNestedInput
+  cameras?: Prisma.CameraFeedUpdateManyWithoutEquipmentNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutEquipmentNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutEquipmentNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
+  restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+}
+
+export type EquipmentUncheckedUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
+  runState?: Prisma.StringFieldUpdateOperationsInput | string
+  interlock?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutEquipmentNestedInput
+  cameras?: Prisma.CameraFeedUncheckedUpdateManyWithoutEquipmentNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutEquipmentNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutEquipmentNestedInput
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
+  restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+}
+
+export type EquipmentCreateManyWorkplaceInput = {
+  id?: string
+  code: string
+  name: string
+  line?: string
+  kind?: string
+  downtimeCostPerMin?: number
+  runState?: string
+  interlock?: string
+  interlockReason?: string
+  interlockedAt?: Date | string | null
+  clearedAt?: Date | string | null
+  createdAt?: Date | string
+}
+
+export type EquipmentUpdateWithoutWorkplaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
+  runState?: Prisma.StringFieldUpdateOperationsInput | string
+  interlock?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  zones?: Prisma.DangerZoneUpdateManyWithoutEquipmentNestedInput
+  cameras?: Prisma.CameraFeedUpdateManyWithoutEquipmentNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutEquipmentNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutEquipmentNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutEquipmentNestedInput
+  restarts?: Prisma.RestartRequestUpdateManyWithoutEquipmentNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutEquipmentNestedInput
+}
+
+export type EquipmentUncheckedUpdateWithoutWorkplaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
+  runState?: Prisma.StringFieldUpdateOperationsInput | string
+  interlock?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
+  interlockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutEquipmentNestedInput
+  cameras?: Prisma.CameraFeedUncheckedUpdateManyWithoutEquipmentNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutEquipmentNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutEquipmentNestedInput
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutEquipmentNestedInput
+  restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutEquipmentNestedInput
+  stateLogs?: Prisma.EquipmentStateLogUncheckedUpdateManyWithoutEquipmentNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutEquipmentNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutEquipmentNestedInput
 }
 
 export type EquipmentUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -1473,6 +1969,8 @@ export type EquipmentUncheckedUpdateManyWithoutWorkplaceInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   line?: Prisma.StringFieldUpdateOperationsInput | string
+  kind?: Prisma.StringFieldUpdateOperationsInput | string
+  downtimeCostPerMin?: Prisma.IntFieldUpdateOperationsInput | number
   runState?: Prisma.StringFieldUpdateOperationsInput | string
   interlock?: Prisma.StringFieldUpdateOperationsInput | string
   interlockReason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1494,6 +1992,8 @@ export type EquipmentCountOutputType = {
   riskEvents: number
   restarts: number
   stateLogs: number
+  episodes: number
+  snapshots: number
 }
 
 export type EquipmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1504,6 +2004,8 @@ export type EquipmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   riskEvents?: boolean | EquipmentCountOutputTypeCountRiskEventsArgs
   restarts?: boolean | EquipmentCountOutputTypeCountRestartsArgs
   stateLogs?: boolean | EquipmentCountOutputTypeCountStateLogsArgs
+  episodes?: boolean | EquipmentCountOutputTypeCountEpisodesArgs
+  snapshots?: boolean | EquipmentCountOutputTypeCountSnapshotsArgs
 }
 
 /**
@@ -1565,6 +2067,20 @@ export type EquipmentCountOutputTypeCountStateLogsArgs<ExtArgs extends runtime.T
   where?: Prisma.EquipmentStateLogWhereInput
 }
 
+/**
+ * EquipmentCountOutputType without action
+ */
+export type EquipmentCountOutputTypeCountEpisodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoppageEpisodeWhereInput
+}
+
+/**
+ * EquipmentCountOutputType without action
+ */
+export type EquipmentCountOutputTypeCountSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CameraSnapshotWhereInput
+}
+
 
 export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1572,6 +2088,8 @@ export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   name?: boolean
   line?: boolean
   workplaceId?: boolean
+  kind?: boolean
+  downtimeCostPerMin?: boolean
   runState?: boolean
   interlock?: boolean
   interlockReason?: boolean
@@ -1586,6 +2104,8 @@ export type EquipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   riskEvents?: boolean | Prisma.Equipment$riskEventsArgs<ExtArgs>
   restarts?: boolean | Prisma.Equipment$restartsArgs<ExtArgs>
   stateLogs?: boolean | Prisma.Equipment$stateLogsArgs<ExtArgs>
+  episodes?: boolean | Prisma.Equipment$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.Equipment$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipment"]>
 
@@ -1595,6 +2115,8 @@ export type EquipmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   line?: boolean
   workplaceId?: boolean
+  kind?: boolean
+  downtimeCostPerMin?: boolean
   runState?: boolean
   interlock?: boolean
   interlockReason?: boolean
@@ -1610,6 +2132,8 @@ export type EquipmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   line?: boolean
   workplaceId?: boolean
+  kind?: boolean
+  downtimeCostPerMin?: boolean
   runState?: boolean
   interlock?: boolean
   interlockReason?: boolean
@@ -1625,6 +2149,8 @@ export type EquipmentSelectScalar = {
   name?: boolean
   line?: boolean
   workplaceId?: boolean
+  kind?: boolean
+  downtimeCostPerMin?: boolean
   runState?: boolean
   interlock?: boolean
   interlockReason?: boolean
@@ -1633,7 +2159,7 @@ export type EquipmentSelectScalar = {
   createdAt?: boolean
 }
 
-export type EquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "line" | "workplaceId" | "runState" | "interlock" | "interlockReason" | "interlockedAt" | "clearedAt" | "createdAt", ExtArgs["result"]["equipment"]>
+export type EquipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "line" | "workplaceId" | "kind" | "downtimeCostPerMin" | "runState" | "interlock" | "interlockReason" | "interlockedAt" | "clearedAt" | "createdAt", ExtArgs["result"]["equipment"]>
 export type EquipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   zones?: boolean | Prisma.Equipment$zonesArgs<ExtArgs>
@@ -1643,6 +2169,8 @@ export type EquipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   riskEvents?: boolean | Prisma.Equipment$riskEventsArgs<ExtArgs>
   restarts?: boolean | Prisma.Equipment$restartsArgs<ExtArgs>
   stateLogs?: boolean | Prisma.Equipment$stateLogsArgs<ExtArgs>
+  episodes?: boolean | Prisma.Equipment$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.Equipment$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.EquipmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EquipmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1663,6 +2191,8 @@ export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     riskEvents: Prisma.$RiskEventPayload<ExtArgs>[]
     restarts: Prisma.$RestartRequestPayload<ExtArgs>[]
     stateLogs: Prisma.$EquipmentStateLogPayload<ExtArgs>[]
+    episodes: Prisma.$StoppageEpisodePayload<ExtArgs>[]
+    snapshots: Prisma.$CameraSnapshotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1670,6 +2200,15 @@ export type $EquipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     name: string
     line: string
     workplaceId: string
+    /**
+     * CONVEYOR | ROLLING_MILL | OTHER — 화면 문구와 위험구역 기본값이 갈린다
+     */
+    kind: string
+    /**
+     * 이 설비가 1분 멈출 때의 생산손실(원). 우리가 추정하지 않는다 — 관리자가 넣는 값이다.
+     * 0 이면 금액 환산을 아예 표시하지 않는다.
+     */
+    downtimeCostPerMin: number
     /**
      * RUNNING | STOPPED | MAINTENANCE
      */
@@ -2084,6 +2623,8 @@ export interface Prisma__EquipmentClient<T, Null = never, ExtArgs extends runtim
   riskEvents<T extends Prisma.Equipment$riskEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$riskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   restarts<T extends Prisma.Equipment$restartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$restartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stateLogs<T extends Prisma.Equipment$stateLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$stateLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EquipmentStateLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  episodes<T extends Prisma.Equipment$episodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$episodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoppageEpisodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  snapshots<T extends Prisma.Equipment$snapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipment$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CameraSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2118,6 +2659,8 @@ export interface EquipmentFieldRefs {
   readonly name: Prisma.FieldRef<"Equipment", 'String'>
   readonly line: Prisma.FieldRef<"Equipment", 'String'>
   readonly workplaceId: Prisma.FieldRef<"Equipment", 'String'>
+  readonly kind: Prisma.FieldRef<"Equipment", 'String'>
+  readonly downtimeCostPerMin: Prisma.FieldRef<"Equipment", 'Int'>
   readonly runState: Prisma.FieldRef<"Equipment", 'String'>
   readonly interlock: Prisma.FieldRef<"Equipment", 'String'>
   readonly interlockReason: Prisma.FieldRef<"Equipment", 'String'>
@@ -2690,6 +3233,54 @@ export type Equipment$stateLogsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.EquipmentStateLogScalarFieldEnum | Prisma.EquipmentStateLogScalarFieldEnum[]
+}
+
+/**
+ * Equipment.episodes
+ */
+export type Equipment$episodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoppageEpisode
+   */
+  select?: Prisma.StoppageEpisodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoppageEpisode
+   */
+  omit?: Prisma.StoppageEpisodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoppageEpisodeInclude<ExtArgs> | null
+  where?: Prisma.StoppageEpisodeWhereInput
+  orderBy?: Prisma.StoppageEpisodeOrderByWithRelationInput | Prisma.StoppageEpisodeOrderByWithRelationInput[]
+  cursor?: Prisma.StoppageEpisodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoppageEpisodeScalarFieldEnum | Prisma.StoppageEpisodeScalarFieldEnum[]
+}
+
+/**
+ * Equipment.snapshots
+ */
+export type Equipment$snapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CameraSnapshot
+   */
+  select?: Prisma.CameraSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CameraSnapshot
+   */
+  omit?: Prisma.CameraSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CameraSnapshotInclude<ExtArgs> | null
+  where?: Prisma.CameraSnapshotWhereInput
+  orderBy?: Prisma.CameraSnapshotOrderByWithRelationInput | Prisma.CameraSnapshotOrderByWithRelationInput[]
+  cursor?: Prisma.CameraSnapshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CameraSnapshotScalarFieldEnum | Prisma.CameraSnapshotScalarFieldEnum[]
 }
 
 /**

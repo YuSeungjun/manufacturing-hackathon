@@ -9,6 +9,14 @@ if [ ! -x ai/.venv/bin/uvicorn ]; then
   exit 1
 fi
 
+# AI 서비스용 환경변수(Roboflow 키 등). 없으면 그냥 지나간다.
+if [ -f ai/.env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ai/.env
+  set +a
+fi
+
 # ai/ 를 패키지로 import 하므로 레포 루트에서 띄운다.
 # 추적기 상태와 잡 레지스트리가 프로세스 메모리에 있어 워커는 하나여야 한다.
 OMP_NUM_THREADS=${OMP_NUM_THREADS:-2} \

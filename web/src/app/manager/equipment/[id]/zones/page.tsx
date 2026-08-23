@@ -37,6 +37,7 @@ export default async function ZonesPage({
     dwellThresholdSec: z.dwellThresholdSec,
     kind: z.kind,
     severity: z.severity,
+    requiresHarness: z.requiresHarness,
   }));
   const editing = editingId ? (zones.find((z) => z.id === editingId) ?? null) : null;
 

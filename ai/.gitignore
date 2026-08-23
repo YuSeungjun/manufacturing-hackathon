@@ -1,0 +1,7 @@
+# Space 저장소는 공개다. 비밀값과 대용량 가중치는 올리지 않는다.
+.env
+.venv/
+__pycache__/
+*.pyc
+models/
+eval/

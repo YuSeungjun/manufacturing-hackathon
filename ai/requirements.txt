@@ -6,3 +6,8 @@ python-multipart>=0.0.9
 lap>=0.5.12       # ByteTrack 의 헝가리안 매칭. 없으면 track() 이 런타임에 죽는다
 pillow>=11        # 애니메이션 WebP 클립 인코딩
 httpx>=0.27       # videoUrl 스트리밍 다운로드
+
+# 안전대 착용 판정을 CLIP 제로샷으로 한다. 학습도 라벨도 없이 상체 crop 을 두 문장과
+# 비교한다. ultralytics 의 포크를 쓴다 — PyPI 의 `clip` 은 동명이인이다.
+clip @ git+https://github.com/ultralytics/CLIP.git
+ftfy>=6.3        # CLIP 토크나이저가 쓴다

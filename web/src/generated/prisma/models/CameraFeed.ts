@@ -31,6 +31,7 @@ export type CameraFeedMinAggregateOutputType = {
   code: string | null
   name: string | null
   posterPath: string | null
+  purpose: string | null
   active: boolean | null
 }
 
@@ -41,6 +42,7 @@ export type CameraFeedMaxAggregateOutputType = {
   code: string | null
   name: string | null
   posterPath: string | null
+  purpose: string | null
   active: boolean | null
 }
 
@@ -51,6 +53,7 @@ export type CameraFeedCountAggregateOutputType = {
   code: number
   name: number
   posterPath: number
+  purpose: number
   active: number
   _all: number
 }
@@ -63,6 +66,7 @@ export type CameraFeedMinAggregateInputType = {
   code?: true
   name?: true
   posterPath?: true
+  purpose?: true
   active?: true
 }
 
@@ -73,6 +77,7 @@ export type CameraFeedMaxAggregateInputType = {
   code?: true
   name?: true
   posterPath?: true
+  purpose?: true
   active?: true
 }
 
@@ -83,6 +88,7 @@ export type CameraFeedCountAggregateInputType = {
   code?: true
   name?: true
   posterPath?: true
+  purpose?: true
   active?: true
   _all?: true
 }
@@ -166,6 +172,7 @@ export type CameraFeedGroupByOutputType = {
   code: string
   name: string
   posterPath: string
+  purpose: string
   active: boolean
   _count: CameraFeedCountAggregateOutputType | null
   _min: CameraFeedMinAggregateOutputType | null
@@ -197,12 +204,14 @@ export type CameraFeedWhereInput = {
   code?: Prisma.StringFilter<"CameraFeed"> | string
   name?: Prisma.StringFilter<"CameraFeed"> | string
   posterPath?: Prisma.StringFilter<"CameraFeed"> | string
+  purpose?: Prisma.StringFilter<"CameraFeed"> | string
   active?: Prisma.BoolFilter<"CameraFeed"> | boolean
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentNullableScalarRelationFilter, Prisma.EquipmentWhereInput> | null
   zones?: Prisma.DangerZoneListRelationFilter
   analyses?: Prisma.VideoAnalysisListRelationFilter
   riskEvents?: Prisma.RiskEventListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }
 
 export type CameraFeedOrderByWithRelationInput = {
@@ -212,12 +221,14 @@ export type CameraFeedOrderByWithRelationInput = {
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
+  purpose?: Prisma.SortOrder
   active?: Prisma.SortOrder
   workplace?: Prisma.WorkplaceOrderByWithRelationInput
   equipment?: Prisma.EquipmentOrderByWithRelationInput
   zones?: Prisma.DangerZoneOrderByRelationAggregateInput
   analyses?: Prisma.VideoAnalysisOrderByRelationAggregateInput
   riskEvents?: Prisma.RiskEventOrderByRelationAggregateInput
+  snapshots?: Prisma.CameraSnapshotOrderByRelationAggregateInput
 }
 
 export type CameraFeedWhereUniqueInput = Prisma.AtLeast<{
@@ -231,12 +242,14 @@ export type CameraFeedWhereUniqueInput = Prisma.AtLeast<{
   code?: Prisma.StringFilter<"CameraFeed"> | string
   name?: Prisma.StringFilter<"CameraFeed"> | string
   posterPath?: Prisma.StringFilter<"CameraFeed"> | string
+  purpose?: Prisma.StringFilter<"CameraFeed"> | string
   active?: Prisma.BoolFilter<"CameraFeed"> | boolean
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentNullableScalarRelationFilter, Prisma.EquipmentWhereInput> | null
   zones?: Prisma.DangerZoneListRelationFilter
   analyses?: Prisma.VideoAnalysisListRelationFilter
   riskEvents?: Prisma.RiskEventListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }, "id" | "workplaceId_code">
 
 export type CameraFeedOrderByWithAggregationInput = {
@@ -246,6 +259,7 @@ export type CameraFeedOrderByWithAggregationInput = {
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
+  purpose?: Prisma.SortOrder
   active?: Prisma.SortOrder
   _count?: Prisma.CameraFeedCountOrderByAggregateInput
   _max?: Prisma.CameraFeedMaxOrderByAggregateInput
@@ -262,6 +276,7 @@ export type CameraFeedScalarWhereWithAggregatesInput = {
   code?: Prisma.StringWithAggregatesFilter<"CameraFeed"> | string
   name?: Prisma.StringWithAggregatesFilter<"CameraFeed"> | string
   posterPath?: Prisma.StringWithAggregatesFilter<"CameraFeed"> | string
+  purpose?: Prisma.StringWithAggregatesFilter<"CameraFeed"> | string
   active?: Prisma.BoolWithAggregatesFilter<"CameraFeed"> | boolean
 }
 
@@ -270,12 +285,14 @@ export type CameraFeedCreateInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
   equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
   zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateInput = {
@@ -285,10 +302,12 @@ export type CameraFeedUncheckedCreateInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUpdateInput = {
@@ -296,12 +315,14 @@ export type CameraFeedUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
   equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateInput = {
@@ -311,10 +332,12 @@ export type CameraFeedUncheckedUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedCreateManyInput = {
@@ -324,6 +347,7 @@ export type CameraFeedCreateManyInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
 }
 
@@ -332,6 +356,7 @@ export type CameraFeedUpdateManyMutationInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -342,6 +367,7 @@ export type CameraFeedUncheckedUpdateManyInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -372,6 +398,7 @@ export type CameraFeedCountOrderByAggregateInput = {
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
+  purpose?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
 
@@ -382,6 +409,7 @@ export type CameraFeedMaxOrderByAggregateInput = {
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
+  purpose?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
 
@@ -392,7 +420,13 @@ export type CameraFeedMinOrderByAggregateInput = {
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   posterPath?: Prisma.SortOrder
+  purpose?: Prisma.SortOrder
   active?: Prisma.SortOrder
+}
+
+export type CameraFeedScalarRelationFilter = {
+  is?: Prisma.CameraFeedWhereInput
+  isNot?: Prisma.CameraFeedWhereInput
 }
 
 export type CameraFeedCreateNestedManyWithoutWorkplaceInput = {
@@ -527,16 +561,32 @@ export type CameraFeedUpdateOneWithoutRiskEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CameraFeedUpdateToOneWithWhereWithoutRiskEventsInput, Prisma.CameraFeedUpdateWithoutRiskEventsInput>, Prisma.CameraFeedUncheckedUpdateWithoutRiskEventsInput>
 }
 
+export type CameraFeedCreateNestedOneWithoutSnapshotsInput = {
+  create?: Prisma.XOR<Prisma.CameraFeedCreateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.CameraFeedCreateOrConnectWithoutSnapshotsInput
+  connect?: Prisma.CameraFeedWhereUniqueInput
+}
+
+export type CameraFeedUpdateOneRequiredWithoutSnapshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.CameraFeedCreateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.CameraFeedCreateOrConnectWithoutSnapshotsInput
+  upsert?: Prisma.CameraFeedUpsertWithoutSnapshotsInput
+  connect?: Prisma.CameraFeedWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CameraFeedUpdateToOneWithWhereWithoutSnapshotsInput, Prisma.CameraFeedUpdateWithoutSnapshotsInput>, Prisma.CameraFeedUncheckedUpdateWithoutSnapshotsInput>
+}
+
 export type CameraFeedCreateWithoutWorkplaceInput = {
   id?: string
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
   zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateWithoutWorkplaceInput = {
@@ -545,10 +595,12 @@ export type CameraFeedUncheckedCreateWithoutWorkplaceInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedCreateOrConnectWithoutWorkplaceInput = {
@@ -587,6 +639,7 @@ export type CameraFeedScalarWhereInput = {
   code?: Prisma.StringFilter<"CameraFeed"> | string
   name?: Prisma.StringFilter<"CameraFeed"> | string
   posterPath?: Prisma.StringFilter<"CameraFeed"> | string
+  purpose?: Prisma.StringFilter<"CameraFeed"> | string
   active?: Prisma.BoolFilter<"CameraFeed"> | boolean
 }
 
@@ -595,11 +648,13 @@ export type CameraFeedCreateWithoutEquipmentInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
   zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateWithoutEquipmentInput = {
@@ -608,10 +663,12 @@ export type CameraFeedUncheckedCreateWithoutEquipmentInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedCreateOrConnectWithoutEquipmentInput = {
@@ -645,11 +702,13 @@ export type CameraFeedCreateWithoutZonesInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
   equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateWithoutZonesInput = {
@@ -659,9 +718,11 @@ export type CameraFeedUncheckedCreateWithoutZonesInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedCreateOrConnectWithoutZonesInput = {
@@ -685,11 +746,13 @@ export type CameraFeedUpdateWithoutZonesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
   equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateWithoutZonesInput = {
@@ -699,9 +762,11 @@ export type CameraFeedUncheckedUpdateWithoutZonesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedCreateWithoutAnalysesInput = {
@@ -709,11 +774,13 @@ export type CameraFeedCreateWithoutAnalysesInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
   equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
   zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateWithoutAnalysesInput = {
@@ -723,9 +790,11 @@ export type CameraFeedUncheckedCreateWithoutAnalysesInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedCreateOrConnectWithoutAnalysesInput = {
@@ -749,11 +818,13 @@ export type CameraFeedUpdateWithoutAnalysesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
   equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateWithoutAnalysesInput = {
@@ -763,9 +834,11 @@ export type CameraFeedUncheckedUpdateWithoutAnalysesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedCreateWithoutRiskEventsInput = {
@@ -773,11 +846,13 @@ export type CameraFeedCreateWithoutRiskEventsInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
   equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
   zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedUncheckedCreateWithoutRiskEventsInput = {
@@ -787,9 +862,11 @@ export type CameraFeedUncheckedCreateWithoutRiskEventsInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
   zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutCameraInput
 }
 
 export type CameraFeedCreateOrConnectWithoutRiskEventsInput = {
@@ -813,11 +890,13 @@ export type CameraFeedUpdateWithoutRiskEventsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
   equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateWithoutRiskEventsInput = {
@@ -827,9 +906,83 @@ export type CameraFeedUncheckedUpdateWithoutRiskEventsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
+}
+
+export type CameraFeedCreateWithoutSnapshotsInput = {
+  id?: string
+  code: string
+  name: string
+  posterPath?: string
+  purpose?: string
+  active?: boolean
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutCamerasInput
+  equipment?: Prisma.EquipmentCreateNestedOneWithoutCamerasInput
+  zones?: Prisma.DangerZoneCreateNestedManyWithoutCameraInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutCameraInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutCameraInput
+}
+
+export type CameraFeedUncheckedCreateWithoutSnapshotsInput = {
+  id?: string
+  workplaceId: string
+  equipmentId?: string | null
+  code: string
+  name: string
+  posterPath?: string
+  purpose?: string
+  active?: boolean
+  zones?: Prisma.DangerZoneUncheckedCreateNestedManyWithoutCameraInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutCameraInput
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutCameraInput
+}
+
+export type CameraFeedCreateOrConnectWithoutSnapshotsInput = {
+  where: Prisma.CameraFeedWhereUniqueInput
+  create: Prisma.XOR<Prisma.CameraFeedCreateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedCreateWithoutSnapshotsInput>
+}
+
+export type CameraFeedUpsertWithoutSnapshotsInput = {
+  update: Prisma.XOR<Prisma.CameraFeedUpdateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedUpdateWithoutSnapshotsInput>
+  create: Prisma.XOR<Prisma.CameraFeedCreateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedCreateWithoutSnapshotsInput>
+  where?: Prisma.CameraFeedWhereInput
+}
+
+export type CameraFeedUpdateToOneWithWhereWithoutSnapshotsInput = {
+  where?: Prisma.CameraFeedWhereInput
+  data: Prisma.XOR<Prisma.CameraFeedUpdateWithoutSnapshotsInput, Prisma.CameraFeedUncheckedUpdateWithoutSnapshotsInput>
+}
+
+export type CameraFeedUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
+  equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
+  zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+}
+
+export type CameraFeedUncheckedUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedCreateManyWorkplaceInput = {
@@ -838,6 +991,7 @@ export type CameraFeedCreateManyWorkplaceInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
 }
 
@@ -846,11 +1000,13 @@ export type CameraFeedUpdateWithoutWorkplaceInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   equipment?: Prisma.EquipmentUpdateOneWithoutCamerasNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateWithoutWorkplaceInput = {
@@ -859,10 +1015,12 @@ export type CameraFeedUncheckedUpdateWithoutWorkplaceInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -871,6 +1029,7 @@ export type CameraFeedUncheckedUpdateManyWithoutWorkplaceInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -880,6 +1039,7 @@ export type CameraFeedCreateManyEquipmentInput = {
   code: string
   name: string
   posterPath?: string
+  purpose?: string
   active?: boolean
 }
 
@@ -888,11 +1048,13 @@ export type CameraFeedUpdateWithoutEquipmentInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutCamerasNestedInput
   zones?: Prisma.DangerZoneUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateWithoutEquipmentInput = {
@@ -901,10 +1063,12 @@ export type CameraFeedUncheckedUpdateWithoutEquipmentInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zones?: Prisma.DangerZoneUncheckedUpdateManyWithoutCameraNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutCameraNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutCameraNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutCameraNestedInput
 }
 
 export type CameraFeedUncheckedUpdateManyWithoutEquipmentInput = {
@@ -913,6 +1077,7 @@ export type CameraFeedUncheckedUpdateManyWithoutEquipmentInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   posterPath?: Prisma.StringFieldUpdateOperationsInput | string
+  purpose?: Prisma.StringFieldUpdateOperationsInput | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -925,12 +1090,14 @@ export type CameraFeedCountOutputType = {
   zones: number
   analyses: number
   riskEvents: number
+  snapshots: number
 }
 
 export type CameraFeedCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   zones?: boolean | CameraFeedCountOutputTypeCountZonesArgs
   analyses?: boolean | CameraFeedCountOutputTypeCountAnalysesArgs
   riskEvents?: boolean | CameraFeedCountOutputTypeCountRiskEventsArgs
+  snapshots?: boolean | CameraFeedCountOutputTypeCountSnapshotsArgs
 }
 
 /**
@@ -964,6 +1131,13 @@ export type CameraFeedCountOutputTypeCountRiskEventsArgs<ExtArgs extends runtime
   where?: Prisma.RiskEventWhereInput
 }
 
+/**
+ * CameraFeedCountOutputType without action
+ */
+export type CameraFeedCountOutputTypeCountSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CameraSnapshotWhereInput
+}
+
 
 export type CameraFeedSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -972,12 +1146,14 @@ export type CameraFeedSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   code?: boolean
   name?: boolean
   posterPath?: boolean
+  purpose?: boolean
   active?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.CameraFeed$equipmentArgs<ExtArgs>
   zones?: boolean | Prisma.CameraFeed$zonesArgs<ExtArgs>
   analyses?: boolean | Prisma.CameraFeed$analysesArgs<ExtArgs>
   riskEvents?: boolean | Prisma.CameraFeed$riskEventsArgs<ExtArgs>
+  snapshots?: boolean | Prisma.CameraFeed$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.CameraFeedCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cameraFeed"]>
 
@@ -988,6 +1164,7 @@ export type CameraFeedSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   code?: boolean
   name?: boolean
   posterPath?: boolean
+  purpose?: boolean
   active?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.CameraFeed$equipmentArgs<ExtArgs>
@@ -1000,6 +1177,7 @@ export type CameraFeedSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   code?: boolean
   name?: boolean
   posterPath?: boolean
+  purpose?: boolean
   active?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.CameraFeed$equipmentArgs<ExtArgs>
@@ -1012,16 +1190,18 @@ export type CameraFeedSelectScalar = {
   code?: boolean
   name?: boolean
   posterPath?: boolean
+  purpose?: boolean
   active?: boolean
 }
 
-export type CameraFeedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "code" | "name" | "posterPath" | "active", ExtArgs["result"]["cameraFeed"]>
+export type CameraFeedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "code" | "name" | "posterPath" | "purpose" | "active", ExtArgs["result"]["cameraFeed"]>
 export type CameraFeedInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.CameraFeed$equipmentArgs<ExtArgs>
   zones?: boolean | Prisma.CameraFeed$zonesArgs<ExtArgs>
   analyses?: boolean | Prisma.CameraFeed$analysesArgs<ExtArgs>
   riskEvents?: boolean | Prisma.CameraFeed$riskEventsArgs<ExtArgs>
+  snapshots?: boolean | Prisma.CameraFeed$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.CameraFeedCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CameraFeedIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1041,6 +1221,7 @@ export type $CameraFeedPayload<ExtArgs extends runtime.Types.Extensions.Internal
     zones: Prisma.$DangerZonePayload<ExtArgs>[]
     analyses: Prisma.$VideoAnalysisPayload<ExtArgs>[]
     riskEvents: Prisma.$RiskEventPayload<ExtArgs>[]
+    snapshots: Prisma.$CameraSnapshotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1052,6 +1233,16 @@ export type $CameraFeedPayload<ExtArgs extends runtime.Types.Extensions.Internal
      * 구역을 그릴 때 배경으로 쓰는 정지 프레임
      */
     posterPath: string
+    /**
+     * 이 화각이 무엇을 보는가. 수신함 탭이 이걸로 갈린다.
+     * 
+     * PINCH — 컨베이어·회전체 구역. 끼임을 본다(진입 × 잔류 × 설비상태).
+     * FALL  — 추락 위험 구역. 안전대 착용을 본다.
+     * 
+     * 구역의 requiresHarness 로 추론하지 않고 카메라에 명시한다. 컨베이어에도 상부
+     * 점검대(추락 위험)가 있어서 추론하면 한 카메라가 두 탭에 다 뜬다.
+     */
+    purpose: string
     active: boolean
   }, ExtArgs["result"]["cameraFeed"]>
   composites: {}
@@ -1452,6 +1643,7 @@ export interface Prisma__CameraFeedClient<T, Null = never, ExtArgs extends runti
   zones<T extends Prisma.CameraFeed$zonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CameraFeed$zonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DangerZonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   analyses<T extends Prisma.CameraFeed$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CameraFeed$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   riskEvents<T extends Prisma.CameraFeed$riskEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CameraFeed$riskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  snapshots<T extends Prisma.CameraFeed$snapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CameraFeed$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CameraSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1487,6 +1679,7 @@ export interface CameraFeedFieldRefs {
   readonly code: Prisma.FieldRef<"CameraFeed", 'String'>
   readonly name: Prisma.FieldRef<"CameraFeed", 'String'>
   readonly posterPath: Prisma.FieldRef<"CameraFeed", 'String'>
+  readonly purpose: Prisma.FieldRef<"CameraFeed", 'String'>
   readonly active: Prisma.FieldRef<"CameraFeed", 'Boolean'>
 }
     
@@ -1977,6 +2170,30 @@ export type CameraFeed$riskEventsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.RiskEventScalarFieldEnum | Prisma.RiskEventScalarFieldEnum[]
+}
+
+/**
+ * CameraFeed.snapshots
+ */
+export type CameraFeed$snapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CameraSnapshot
+   */
+  select?: Prisma.CameraSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CameraSnapshot
+   */
+  omit?: Prisma.CameraSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CameraSnapshotInclude<ExtArgs> | null
+  where?: Prisma.CameraSnapshotWhereInput
+  orderBy?: Prisma.CameraSnapshotOrderByWithRelationInput | Prisma.CameraSnapshotOrderByWithRelationInput[]
+  cursor?: Prisma.CameraSnapshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CameraSnapshotScalarFieldEnum | Prisma.CameraSnapshotScalarFieldEnum[]
 }
 
 /**

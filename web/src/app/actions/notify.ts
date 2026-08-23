@@ -11,21 +11,17 @@ import { getSessionUser } from "@/lib/auth";
 export async function pendingAlertsAction(): Promise<{
   riskPending: number;
   criticalPending: number;
-  restartBlocked: number;
   latestRiskId: string | null;
 }> {
   const user = await getSessionUser();
   if (!user || user.role !== "SAFETY_MANAGER") {
-    return { riskPending: 0, criticalPending: 0, restartBlocked: 0, latestRiskId: null };
+    return { riskPending: 0, criticalPending: 0, latestRiskId: null };
   }
 
-  const [pending, restartBlocked, latest] = await Promise.all([
+  const [pending, latest] = await Promise.all([
     prisma.riskEvent.findMany({
       where: { workplaceId: user.workplaceId, status: "PENDING" },
       select: { id: true, level: true },
-    }),
-    prisma.restartRequest.count({
-      where: { workplaceId: user.workplaceId, decision: "BLOCKED", outcome: "OPEN", approvedAt: null },
     }),
     prisma.riskEvent.findFirst({
       where: { workplaceId: user.workplaceId, status: "PENDING" },
@@ -37,7 +33,6 @@ export async function pendingAlertsAction(): Promise<{
   return {
     riskPending: pending.length,
     criticalPending: pending.filter((e) => e.level === "CRITICAL").length,
-    restartBlocked,
     latestRiskId: latest?.id ?? null,
   };
 }

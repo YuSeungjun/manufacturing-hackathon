@@ -68,6 +68,49 @@ class AnalyzeVideoRequest(BaseModel):
     options: AnalyzeOptions = Field(default_factory=AnalyzeOptions)
 
 
+class AnalyzeFramesRequest(BaseModel):
+    """정지 이미지 여러 장을 한 시퀀스로 분석한다.
+
+    영상이 아니라 CCTV 캡처 이미지가 입력인 경로다. 추적기를 쓰지 않는다 — 프레임이
+    희소하면 track id 가 프레임을 건너 이어지지 않고, 이어진 척하면 잔류시간이 거짓이 된다.
+    대신 각 이미지를 독립 관측으로 보고 프레임 간격만큼 잔류를 누적한다.
+
+    그래서 잔류시간의 해상도는 프레임 간격이다. 30초 간격이면 "6.4초 잔류" 는 만들 수
+    없고 "30초 이상" 까지가 정직한 한계다. 이 사실은 warnings 로 함께 내보낸다.
+    """
+
+    zones: list[Zone] = Field(min_length=1)
+    machineStates: list[MachineStatePoint] = Field(default_factory=list)
+    # 이미지 주소. 영상과 같은 이유로 1순위다 — Vercel Function 요청 본문이 4.5MB 로
+    # 막혀 있어서 이미지 몇 장이면 서버 액션으로 중계할 수 없다.
+    # 브라우저 → Blob 직업로드 후 URL 만 여기로 온다. multipart 는 로컬·curl 용 보조 경로다.
+    frameUrls: list[str] = Field(default_factory=list)
+    # 이미지마다의 촬영 초. frameUrls / 업로드 순서와 같은 길이여야 한다.
+    frameTimes: list[float] = Field(default_factory=list)
+    # frameTimes 가 비었을 때 쓰는 균일 간격(초)
+    intervalSec: float = Field(30.0, gt=0, le=3600)
+    options: AnalyzeOptions = Field(default_factory=AnalyzeOptions)
+
+
+class HarnessGuess(BaseModel):
+    """안전대 착용과 훅 체결 추정.
+
+    두 판정을 한 객체에 담되 **별도로 낸다.** 착용은 통제된 A/B 쌍으로 확인한 부분이고,
+    체결은 그 위에 얹은 것이라 근거의 강도가 다르다. 하나로 뭉치면 그 차이가 사라진다.
+
+    체결은 착용이 확인된 사람에게만 묻는다 — 하네스가 없으면 훅도 없다.
+    """
+
+    # WORN(착용) | NOT_WORN(미착용 의심) | UNKNOWN(판정 불가 — 가림·너무 작음)
+    status: Literal["WORN", "NOT_WORN", "UNKNOWN"] = "UNKNOWN"
+    confidence: float = 0.0
+    # ATTACHED(앵커에 체결) | NOT_ATTACHED(늘어져 있음) | UNKNOWN(안 물어봤거나 애매함)
+    hookStatus: Literal["ATTACHED", "NOT_ATTACHED", "UNKNOWN"] = "UNKNOWN"
+    hookConfidence: float = 0.0
+    # 판정에 쓴 상체 crop 이 몇 픽셀이었나. 작으면 신뢰하지 말라는 신호다.
+    cropPx: int = 0
+
+
 class PersonBox(BaseModel):
     trackId: int | None = None
     confidence: float
@@ -80,6 +123,9 @@ class PersonBox(BaseModel):
     zoneIds: list[str] = Field(default_factory=list)
     occupancy: dict[str, float] = Field(default_factory=dict)
     truncated: bool = False
+    # 하네스 분류기가 없으면 None 이다. 없는 판정을 UNKNOWN 으로 채우지 않는다 —
+    # "모델이 없다" 와 "모델이 못 봤다" 는 다른 사실이다.
+    harness: HarnessGuess | None = None
 
 
 class FrameSample(BaseModel):
@@ -166,6 +212,42 @@ class JobStatus(BaseModel):
     etaSec: float | None = None
     result: AnalyzeResult | None = None
     error: str | None = None
+
+
+class HarnessPerson(BaseModel):
+    """한 사람과 그 사람의 안전대 착용 추정."""
+
+    confidence: float
+    x: float
+    y: float
+    w: float
+    h: float
+    harness: HarnessGuess
+
+
+class HarnessCheckResult(BaseModel):
+    """이미지 한 장의 안전대 착용·체결 판정.
+
+    위험구역도 잔류도 보지 않는다 — 다른 질문이다. 여기서 나오는 건 "이 장면의 사람들이
+    하네스를 입었나" 와 "훅을 앵커에 걸었나" 두 개다.
+
+    사람의 확인 칸은 그대로 남는다. AI 가 판정한다는 것과 사람이 확정한다는 것은 다르다 —
+    이 프로젝트의 다른 모든 판정과 같은 구조다.
+    """
+
+    # none | roboflow | local. 남의 학습 결과면 그렇다고 적는다.
+    provider: str
+    model: str
+    personCount: int
+    persons: list[HarnessPerson] = Field(default_factory=list)
+    # WORN 하나라도 없고 NOT_WORN 이 있으면 NOT_WORN. 아무도 못 보면 UNKNOWN.
+    verdict: Literal["WORN", "NOT_WORN", "UNKNOWN"] = "UNKNOWN"
+    confidence: float = 0.0
+    # 프레임 결론. 미체결이 하나라도 있으면 그게 결론이다.
+    hookVerdict: Literal["ATTACHED", "NOT_ATTACHED", "UNKNOWN"] = "UNKNOWN"
+    hookConfidence: float = 0.0
+    # 판정하지 못한 이유. 공급자가 없거나 원격이 죽었을 때 화면까지 전달한다.
+    error: str = ""
 
 
 class FrameCheckResult(BaseModel):

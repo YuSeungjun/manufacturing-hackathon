@@ -83,7 +83,7 @@ export function RestartPanel({
             </p>
           ) : null}
           <p className="text-[12.5px] text-ink-3">
-            안전관리자에게 통보되었습니다. 현장 확인 후 해제 승인을 받아야 재가동할 수 있습니다.
+            위험 사건을 조치하고 개인 시건을 모두 해제한 뒤 다시 요청해 주세요.
           </p>
         </div>
       ) : null}

@@ -130,11 +130,14 @@ def build_reason(code: str, zone_name: str, occupants: int, dwell: float, state:
 class RiskEngine:
     """구역별로 이벤트를 열고, 올리고, 병합하고, 닫는다."""
 
-    def __init__(self, zones: list[dict]) -> None:
+    def __init__(self, zones: list[dict], min_event_sec: float = MIN_EVENT_SEC) -> None:
         self._zone_name = {z["id"]: z.get("name") or z["id"] for z in zones}
         self._warn = {
             z["id"]: float(z.get("dwellWarnSec") or DEFAULT_DWELL_WARN_SEC) for z in zones
         }
+        # 영상에서는 한두 프레임짜리 이벤트를 디바운스한다(1초). 정지 이미지 시퀀스에서는
+        # 프레임 하나가 곧 의도적으로 고른 관측이라 0 을 넣어 그 한 장을 인정한다.
+        self._min_event_sec = min_event_sec
         self._open: dict[str, OpenEvent] = {}
         self._prev_state: dict[str, str] = {}
         self.closed: list[ClosedEvent] = []
@@ -175,14 +178,15 @@ class RiskEngine:
             )
             current.track_ids.update(occupants)
             # CRITICAL 은 즉시 확정한다. 1초를 기다리면 이미 늦다.
-            current.confirmed = level == "CRITICAL"
+            # min_event_sec 이 0 이면(정지 이미지 경로) 첫 관측만으로도 확정한다.
+            current.confirmed = level == "CRITICAL" or self._min_event_sec <= 0
             self._open[zone_id] = current
             return
 
         current.last_true_sec = t
         current.track_ids.update(occupants)
         current.dwell_sec = max(current.dwell_sec, max_dwell)
-        if not current.confirmed and (level == "CRITICAL" or t - current.start_sec >= MIN_EVENT_SEC):
+        if not current.confirmed and (level == "CRITICAL" or t - current.start_sec >= self._min_event_sec):
             current.confirmed = True
 
         # 에스컬레이션 — 새 이벤트를 만들지 않는다.

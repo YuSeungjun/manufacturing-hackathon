@@ -14,6 +14,56 @@ import {
 import { formatClock, formatDurationKo } from "@/lib/date";
 
 type ZoneShape = { id: string; name: string; polygon: ZonePoint[] };
+
+/** 안전대 판정 — 사람 박스와 그 사람에 대한 착용 추정. */
+export type HarnessFrame = {
+  verdict: string;
+  confidence: number;
+  provider: string;
+  hookVerdict?: string;
+  boxes: {
+    x: number; y: number; w: number; h: number;
+    status: string; confidence: number;
+    hookStatus?: string; hookConfidence?: number;
+  }[];
+};
+
+const HARNESS_TEXT: Record<string, string> = {
+  WORN: "안전대 착용",
+  NOT_WORN: "안전대 미착용",
+  UNKNOWN: "안전대 판정불가",
+};
+
+/**
+ * 훅 체결은 착용과 **따로** 적는다.
+ *
+ * "하네스는 입었는데 훅을 안 걸었다" 가 추락에서 실제로 사람이 죽는 상태다. 그걸
+ * "안전대 착용" 한 줄로 덮으면 가장 중요한 걸 가린다.
+ */
+const HOOK_TEXT: Record<string, string> = {
+  ATTACHED: "훅 체결",
+  NOT_ATTACHED: "훅 미체결",
+  UNKNOWN: "훅 판정불가",
+};
+
+function harnessLabel(status: string, confidence: number, hookStatus?: string, hookConfidence?: number) {
+  const head = `${HARNESS_TEXT[status] ?? status}${confidence > 0 ? ` ${Math.round(confidence * 100)}%` : ""}`;
+  // 착용이 확인된 사람에게만 훅을 붙인다. 하네스가 없으면 훅도 없다.
+  if (status !== "WORN" || !hookStatus) return head;
+  const tail = `${HOOK_TEXT[hookStatus] ?? hookStatus}${
+    hookConfidence && hookConfidence > 0 ? ` ${Math.round(hookConfidence * 100)}%` : ""
+  }`;
+  return `${head} · ${tail}`;
+}
+
+/**
+ * 판정에 실제로 쓴 상체 영역.
+ *
+ * 사람 bbox 전체가 아니라 위쪽 70% 만 잘라 분류기에 넘긴다(ai/config.HARNESS_CROP_BOTTOM).
+ * 화면에도 그 영역을 그린다 — "훅을 탐지했다" 가 아니라 **"이 영역을 보고 이렇게 판정했다"**
+ * 가 정확한 설명이고, 그 둘을 섞으면 안 된다.
+ */
+const HARNESS_CROP_BOTTOM = 0.7;
 type EventMark = {
   id: string;
   code: string;
@@ -46,6 +96,10 @@ function frameIndexAt(frames: TimelineFrame[], t: number): number {
 export function TimelinePlayer({
   videoPath,
   posterPath,
+  sourceKind,
+  frameUrls,
+  harnessApplies = false,
+  harnessByFrame = [],
   durationSec,
   frames,
   zones,
@@ -54,6 +108,12 @@ export function TimelinePlayer({
 }: {
   videoPath: string;
   posterPath: string;
+  sourceKind: string;
+  frameUrls: string[];
+  /** 추락 구역인가. 끼임 구역에서는 안전대·훅이 판정 대상이 아니라 아예 감춘다. */
+  harnessApplies?: boolean;
+  /** 프레임 순서와 같은 길이. 판정을 아직 안 돌렸으면 빈 배열이다. */
+  harnessByFrame?: HarnessFrame[];
   durationSec: number;
   frames: TimelineFrame[];
   zones: ZoneShape[];
@@ -65,10 +125,11 @@ export function TimelinePlayer({
   const [playing, setPlaying] = useState(false);
   const [broken, setBroken] = useState(false);
   const duration = durationSec || frames.at(-1)?.tSec || 1;
+  const isFrameSequence = sourceKind === "FRAMES" && frameUrls.length > 0;
 
   // timeupdate 는 250ms 간격이라 박스가 끊겨 보인다. rAF 로 따라간다.
   useEffect(() => {
-    if (frames.length === 0) return;
+    if (frames.length === 0 || isFrameSequence) return;
     let raf = 0;
     const tick = () => {
       const video = videoRef.current;
@@ -77,18 +138,159 @@ export function TimelinePlayer({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [frames]);
+  }, [frames, isFrameSequence]);
 
   const seek = useCallback((t: number) => {
+    if (isFrameSequence) {
+      setIndex(frameIndexAt(frames, t));
+      return;
+    }
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = Math.max(0, t);
     void video.play().catch(() => setPlaying(false));
-  }, []);
+  }, [frames, isFrameSequence]);
 
   const current = frames[index];
   const dwellByZone = current?.zoneDwell ?? {};
   const occupancyByZone = current?.zoneOccupancy ?? {};
+
+  if (isFrameSequence) {
+    const safeIndex = Math.min(index, frameUrls.length - 1, Math.max(0, frames.length - 1));
+    const frame = frames[safeIndex];
+    const persons = frame?.persons ?? [];
+
+    return (
+      <div className="flex flex-col gap-2" role="group" aria-label="분석 이미지 탐색기">
+        <div className="plate overflow-hidden">
+          <div className="relative">
+            {/* 분석 전 수신함에서는 원본만 보이고, 이 결과 화면에서 사람 박스를 공개한다. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={frameUrls[safeIndex]}
+              alt={`분석 이미지 ${safeIndex + 1}`}
+              className="block h-auto w-full"
+            />
+
+            {persons.map((person, personIndex) => (
+              <span
+                key={`${person.trackId ?? "person"}-${personIndex}`}
+                className="pointer-events-none absolute"
+                style={{
+                  left: `${person.x * 100}%`,
+                  top: `${person.y * 100}%`,
+                  width: `${person.w * 100}%`,
+                  height: `${person.h * 100}%`,
+                  border: "2px solid var(--scan)",
+                }}
+              >
+                <span
+                  className="absolute -top-[1.15rem] left-[-2px] whitespace-nowrap px-1 py-[1px]
+                             text-[10.5px] font-bold leading-4"
+                  style={{
+                    background: "var(--scan)",
+                    color: "#04141a",
+                    fontFamily: "var(--font-robomono), ui-monospace, monospace",
+                  }}
+                >
+                  사람 {personIndex + 1}
+                </span>
+              </span>
+            ))}
+
+            {(harnessApplies ? (harnessByFrame[safeIndex]?.boxes ?? []) : []).map((box, boxIndex) => (
+              <span
+                key={`harness-${boxIndex}`}
+                className="pointer-events-none absolute"
+                style={{
+                  left: `${box.x * 100}%`,
+                  top: `${box.y * 100}%`,
+                  width: `${box.w * 100}%`,
+                  height: `${box.h * HARNESS_CROP_BOTTOM * 100}%`,
+                  // 사람 박스(실선)와 구분되게 점선으로 둔다. 다른 판정이고 다른 모델이다.
+                  border: "2px dashed var(--scan)",
+                }}
+              >
+                <span
+                  className="absolute -bottom-[1.15rem] left-[-2px] whitespace-nowrap px-1 py-[1px]
+                             text-[10.5px] font-bold leading-4"
+                  style={{
+                    background: "var(--scan)",
+                    color: "#04141a",
+                    fontFamily: "var(--font-robomono), ui-monospace, monospace",
+                  }}
+                >
+                  {harnessLabel(box.status, box.confidence, box.hookStatus, box.hookConfidence)}
+                </span>
+              </span>
+            ))}
+
+            <span
+              className="absolute right-2 top-2 flex flex-col items-end gap-1 text-[12px] font-bold"
+            >
+              <span
+                className="rounded-sm px-2 py-1"
+                style={{ background: "rgba(4, 20, 26, 0.82)", color: "var(--scan)" }}
+              >
+                {persons.length > 0 ? `${persons.length}명이 접근 중` : "접근 중인 사람 없음"}
+              </span>
+              {harnessApplies && harnessByFrame[safeIndex]?.verdict ? (
+                <span
+                  className="rounded-sm px-2 py-1"
+                  style={{ background: "rgba(4, 20, 26, 0.82)", color: "var(--scan)" }}
+                >
+                  {harnessLabel(
+                    harnessByFrame[safeIndex].verdict,
+                    0,
+                    harnessByFrame[safeIndex].hookVerdict,
+                    0,
+                  )}
+                </span>
+              ) : null}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between gap-3 border-t border-plate-rule px-3 py-2">
+            <button
+              type="button"
+              className="btn-quiet btn-sm"
+              onClick={() => setIndex((value) => Math.max(0, value - 1))}
+              disabled={safeIndex === 0}
+            >
+              이전 장면
+            </button>
+            <span className="scan">
+              {safeIndex + 1} / {frameUrls.length} · T {formatClock(frame?.tSec ?? 0)}
+            </span>
+            <button
+              type="button"
+              className="btn-quiet btn-sm"
+              onClick={() => setIndex((value) => Math.min(frameUrls.length - 1, value + 1))}
+              disabled={safeIndex === frameUrls.length - 1}
+            >
+              다음 장면
+            </button>
+          </div>
+        </div>
+
+        <p className="text-[12.5px] leading-5 text-ink-3">
+          {harnessApplies ? (
+            <>
+              실선은 사람, 점선은{" "}
+              <strong className="font-bold text-ink-2">안전대 판정에 쓴 상체 영역</strong>입니다 —
+              훅을 탐지한 박스가 아니라 그 영역을 보고 착용과 체결을 추정한 것입니다.{" "}
+            </>
+          ) : (
+            <>박스는 탐지한 사람입니다. 이 구역은 끼임을 보므로 사람만 표시합니다. </>
+          )}
+          이전·다음 장면으로 선택한 이미지를 차례로 확인할 수 있습니다.
+          {harnessApplies && harnessByFrame.length === 0
+            ? " 안전대 판정은 수신함에서 «안전대 착용 판정» 을 눌러야 나옵니다."
+            : ""}
+        </p>
+      </div>
+    );
+  }
 
   function handleKeyDown(event: React.KeyboardEvent) {
     const video = videoRef.current;

@@ -64,7 +64,9 @@ export const ModelName = {
   RiskEvent: 'RiskEvent',
   Review: 'Review',
   RestartRequest: 'RestartRequest',
-  EquipmentStateLog: 'EquipmentStateLog'
+  EquipmentStateLog: 'EquipmentStateLog',
+  StoppageEpisode: 'StoppageEpisode',
+  CameraSnapshot: 'CameraSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -123,6 +125,8 @@ export const EquipmentScalarFieldEnum = {
   name: 'name',
   line: 'line',
   workplaceId: 'workplaceId',
+  kind: 'kind',
+  downtimeCostPerMin: 'downtimeCostPerMin',
   runState: 'runState',
   interlock: 'interlock',
   interlockReason: 'interlockReason',
@@ -143,6 +147,7 @@ export const DangerZoneScalarFieldEnum = {
   dwellThresholdSec: 'dwellThresholdSec',
   kind: 'kind',
   severity: 'severity',
+  requiresHarness: 'requiresHarness',
   active: 'active',
   order: 'order'
 } as const
@@ -157,6 +162,7 @@ export const CameraFeedScalarFieldEnum = {
   code: 'code',
   name: 'name',
   posterPath: 'posterPath',
+  purpose: 'purpose',
   active: 'active'
 } as const
 
@@ -209,6 +215,8 @@ export const VideoAnalysisScalarFieldEnum = {
   jobId: 'jobId',
   status: 'status',
   error: 'error',
+  sourceKind: 'sourceKind',
+  frameUrls: 'frameUrls',
   videoPath: 'videoPath',
   posterPath: 'posterPath',
   durationSec: 'durationSec',
@@ -256,11 +264,21 @@ export const RiskEventScalarFieldEnum = {
   clipPath: 'clipPath',
   boxes: 'boxes',
   zonePolygon: 'zonePolygon',
+  harnessAiStatus: 'harnessAiStatus',
+  harnessAiConfidence: 'harnessAiConfidence',
+  harnessStatus: 'harnessStatus',
+  harnessCheckedAt: 'harnessCheckedAt',
+  harnessCheckedById: 'harnessCheckedById',
   interlockEngaged: 'interlockEngaged',
   status: 'status',
+  startedAt: 'startedAt',
+  resolvedAt: 'resolvedAt',
+  chargedTeamId: 'chargedTeamId',
+  penaltyPoints: 'penaltyPoints',
   notifiedAt: 'notifiedAt',
   acknowledgedAt: 'acknowledgedAt',
-  modelRepo: 'modelRepo'
+  modelRepo: 'modelRepo',
+  episodeId: 'episodeId'
 } as const
 
 export type RiskEventScalarFieldEnum = (typeof RiskEventScalarFieldEnum)[keyof typeof RiskEventScalarFieldEnum]
@@ -312,6 +330,59 @@ export const EquipmentStateLogScalarFieldEnum = {
 } as const
 
 export type EquipmentStateLogScalarFieldEnum = (typeof EquipmentStateLogScalarFieldEnum)[keyof typeof EquipmentStateLogScalarFieldEnum]
+
+
+export const StoppageEpisodeScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  equipmentId: 'equipmentId',
+  analysisId: 'analysisId',
+  cause: 'cause',
+  source: 'source',
+  startedAt: 'startedAt',
+  restartedAt: 'restartedAt',
+  recoverySec: 'recoverySec',
+  riskApproach: 'riskApproach',
+  approachCount: 'approachCount',
+  approachDwellSec: 'approachDwellSec',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type StoppageEpisodeScalarFieldEnum = (typeof StoppageEpisodeScalarFieldEnum)[keyof typeof StoppageEpisodeScalarFieldEnum]
+
+
+export const CameraSnapshotScalarFieldEnum = {
+  id: 'id',
+  workplaceId: 'workplaceId',
+  cameraId: 'cameraId',
+  equipmentId: 'equipmentId',
+  imagePath: 'imagePath',
+  capturedAt: 'capturedAt',
+  width: 'width',
+  height: 'height',
+  trigger: 'trigger',
+  personCount: 'personCount',
+  boxes: 'boxes',
+  zoneOccupancy: 'zoneOccupancy',
+  riskLevel: 'riskLevel',
+  modelRepo: 'modelRepo',
+  detectedAt: 'detectedAt',
+  harnessVerdict: 'harnessVerdict',
+  harnessConfidence: 'harnessConfidence',
+  hookVerdict: 'hookVerdict',
+  hookConfidence: 'hookConfidence',
+  harnessProvider: 'harnessProvider',
+  harnessModel: 'harnessModel',
+  harnessBoxes: 'harnessBoxes',
+  harnessAt: 'harnessAt',
+  harnessError: 'harnessError',
+  note: 'note',
+  lastAnalysisId: 'lastAnalysisId',
+  createdAt: 'createdAt'
+} as const
+
+export type CameraSnapshotScalarFieldEnum = (typeof CameraSnapshotScalarFieldEnum)[keyof typeof CameraSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireManager } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -12,7 +11,7 @@ import {
 } from "@/lib/zone";
 import { formatClock, formatDurationKo, formatStamp } from "@/lib/date";
 import { TimelinePlayer } from "./TimelinePlayer";
-import { ReviewForm } from "@/app/manager/events/ReviewForm";
+import { ReviewForm } from "@/components/ReviewForm";
 
 export default async function AnalysisPage({ params }: { params: Promise<{ id: string }> }) {
   const manager = await requireManager();
@@ -31,8 +30,66 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
   const zones = await prisma.dangerZone.findMany({
     where: { equipmentId: analysis.equipmentId },
   });
+
+  // 안전대·훅은 추락 구역의 판정이다. 컨베이어(끼임) 구역에서는 볼 이유가 없다.
+  const harnessApplies = analysis.camera?.purpose === "FALL";
+
+  /**
+   * 이 분석에 쓴 스냅샷들의 안전대 판정.
+   *
+   * 판정은 시퀀스 분석과 별도 버튼에서 나온다(공급자가 다르다). 하지만 **결과는 같은
+   * 화면에서 봐야 한다** — 관리자가 한 장면을 보면서 "구역에 들어왔다" 와 "안전대를
+   * 안 입었다" 를 따로 찾아다니게 만들 이유가 없다.
+   *
+   * capturedAt 순서가 frameUrls 순서와 같다(analyzeSnapshotsAction 이 그 순서로 넘긴다).
+   */
+  const usedSnapshots = harnessApplies
+    ? await prisma.cameraSnapshot.findMany({
+        where: { lastAnalysisId: analysis.id },
+        orderBy: { capturedAt: "asc" },
+        select: {
+          harnessVerdict: true,
+          harnessConfidence: true,
+          harnessProvider: true,
+          harnessBoxes: true,
+          hookVerdict: true,
+        },
+      })
+    : [];
+
+  type HarnessPersonBox = {
+    x: number; y: number; w: number; h: number;
+    harness: { status: string; confidence: number; hookStatus?: string; hookConfidence?: number };
+  };
+  const harnessByFrame = usedSnapshots.map((snapshot) => {
+    let boxes: HarnessPersonBox[] = [];
+    try {
+      const parsed = JSON.parse(snapshot.harnessBoxes || "[]");
+      if (Array.isArray(parsed)) boxes = parsed as HarnessPersonBox[];
+    } catch {
+      boxes = [];
+    }
+    return {
+      verdict: snapshot.harnessVerdict,
+      confidence: snapshot.harnessConfidence,
+      provider: snapshot.harnessProvider,
+      hookVerdict: snapshot.hookVerdict,
+      boxes: boxes.map((box) => ({
+        x: box.x,
+        y: box.y,
+        w: box.w,
+        h: box.h,
+        status: box.harness?.status ?? "UNKNOWN",
+        confidence: box.harness?.confidence ?? 0,
+        hookStatus: box.harness?.hookStatus ?? "UNKNOWN",
+        hookConfidence: box.harness?.hookConfidence ?? 0,
+      })),
+    };
+  });
   const warnings = JSON.parse(analysis.warnings || "[]") as string[];
   const frames = parseTimeline(analysis.timeline);
+  const frameUrls = JSON.parse(analysis.frameUrls || "[]") as string[];
+  const isFrameSequence = analysis.sourceKind === "FRAMES";
 
   return (
     <div className="flex flex-col gap-7">
@@ -47,12 +104,11 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
             ) : null}
           </>
         }
-        title="영상 분석 결과"
-        sub={`${formatStamp(analysis.analyzedAt)} 분석 · 길이 ${formatDurationKo(analysis.durationSec)} · ${analysis.frameCount}프레임을 ${analysis.sampledFps}fps 로 봤습니다.`}
-        action={
-          <Link href="/manager/analyze" className="btn-quiet btn-sm">
-            새 영상 분석
-          </Link>
+        title={isFrameSequence ? "이미지 분석 결과" : "영상 분석 결과"}
+        sub={
+          isFrameSequence
+            ? `${formatStamp(analysis.analyzedAt)} 분석 · 선택한 이미지 ${analysis.frameCount}장을 확인했습니다.`
+            : `${formatStamp(analysis.analyzedAt)} 분석 · 길이 ${formatDurationKo(analysis.durationSec)} · ${analysis.frameCount}프레임을 ${analysis.sampledFps}fps 로 봤습니다.`
         }
       />
 
@@ -76,6 +132,10 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
         <TimelinePlayer
           videoPath={analysis.videoPath}
           posterPath={analysis.posterPath || analysis.camera?.posterPath || ""}
+          sourceKind={analysis.sourceKind}
+          frameUrls={Array.isArray(frameUrls) ? frameUrls : []}
+          harnessApplies={harnessApplies}
+          harnessByFrame={harnessByFrame}
           durationSec={analysis.durationSec}
           frames={frames}
           zones={zones.map((z) => ({ id: z.id, name: z.name, polygon: parsePolygon(z.polygon) }))}
@@ -128,6 +188,7 @@ export default async function AnalysisPage({ params }: { params: Promise<{ id: s
                     riskEventId={event.id}
                     status={event.status}
                     comment={event.review?.comment ?? ""}
+                    cleared={event.clearedAt != null}
                   />
                 </li>
               ))}

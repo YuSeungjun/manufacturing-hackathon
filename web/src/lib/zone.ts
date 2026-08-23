@@ -16,6 +16,24 @@ export type TrackBox = {
   occupancy: Record<string, number>;
   /** 발끝을 믿을 수 없는 박스 — 화면 밖으로 잘렸거나 하반신이 가려졌다 */
   truncated: boolean;
+  /**
+   * 안전대 "착용" 추정. 분류 모델이 없으면 아예 없다(null/undefined) —
+   * UNKNOWN 과 구분해야 한다. 체결은 스냅샷의 hookVerdict 에 따로 담긴다.
+   */
+  harness?: HarnessGuess | null;
+};
+
+export type HarnessGuess = {
+  status: "WORN" | "NOT_WORN" | "UNKNOWN";
+  confidence: number;
+  /** 판정에 쓴 상체 crop 의 짧은 변 픽셀. 작으면 신뢰하지 말라는 신호다. */
+  cropPx: number;
+};
+
+export const HARNESS_LABEL: Record<string, string> = {
+  WORN: "하네스 착용",
+  NOT_WORN: "하네스 미착용 의심",
+  UNKNOWN: "판정 불가",
 };
 
 export type TimelineFrame = {
@@ -65,11 +83,35 @@ export const RISK_CODE_LABEL: Record<string, string> = {
   MANUAL: "관리자 직접 등록",
 };
 
+/**
+ * 위험 사건의 상태.
+ *
+ * 확정이 한 번에 끝나지 않는다 — 관리자가 화면에서 "위험이다" 라고 판단한 시점과,
+ * 현장을 처리하고 종결한 시점은 다르다. 그 사이를 IN_PROGRESS 로 둔다.
+ *
+ *   PENDING ─[위험 확정]→ IN_PROGRESS ─┬─[확정]→ CONFIRMED
+ *                                       └─[패스]→ PASSED
+ *      └─[오탐]→ FALSE_POSITIVE
+ *      └─[보류]→ HOLD
+ *
+ * 안전이행 점수는 CONFIRMED 만 감점한다. 진행 중인 사건은 아직 결론이 아니고,
+ * 패스는 현장에서 조치가 필요 없다고 판단된 건이다.
+ */
 export const RISK_STATUS_LABEL: Record<string, string> = {
   PENDING: "검토 대기",
-  CONFIRMED: "위험 확정",
+  // 시건을 걸고 들어간 정상 작업. 판정 대상이 아니라 증빙으로 남긴다.
+  LOGGED: "정상 작업 기록",
+  IN_PROGRESS: "진행 중",
+  CONFIRMED: "벌점 부과",
+  PASSED: "조치 완료",
   FALSE_POSITIVE: "오탐",
   HOLD: "판단 보류",
+};
+
+/** 진행 중인 사건에서 내리는 최종 결론. */
+export const RESOLVE_LABEL: Record<string, string> = {
+  CONFIRMED: "벌점 부과",
+  PASSED: "현장 조치 완료",
 };
 
 export const RUN_STATE_LABEL: Record<string, string> = {

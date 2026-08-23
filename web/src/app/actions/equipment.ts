@@ -17,6 +17,9 @@ const equipmentSchema = z.object({
   code: z.string().trim().min(1, "설비 번호를 입력해 주세요.").max(24),
   name: z.string().trim().min(1, "설비 이름을 입력해 주세요.").max(60),
   line: z.string().trim().max(60).default(""),
+  kind: z.enum(["CONVEYOR", "ROLLING_MILL", "OTHER"]).default("CONVEYOR"),
+  // 상한을 둔다. 오타로 0 하나 더 붙으면 발표 화면에 억 단위가 뜬다.
+  downtimeCostPerMin: z.coerce.number().int().min(0).max(100_000_000).default(0),
 });
 
 export async function createEquipmentAction(
@@ -28,6 +31,8 @@ export async function createEquipmentAction(
     code: formData.get("code"),
     name: formData.get("name"),
     line: formData.get("line") ?? "",
+    kind: formData.get("kind") ?? "CONVEYOR",
+    downtimeCostPerMin: formData.get("downtimeCostPerMin") ?? 0,
   });
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "입력값을 확인해 주세요." };
@@ -45,6 +50,42 @@ export async function createEquipmentAction(
   return { ok: true, message: `${created.name} 을(를) 등록했습니다.`, id: created.id };
 }
 
+/**
+ * 설비 종류와 분당 손실단가만 고친다.
+ *
+ * 단가를 우리가 추정하지 않는 이유 — 라인마다 시간당 생산량과 단가가 다르고, 틀린 금액
+ * 하나가 나머지 지표의 신뢰까지 같이 깎는다. 비워 두면 화면에서 금액 칸이 사라진다.
+ */
+export async function updateEquipmentSettingsAction(
+  _prev: EquipmentState,
+  formData: FormData,
+): Promise<EquipmentState> {
+  const manager = await assertManager();
+  const equipmentId = String(formData.get("equipmentId") ?? "");
+  const parsed = z
+    .object({
+      kind: z.enum(["CONVEYOR", "ROLLING_MILL", "OTHER"]),
+      downtimeCostPerMin: z.coerce.number().int().min(0).max(100_000_000),
+    })
+    .safeParse({
+      kind: formData.get("kind") ?? "CONVEYOR",
+      downtimeCostPerMin: formData.get("downtimeCostPerMin") ?? 0,
+    });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "입력값을 확인해 주세요." };
+  }
+
+  const equipment = await prisma.equipment.findFirst({
+    where: { id: equipmentId, workplaceId: manager.workplaceId },
+  });
+  if (!equipment) return { error: "설비를 찾을 수 없습니다." };
+
+  await prisma.equipment.update({ where: { id: equipment.id }, data: parsed.data });
+  revalidateManager();
+  revalidatePath("/manager/patterns");
+  return { ok: true, message: `${equipment.name} 설정을 저장했습니다.` };
+}
+
 /** 폴리곤 좌표는 화면에서 그려 hidden input 으로 넘어온다. 서버에서 다시 검증한다. */
 const polygonSchema = z
   .array(z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]))
@@ -56,6 +97,8 @@ const zoneSchema = z.object({
   dwellThresholdSec: z.coerce.number().min(0.5).max(120),
   kind: z.enum(["PINCH", "ROTATING", "TRAVEL", "GENERAL"]),
   severity: z.enum(["LOW", "MEDIUM", "HIGH"]),
+  /// 체크하면 이 구역 사건에 "안전대 체결" 확정 칸이 열린다. AI 추정과 별개로 사람이 확정한다.
+  requiresHarness: z.coerce.boolean().default(false),
 });
 
 export async function saveDangerZoneAction(
@@ -77,6 +120,7 @@ export async function saveDangerZoneAction(
     dwellThresholdSec: formData.get("dwellThresholdSec") ?? 5,
     kind: formData.get("kind") ?? "PINCH",
     severity: formData.get("severity") ?? "HIGH",
+    requiresHarness: formData.get("requiresHarness") === "on",
   });
   if (!fields.success) {
     return { error: fields.error.issues[0]?.message ?? "입력값을 확인해 주세요." };
@@ -101,6 +145,7 @@ export async function saveDangerZoneAction(
     dwellThresholdSec: fields.data.dwellThresholdSec,
     kind: fields.data.kind,
     severity: fields.data.severity,
+    requiresHarness: fields.data.requiresHarness,
   };
 
   if (zoneId) {

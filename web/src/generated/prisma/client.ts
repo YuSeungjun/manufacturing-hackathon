@@ -114,3 +114,24 @@ export type RestartRequest = Prisma.RestartRequestModel
  * 
  */
 export type EquipmentStateLog = Prisma.EquipmentStateLogModel
+/**
+ * Model StoppageEpisode
+ * 설비가 멈춘 한 사이클. "제품 걸림 → 작업자 접근 → 이물 제거 → 재가동" 을 한 건으로 묶는다.
+ * 
+ * AI 는 "제품 걸림" 을 직접 보지 못한다. 걸림 클래스를 학습한 모델이 없고, 있어도 라인마다
+ * 걸리는 모양이 다르다. 관측 가능한 것은 (설비가 멈췄다) 와 (위험구역에 사람이 들어왔다)
+ * 두 개뿐이고, 이 표는 그 둘을 하나의 사건으로 잇는 자리다. 그래서 이름도 "걸림 감지"가
+ * 아니라 "정지 에피소드" 다 — 원인(cause)은 PLC 가 주거나 사람이 고른다.
+ */
+export type StoppageEpisode = Prisma.StoppageEpisodeModel
+/**
+ * Model CameraSnapshot
+ * CCTV 가 찍어 둔 한 장.
+ * 
+ * 이 표가 있어야 이야기가 맞는다. 안전관리자는 자기 컴퓨터에서 사진을 올리는 사람이
+ * 아니라, **카메라가 이미 찍어 둔 장면 중에서 볼 것을 고르는** 사람이다.
+ * 
+ * 그리고 시각이 여기 붙어 있다는 게 중요하다. 분석할 때 사람이 촬영 시각을 입력하면
+ * 오타 하나가 잔류시간을 거짓으로 만든다. 찍힌 순간에 한 번 기록되면 그 뒤로는 데이터다.
+ */
+export type CameraSnapshot = Prisma.CameraSnapshotModel

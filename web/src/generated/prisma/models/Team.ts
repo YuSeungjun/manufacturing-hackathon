@@ -177,6 +177,7 @@ export type TeamWhereInput = {
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   users?: Prisma.UserListRelationFilter
   works?: Prisma.MaintenanceWorkListRelationFilter
+  chargedEvents?: Prisma.RiskEventListRelationFilter
 }
 
 export type TeamOrderByWithRelationInput = {
@@ -187,6 +188,7 @@ export type TeamOrderByWithRelationInput = {
   workplace?: Prisma.WorkplaceOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
   works?: Prisma.MaintenanceWorkOrderByRelationAggregateInput
+  chargedEvents?: Prisma.RiskEventOrderByRelationAggregateInput
 }
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -201,6 +203,7 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<{
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   users?: Prisma.UserListRelationFilter
   works?: Prisma.MaintenanceWorkListRelationFilter
+  chargedEvents?: Prisma.RiskEventListRelationFilter
 }, "id" | "workplaceId_name">
 
 export type TeamOrderByWithAggregationInput = {
@@ -230,6 +233,7 @@ export type TeamCreateInput = {
   workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamUncheckedCreateInput = {
@@ -239,6 +243,7 @@ export type TeamUncheckedCreateInput = {
   workplaceId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamUpdateInput = {
@@ -248,6 +253,7 @@ export type TeamUpdateInput = {
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
   works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamUncheckedUpdateInput = {
@@ -257,6 +263,7 @@ export type TeamUncheckedUpdateInput = {
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamCreateManyInput = {
@@ -397,12 +404,29 @@ export type TeamUpdateOneRequiredWithoutWorksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutWorksInput, Prisma.TeamUpdateWithoutWorksInput>, Prisma.TeamUncheckedUpdateWithoutWorksInput>
 }
 
+export type TeamCreateNestedOneWithoutChargedEventsInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutChargedEventsInput, Prisma.TeamUncheckedCreateWithoutChargedEventsInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutChargedEventsInput
+  connect?: Prisma.TeamWhereUniqueInput
+}
+
+export type TeamUpdateOneWithoutChargedEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutChargedEventsInput, Prisma.TeamUncheckedCreateWithoutChargedEventsInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutChargedEventsInput
+  upsert?: Prisma.TeamUpsertWithoutChargedEventsInput
+  disconnect?: Prisma.TeamWhereInput | boolean
+  delete?: Prisma.TeamWhereInput | boolean
+  connect?: Prisma.TeamWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutChargedEventsInput, Prisma.TeamUpdateWithoutChargedEventsInput>, Prisma.TeamUncheckedUpdateWithoutChargedEventsInput>
+}
+
 export type TeamCreateWithoutWorkplaceInput = {
   id?: string
   name: string
   workArea: string
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamUncheckedCreateWithoutWorkplaceInput = {
@@ -411,6 +435,7 @@ export type TeamUncheckedCreateWithoutWorkplaceInput = {
   workArea: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamCreateOrConnectWithoutWorkplaceInput = {
@@ -455,6 +480,7 @@ export type TeamCreateWithoutUsersInput = {
   workArea: string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamUncheckedCreateWithoutUsersInput = {
@@ -463,6 +489,7 @@ export type TeamUncheckedCreateWithoutUsersInput = {
   workArea: string
   workplaceId: string
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamCreateOrConnectWithoutUsersInput = {
@@ -487,6 +514,7 @@ export type TeamUpdateWithoutUsersInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
   works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutUsersInput = {
@@ -495,6 +523,7 @@ export type TeamUncheckedUpdateWithoutUsersInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamCreateWithoutWorksInput = {
@@ -503,6 +532,7 @@ export type TeamCreateWithoutWorksInput = {
   workArea: string
   workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
   users?: Prisma.UserCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamUncheckedCreateWithoutWorksInput = {
@@ -511,6 +541,7 @@ export type TeamUncheckedCreateWithoutWorksInput = {
   workArea: string
   workplaceId: string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+  chargedEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutChargedTeamInput
 }
 
 export type TeamCreateOrConnectWithoutWorksInput = {
@@ -535,6 +566,7 @@ export type TeamUpdateWithoutWorksInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutWorksInput = {
@@ -543,6 +575,59 @@ export type TeamUncheckedUpdateWithoutWorksInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutChargedTeamNestedInput
+}
+
+export type TeamCreateWithoutChargedEventsInput = {
+  id?: string
+  name: string
+  workArea: string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutTeamsInput
+  users?: Prisma.UserCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutTeamInput
+}
+
+export type TeamUncheckedCreateWithoutChargedEventsInput = {
+  id?: string
+  name: string
+  workArea: string
+  workplaceId: string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTeamInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutTeamInput
+}
+
+export type TeamCreateOrConnectWithoutChargedEventsInput = {
+  where: Prisma.TeamWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamCreateWithoutChargedEventsInput, Prisma.TeamUncheckedCreateWithoutChargedEventsInput>
+}
+
+export type TeamUpsertWithoutChargedEventsInput = {
+  update: Prisma.XOR<Prisma.TeamUpdateWithoutChargedEventsInput, Prisma.TeamUncheckedUpdateWithoutChargedEventsInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutChargedEventsInput, Prisma.TeamUncheckedCreateWithoutChargedEventsInput>
+  where?: Prisma.TeamWhereInput
+}
+
+export type TeamUpdateToOneWithWhereWithoutChargedEventsInput = {
+  where?: Prisma.TeamWhereInput
+  data: Prisma.XOR<Prisma.TeamUpdateWithoutChargedEventsInput, Prisma.TeamUncheckedUpdateWithoutChargedEventsInput>
+}
+
+export type TeamUpdateWithoutChargedEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  workArea?: Prisma.StringFieldUpdateOperationsInput | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutTeamsNestedInput
+  users?: Prisma.UserUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
+}
+
+export type TeamUncheckedUpdateWithoutChargedEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  workArea?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateManyWorkplaceInput = {
@@ -557,6 +642,7 @@ export type TeamUpdateWithoutWorkplaceInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUpdateManyWithoutTeamNestedInput
   works?: Prisma.MaintenanceWorkUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutWorkplaceInput = {
@@ -565,6 +651,7 @@ export type TeamUncheckedUpdateWithoutWorkplaceInput = {
   workArea?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTeamNestedInput
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutTeamNestedInput
+  chargedEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutChargedTeamNestedInput
 }
 
 export type TeamUncheckedUpdateManyWithoutWorkplaceInput = {
@@ -581,11 +668,13 @@ export type TeamUncheckedUpdateManyWithoutWorkplaceInput = {
 export type TeamCountOutputType = {
   users: number
   works: number
+  chargedEvents: number
 }
 
 export type TeamCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | TeamCountOutputTypeCountUsersArgs
   works?: boolean | TeamCountOutputTypeCountWorksArgs
+  chargedEvents?: boolean | TeamCountOutputTypeCountChargedEventsArgs
 }
 
 /**
@@ -612,6 +701,13 @@ export type TeamCountOutputTypeCountWorksArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.MaintenanceWorkWhereInput
 }
 
+/**
+ * TeamCountOutputType without action
+ */
+export type TeamCountOutputTypeCountChargedEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RiskEventWhereInput
+}
+
 
 export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -621,6 +717,7 @@ export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Team$usersArgs<ExtArgs>
   works?: boolean | Prisma.Team$worksArgs<ExtArgs>
+  chargedEvents?: boolean | Prisma.Team$chargedEventsArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["team"]>
 
@@ -652,6 +749,7 @@ export type TeamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Team$usersArgs<ExtArgs>
   works?: boolean | Prisma.Team$worksArgs<ExtArgs>
+  chargedEvents?: boolean | Prisma.Team$chargedEventsArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TeamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -667,6 +765,10 @@ export type $TeamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     workplace: Prisma.$WorkplacePayload<ExtArgs>
     users: Prisma.$UserPayload<ExtArgs>[]
     works: Prisma.$MaintenanceWorkPayload<ExtArgs>[]
+    /**
+     * 이 조가 벌점을 받은 사건들
+     */
+    chargedEvents: Prisma.$RiskEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1070,6 +1172,7 @@ export interface Prisma__TeamClient<T, Null = never, ExtArgs extends runtime.Typ
   workplace<T extends Prisma.WorkplaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkplaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkplaceClient<runtime.Types.Result.GetResult<Prisma.$WorkplacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.Team$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   works<T extends Prisma.Team$worksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$worksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceWorkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chargedEvents<T extends Prisma.Team$chargedEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$chargedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1549,6 +1652,30 @@ export type Team$worksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.MaintenanceWorkScalarFieldEnum | Prisma.MaintenanceWorkScalarFieldEnum[]
+}
+
+/**
+ * Team.chargedEvents
+ */
+export type Team$chargedEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RiskEvent
+   */
+  select?: Prisma.RiskEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RiskEvent
+   */
+  omit?: Prisma.RiskEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RiskEventInclude<ExtArgs> | null
+  where?: Prisma.RiskEventWhereInput
+  orderBy?: Prisma.RiskEventOrderByWithRelationInput | Prisma.RiskEventOrderByWithRelationInput[]
+  cursor?: Prisma.RiskEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RiskEventScalarFieldEnum | Prisma.RiskEventScalarFieldEnum[]
 }
 
 /**

@@ -34,6 +34,8 @@ export type RiskEventAvgAggregateOutputType = {
   clipEndSec: number | null
   peakSec: number | null
   confidence: number | null
+  harnessAiConfidence: number | null
+  penaltyPoints: number | null
 }
 
 export type RiskEventSumAggregateOutputType = {
@@ -43,6 +45,8 @@ export type RiskEventSumAggregateOutputType = {
   clipEndSec: number | null
   peakSec: number | null
   confidence: number | null
+  harnessAiConfidence: number | null
+  penaltyPoints: number | null
 }
 
 export type RiskEventMinAggregateOutputType = {
@@ -73,11 +77,21 @@ export type RiskEventMinAggregateOutputType = {
   clipPath: string | null
   boxes: string | null
   zonePolygon: string | null
+  harnessAiStatus: string | null
+  harnessAiConfidence: number | null
+  harnessStatus: string | null
+  harnessCheckedAt: Date | null
+  harnessCheckedById: string | null
   interlockEngaged: boolean | null
   status: string | null
+  startedAt: Date | null
+  resolvedAt: Date | null
+  chargedTeamId: string | null
+  penaltyPoints: number | null
   notifiedAt: Date | null
   acknowledgedAt: Date | null
   modelRepo: string | null
+  episodeId: string | null
 }
 
 export type RiskEventMaxAggregateOutputType = {
@@ -108,11 +122,21 @@ export type RiskEventMaxAggregateOutputType = {
   clipPath: string | null
   boxes: string | null
   zonePolygon: string | null
+  harnessAiStatus: string | null
+  harnessAiConfidence: number | null
+  harnessStatus: string | null
+  harnessCheckedAt: Date | null
+  harnessCheckedById: string | null
   interlockEngaged: boolean | null
   status: string | null
+  startedAt: Date | null
+  resolvedAt: Date | null
+  chargedTeamId: string | null
+  penaltyPoints: number | null
   notifiedAt: Date | null
   acknowledgedAt: Date | null
   modelRepo: string | null
+  episodeId: string | null
 }
 
 export type RiskEventCountAggregateOutputType = {
@@ -143,11 +167,21 @@ export type RiskEventCountAggregateOutputType = {
   clipPath: number
   boxes: number
   zonePolygon: number
+  harnessAiStatus: number
+  harnessAiConfidence: number
+  harnessStatus: number
+  harnessCheckedAt: number
+  harnessCheckedById: number
   interlockEngaged: number
   status: number
+  startedAt: number
+  resolvedAt: number
+  chargedTeamId: number
+  penaltyPoints: number
   notifiedAt: number
   acknowledgedAt: number
   modelRepo: number
+  episodeId: number
   _all: number
 }
 
@@ -159,6 +193,8 @@ export type RiskEventAvgAggregateInputType = {
   clipEndSec?: true
   peakSec?: true
   confidence?: true
+  harnessAiConfidence?: true
+  penaltyPoints?: true
 }
 
 export type RiskEventSumAggregateInputType = {
@@ -168,6 +204,8 @@ export type RiskEventSumAggregateInputType = {
   clipEndSec?: true
   peakSec?: true
   confidence?: true
+  harnessAiConfidence?: true
+  penaltyPoints?: true
 }
 
 export type RiskEventMinAggregateInputType = {
@@ -198,11 +236,21 @@ export type RiskEventMinAggregateInputType = {
   clipPath?: true
   boxes?: true
   zonePolygon?: true
+  harnessAiStatus?: true
+  harnessAiConfidence?: true
+  harnessStatus?: true
+  harnessCheckedAt?: true
+  harnessCheckedById?: true
   interlockEngaged?: true
   status?: true
+  startedAt?: true
+  resolvedAt?: true
+  chargedTeamId?: true
+  penaltyPoints?: true
   notifiedAt?: true
   acknowledgedAt?: true
   modelRepo?: true
+  episodeId?: true
 }
 
 export type RiskEventMaxAggregateInputType = {
@@ -233,11 +281,21 @@ export type RiskEventMaxAggregateInputType = {
   clipPath?: true
   boxes?: true
   zonePolygon?: true
+  harnessAiStatus?: true
+  harnessAiConfidence?: true
+  harnessStatus?: true
+  harnessCheckedAt?: true
+  harnessCheckedById?: true
   interlockEngaged?: true
   status?: true
+  startedAt?: true
+  resolvedAt?: true
+  chargedTeamId?: true
+  penaltyPoints?: true
   notifiedAt?: true
   acknowledgedAt?: true
   modelRepo?: true
+  episodeId?: true
 }
 
 export type RiskEventCountAggregateInputType = {
@@ -268,11 +326,21 @@ export type RiskEventCountAggregateInputType = {
   clipPath?: true
   boxes?: true
   zonePolygon?: true
+  harnessAiStatus?: true
+  harnessAiConfidence?: true
+  harnessStatus?: true
+  harnessCheckedAt?: true
+  harnessCheckedById?: true
   interlockEngaged?: true
   status?: true
+  startedAt?: true
+  resolvedAt?: true
+  chargedTeamId?: true
+  penaltyPoints?: true
   notifiedAt?: true
   acknowledgedAt?: true
   modelRepo?: true
+  episodeId?: true
   _all?: true
 }
 
@@ -390,11 +458,21 @@ export type RiskEventGroupByOutputType = {
   clipPath: string
   boxes: string
   zonePolygon: string
+  harnessAiStatus: string
+  harnessAiConfidence: number
+  harnessStatus: string
+  harnessCheckedAt: Date | null
+  harnessCheckedById: string | null
   interlockEngaged: boolean
   status: string
+  startedAt: Date | null
+  resolvedAt: Date | null
+  chargedTeamId: string | null
+  penaltyPoints: number
   notifiedAt: Date | null
   acknowledgedAt: Date | null
   modelRepo: string
+  episodeId: string | null
   _count: RiskEventCountAggregateOutputType | null
   _avg: RiskEventAvgAggregateOutputType | null
   _sum: RiskEventSumAggregateOutputType | null
@@ -448,19 +526,32 @@ export type RiskEventWhereInput = {
   clipPath?: Prisma.StringFilter<"RiskEvent"> | string
   boxes?: Prisma.StringFilter<"RiskEvent"> | string
   zonePolygon?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiConfidence?: Prisma.FloatFilter<"RiskEvent"> | number
+  harnessStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessCheckedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  harnessCheckedById?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
   interlockEngaged?: Prisma.BoolFilter<"RiskEvent"> | boolean
   status?: Prisma.StringFilter<"RiskEvent"> | string
+  startedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  chargedTeamId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
+  penaltyPoints?: Prisma.IntFilter<"RiskEvent"> | number
   notifiedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   acknowledgedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   modelRepo?: Prisma.StringFilter<"RiskEvent"> | string
+  episodeId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
   zone?: Prisma.XOR<Prisma.DangerZoneNullableScalarRelationFilter, Prisma.DangerZoneWhereInput> | null
   camera?: Prisma.XOR<Prisma.CameraFeedNullableScalarRelationFilter, Prisma.CameraFeedWhereInput> | null
   analysis?: Prisma.XOR<Prisma.VideoAnalysisNullableScalarRelationFilter, Prisma.VideoAnalysisWhereInput> | null
   reportedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  harnessCheckedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  chargedTeam?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   blocked?: Prisma.RestartRequestListRelationFilter
+  episode?: Prisma.XOR<Prisma.StoppageEpisodeNullableScalarRelationFilter, Prisma.StoppageEpisodeWhereInput> | null
 }
 
 export type RiskEventOrderByWithRelationInput = {
@@ -491,19 +582,32 @@ export type RiskEventOrderByWithRelationInput = {
   clipPath?: Prisma.SortOrder
   boxes?: Prisma.SortOrder
   zonePolygon?: Prisma.SortOrder
+  harnessAiStatus?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  harnessStatus?: Prisma.SortOrder
+  harnessCheckedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  harnessCheckedById?: Prisma.SortOrderInput | Prisma.SortOrder
   interlockEngaged?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  chargedTeamId?: Prisma.SortOrderInput | Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
   notifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   modelRepo?: Prisma.SortOrder
+  episodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   workplace?: Prisma.WorkplaceOrderByWithRelationInput
   equipment?: Prisma.EquipmentOrderByWithRelationInput
   zone?: Prisma.DangerZoneOrderByWithRelationInput
   camera?: Prisma.CameraFeedOrderByWithRelationInput
   analysis?: Prisma.VideoAnalysisOrderByWithRelationInput
   reportedBy?: Prisma.UserOrderByWithRelationInput
+  harnessCheckedBy?: Prisma.UserOrderByWithRelationInput
+  chargedTeam?: Prisma.TeamOrderByWithRelationInput
   review?: Prisma.ReviewOrderByWithRelationInput
   blocked?: Prisma.RestartRequestOrderByRelationAggregateInput
+  episode?: Prisma.StoppageEpisodeOrderByWithRelationInput
 }
 
 export type RiskEventWhereUniqueInput = Prisma.AtLeast<{
@@ -537,19 +641,32 @@ export type RiskEventWhereUniqueInput = Prisma.AtLeast<{
   clipPath?: Prisma.StringFilter<"RiskEvent"> | string
   boxes?: Prisma.StringFilter<"RiskEvent"> | string
   zonePolygon?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiConfidence?: Prisma.FloatFilter<"RiskEvent"> | number
+  harnessStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessCheckedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  harnessCheckedById?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
   interlockEngaged?: Prisma.BoolFilter<"RiskEvent"> | boolean
   status?: Prisma.StringFilter<"RiskEvent"> | string
+  startedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  chargedTeamId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
+  penaltyPoints?: Prisma.IntFilter<"RiskEvent"> | number
   notifiedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   acknowledgedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   modelRepo?: Prisma.StringFilter<"RiskEvent"> | string
+  episodeId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
   workplace?: Prisma.XOR<Prisma.WorkplaceScalarRelationFilter, Prisma.WorkplaceWhereInput>
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
   zone?: Prisma.XOR<Prisma.DangerZoneNullableScalarRelationFilter, Prisma.DangerZoneWhereInput> | null
   camera?: Prisma.XOR<Prisma.CameraFeedNullableScalarRelationFilter, Prisma.CameraFeedWhereInput> | null
   analysis?: Prisma.XOR<Prisma.VideoAnalysisNullableScalarRelationFilter, Prisma.VideoAnalysisWhereInput> | null
   reportedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  harnessCheckedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  chargedTeam?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   blocked?: Prisma.RestartRequestListRelationFilter
+  episode?: Prisma.XOR<Prisma.StoppageEpisodeNullableScalarRelationFilter, Prisma.StoppageEpisodeWhereInput> | null
 }, "id">
 
 export type RiskEventOrderByWithAggregationInput = {
@@ -580,11 +697,21 @@ export type RiskEventOrderByWithAggregationInput = {
   clipPath?: Prisma.SortOrder
   boxes?: Prisma.SortOrder
   zonePolygon?: Prisma.SortOrder
+  harnessAiStatus?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  harnessStatus?: Prisma.SortOrder
+  harnessCheckedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  harnessCheckedById?: Prisma.SortOrderInput | Prisma.SortOrder
   interlockEngaged?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  chargedTeamId?: Prisma.SortOrderInput | Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
   notifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   modelRepo?: Prisma.SortOrder
+  episodeId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RiskEventCountOrderByAggregateInput
   _avg?: Prisma.RiskEventAvgOrderByAggregateInput
   _max?: Prisma.RiskEventMaxOrderByAggregateInput
@@ -623,11 +750,21 @@ export type RiskEventScalarWhereWithAggregatesInput = {
   clipPath?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
   boxes?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
   zonePolygon?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
+  harnessAiStatus?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
+  harnessAiConfidence?: Prisma.FloatWithAggregatesFilter<"RiskEvent"> | number
+  harnessStatus?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
+  harnessCheckedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RiskEvent"> | Date | string | null
+  harnessCheckedById?: Prisma.StringNullableWithAggregatesFilter<"RiskEvent"> | string | null
   interlockEngaged?: Prisma.BoolWithAggregatesFilter<"RiskEvent"> | boolean
   status?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
+  startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RiskEvent"> | Date | string | null
+  resolvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RiskEvent"> | Date | string | null
+  chargedTeamId?: Prisma.StringNullableWithAggregatesFilter<"RiskEvent"> | string | null
+  penaltyPoints?: Prisma.IntWithAggregatesFilter<"RiskEvent"> | number
   notifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RiskEvent"> | Date | string | null
   acknowledgedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RiskEvent"> | Date | string | null
   modelRepo?: Prisma.StringWithAggregatesFilter<"RiskEvent"> | string
+  episodeId?: Prisma.StringNullableWithAggregatesFilter<"RiskEvent"> | string | null
 }
 
 export type RiskEventCreateInput = {
@@ -652,8 +789,15 @@ export type RiskEventCreateInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -663,8 +807,11 @@ export type RiskEventCreateInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateInput = {
@@ -695,11 +842,21 @@ export type RiskEventUncheckedCreateInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -726,8 +883,15 @@ export type RiskEventUpdateInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -737,8 +901,11 @@ export type RiskEventUpdateInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateInput = {
@@ -769,11 +936,21 @@ export type RiskEventUncheckedUpdateInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -806,11 +983,21 @@ export type RiskEventCreateManyInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateManyMutationInput = {
@@ -835,8 +1022,15 @@ export type RiskEventUpdateManyMutationInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -870,11 +1064,21 @@ export type RiskEventUncheckedUpdateManyInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventListRelationFilter = {
@@ -915,11 +1119,21 @@ export type RiskEventCountOrderByAggregateInput = {
   clipPath?: Prisma.SortOrder
   boxes?: Prisma.SortOrder
   zonePolygon?: Prisma.SortOrder
+  harnessAiStatus?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  harnessStatus?: Prisma.SortOrder
+  harnessCheckedAt?: Prisma.SortOrder
+  harnessCheckedById?: Prisma.SortOrder
   interlockEngaged?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  chargedTeamId?: Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
   notifiedAt?: Prisma.SortOrder
   acknowledgedAt?: Prisma.SortOrder
   modelRepo?: Prisma.SortOrder
+  episodeId?: Prisma.SortOrder
 }
 
 export type RiskEventAvgOrderByAggregateInput = {
@@ -929,6 +1143,8 @@ export type RiskEventAvgOrderByAggregateInput = {
   clipEndSec?: Prisma.SortOrder
   peakSec?: Prisma.SortOrder
   confidence?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
 }
 
 export type RiskEventMaxOrderByAggregateInput = {
@@ -959,11 +1175,21 @@ export type RiskEventMaxOrderByAggregateInput = {
   clipPath?: Prisma.SortOrder
   boxes?: Prisma.SortOrder
   zonePolygon?: Prisma.SortOrder
+  harnessAiStatus?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  harnessStatus?: Prisma.SortOrder
+  harnessCheckedAt?: Prisma.SortOrder
+  harnessCheckedById?: Prisma.SortOrder
   interlockEngaged?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  chargedTeamId?: Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
   notifiedAt?: Prisma.SortOrder
   acknowledgedAt?: Prisma.SortOrder
   modelRepo?: Prisma.SortOrder
+  episodeId?: Prisma.SortOrder
 }
 
 export type RiskEventMinOrderByAggregateInput = {
@@ -994,11 +1220,21 @@ export type RiskEventMinOrderByAggregateInput = {
   clipPath?: Prisma.SortOrder
   boxes?: Prisma.SortOrder
   zonePolygon?: Prisma.SortOrder
+  harnessAiStatus?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  harnessStatus?: Prisma.SortOrder
+  harnessCheckedAt?: Prisma.SortOrder
+  harnessCheckedById?: Prisma.SortOrder
   interlockEngaged?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  chargedTeamId?: Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
   notifiedAt?: Prisma.SortOrder
   acknowledgedAt?: Prisma.SortOrder
   modelRepo?: Prisma.SortOrder
+  episodeId?: Prisma.SortOrder
 }
 
 export type RiskEventSumOrderByAggregateInput = {
@@ -1008,6 +1244,8 @@ export type RiskEventSumOrderByAggregateInput = {
   clipEndSec?: Prisma.SortOrder
   peakSec?: Prisma.SortOrder
   confidence?: Prisma.SortOrder
+  harnessAiConfidence?: Prisma.SortOrder
+  penaltyPoints?: Prisma.SortOrder
 }
 
 export type RiskEventScalarRelationFilter = {
@@ -1062,6 +1300,48 @@ export type RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput = {
   deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
 }
 
+export type RiskEventCreateNestedManyWithoutChargedTeamInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput> | Prisma.RiskEventCreateWithoutChargedTeamInput[] | Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput | Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput[]
+  createMany?: Prisma.RiskEventCreateManyChargedTeamInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
+export type RiskEventUncheckedCreateNestedManyWithoutChargedTeamInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput> | Prisma.RiskEventCreateWithoutChargedTeamInput[] | Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput | Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput[]
+  createMany?: Prisma.RiskEventCreateManyChargedTeamInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
+export type RiskEventUpdateManyWithoutChargedTeamNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput> | Prisma.RiskEventCreateWithoutChargedTeamInput[] | Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput | Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutChargedTeamInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutChargedTeamInput[]
+  createMany?: Prisma.RiskEventCreateManyChargedTeamInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutChargedTeamInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutChargedTeamInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutChargedTeamInput | Prisma.RiskEventUpdateManyWithWhereWithoutChargedTeamInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
+export type RiskEventUncheckedUpdateManyWithoutChargedTeamNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput> | Prisma.RiskEventCreateWithoutChargedTeamInput[] | Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput | Prisma.RiskEventCreateOrConnectWithoutChargedTeamInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutChargedTeamInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutChargedTeamInput[]
+  createMany?: Prisma.RiskEventCreateManyChargedTeamInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutChargedTeamInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutChargedTeamInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutChargedTeamInput | Prisma.RiskEventUpdateManyWithWhereWithoutChargedTeamInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
 export type RiskEventCreateNestedManyWithoutReportedByInput = {
   create?: Prisma.XOR<Prisma.RiskEventCreateWithoutReportedByInput, Prisma.RiskEventUncheckedCreateWithoutReportedByInput> | Prisma.RiskEventCreateWithoutReportedByInput[] | Prisma.RiskEventUncheckedCreateWithoutReportedByInput[]
   connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutReportedByInput | Prisma.RiskEventCreateOrConnectWithoutReportedByInput[]
@@ -1069,10 +1349,24 @@ export type RiskEventCreateNestedManyWithoutReportedByInput = {
   connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
 }
 
+export type RiskEventCreateNestedManyWithoutHarnessCheckedByInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput> | Prisma.RiskEventCreateWithoutHarnessCheckedByInput[] | Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput | Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput[]
+  createMany?: Prisma.RiskEventCreateManyHarnessCheckedByInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
 export type RiskEventUncheckedCreateNestedManyWithoutReportedByInput = {
   create?: Prisma.XOR<Prisma.RiskEventCreateWithoutReportedByInput, Prisma.RiskEventUncheckedCreateWithoutReportedByInput> | Prisma.RiskEventCreateWithoutReportedByInput[] | Prisma.RiskEventUncheckedCreateWithoutReportedByInput[]
   connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutReportedByInput | Prisma.RiskEventCreateOrConnectWithoutReportedByInput[]
   createMany?: Prisma.RiskEventCreateManyReportedByInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
+export type RiskEventUncheckedCreateNestedManyWithoutHarnessCheckedByInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput> | Prisma.RiskEventCreateWithoutHarnessCheckedByInput[] | Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput | Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput[]
+  createMany?: Prisma.RiskEventCreateManyHarnessCheckedByInputEnvelope
   connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
 }
 
@@ -1090,6 +1384,20 @@ export type RiskEventUpdateManyWithoutReportedByNestedInput = {
   deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
 }
 
+export type RiskEventUpdateManyWithoutHarnessCheckedByNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput> | Prisma.RiskEventCreateWithoutHarnessCheckedByInput[] | Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput | Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutHarnessCheckedByInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutHarnessCheckedByInput[]
+  createMany?: Prisma.RiskEventCreateManyHarnessCheckedByInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutHarnessCheckedByInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutHarnessCheckedByInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutHarnessCheckedByInput | Prisma.RiskEventUpdateManyWithWhereWithoutHarnessCheckedByInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
 export type RiskEventUncheckedUpdateManyWithoutReportedByNestedInput = {
   create?: Prisma.XOR<Prisma.RiskEventCreateWithoutReportedByInput, Prisma.RiskEventUncheckedCreateWithoutReportedByInput> | Prisma.RiskEventCreateWithoutReportedByInput[] | Prisma.RiskEventUncheckedCreateWithoutReportedByInput[]
   connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutReportedByInput | Prisma.RiskEventCreateOrConnectWithoutReportedByInput[]
@@ -1101,6 +1409,20 @@ export type RiskEventUncheckedUpdateManyWithoutReportedByNestedInput = {
   connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
   update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutReportedByInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutReportedByInput[]
   updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutReportedByInput | Prisma.RiskEventUpdateManyWithWhereWithoutReportedByInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
+export type RiskEventUncheckedUpdateManyWithoutHarnessCheckedByNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput> | Prisma.RiskEventCreateWithoutHarnessCheckedByInput[] | Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput | Prisma.RiskEventCreateOrConnectWithoutHarnessCheckedByInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutHarnessCheckedByInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutHarnessCheckedByInput[]
+  createMany?: Prisma.RiskEventCreateManyHarnessCheckedByInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutHarnessCheckedByInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutHarnessCheckedByInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutHarnessCheckedByInput | Prisma.RiskEventUpdateManyWithWhereWithoutHarnessCheckedByInput[]
   deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
 }
 
@@ -1310,6 +1632,48 @@ export type RiskEventUpdateOneWithoutBlockedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RiskEventUpdateToOneWithWhereWithoutBlockedInput, Prisma.RiskEventUpdateWithoutBlockedInput>, Prisma.RiskEventUncheckedUpdateWithoutBlockedInput>
 }
 
+export type RiskEventCreateNestedManyWithoutEpisodeInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput> | Prisma.RiskEventCreateWithoutEpisodeInput[] | Prisma.RiskEventUncheckedCreateWithoutEpisodeInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutEpisodeInput | Prisma.RiskEventCreateOrConnectWithoutEpisodeInput[]
+  createMany?: Prisma.RiskEventCreateManyEpisodeInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
+export type RiskEventUncheckedCreateNestedManyWithoutEpisodeInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput> | Prisma.RiskEventCreateWithoutEpisodeInput[] | Prisma.RiskEventUncheckedCreateWithoutEpisodeInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutEpisodeInput | Prisma.RiskEventCreateOrConnectWithoutEpisodeInput[]
+  createMany?: Prisma.RiskEventCreateManyEpisodeInputEnvelope
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+}
+
+export type RiskEventUpdateManyWithoutEpisodeNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput> | Prisma.RiskEventCreateWithoutEpisodeInput[] | Prisma.RiskEventUncheckedCreateWithoutEpisodeInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutEpisodeInput | Prisma.RiskEventCreateOrConnectWithoutEpisodeInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutEpisodeInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutEpisodeInput[]
+  createMany?: Prisma.RiskEventCreateManyEpisodeInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutEpisodeInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutEpisodeInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutEpisodeInput | Prisma.RiskEventUpdateManyWithWhereWithoutEpisodeInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
+export type RiskEventUncheckedUpdateManyWithoutEpisodeNestedInput = {
+  create?: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput> | Prisma.RiskEventCreateWithoutEpisodeInput[] | Prisma.RiskEventUncheckedCreateWithoutEpisodeInput[]
+  connectOrCreate?: Prisma.RiskEventCreateOrConnectWithoutEpisodeInput | Prisma.RiskEventCreateOrConnectWithoutEpisodeInput[]
+  upsert?: Prisma.RiskEventUpsertWithWhereUniqueWithoutEpisodeInput | Prisma.RiskEventUpsertWithWhereUniqueWithoutEpisodeInput[]
+  createMany?: Prisma.RiskEventCreateManyEpisodeInputEnvelope
+  set?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  disconnect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  delete?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  connect?: Prisma.RiskEventWhereUniqueInput | Prisma.RiskEventWhereUniqueInput[]
+  update?: Prisma.RiskEventUpdateWithWhereUniqueWithoutEpisodeInput | Prisma.RiskEventUpdateWithWhereUniqueWithoutEpisodeInput[]
+  updateMany?: Prisma.RiskEventUpdateManyWithWhereWithoutEpisodeInput | Prisma.RiskEventUpdateManyWithWhereWithoutEpisodeInput[]
+  deleteMany?: Prisma.RiskEventScalarWhereInput | Prisma.RiskEventScalarWhereInput[]
+}
+
 export type RiskEventCreateWithoutWorkplaceInput = {
   id?: string
   source?: string
@@ -1332,8 +1696,15 @@ export type RiskEventCreateWithoutWorkplaceInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1342,8 +1713,11 @@ export type RiskEventCreateWithoutWorkplaceInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutWorkplaceInput = {
@@ -1373,11 +1747,21 @@ export type RiskEventUncheckedCreateWithoutWorkplaceInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1439,11 +1823,139 @@ export type RiskEventScalarWhereInput = {
   clipPath?: Prisma.StringFilter<"RiskEvent"> | string
   boxes?: Prisma.StringFilter<"RiskEvent"> | string
   zonePolygon?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessAiConfidence?: Prisma.FloatFilter<"RiskEvent"> | number
+  harnessStatus?: Prisma.StringFilter<"RiskEvent"> | string
+  harnessCheckedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  harnessCheckedById?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
   interlockEngaged?: Prisma.BoolFilter<"RiskEvent"> | boolean
   status?: Prisma.StringFilter<"RiskEvent"> | string
+  startedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
+  chargedTeamId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
+  penaltyPoints?: Prisma.IntFilter<"RiskEvent"> | number
   notifiedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   acknowledgedAt?: Prisma.DateTimeNullableFilter<"RiskEvent"> | Date | string | null
   modelRepo?: Prisma.StringFilter<"RiskEvent"> | string
+  episodeId?: Prisma.StringNullableFilter<"RiskEvent"> | string | null
+}
+
+export type RiskEventCreateWithoutChargedTeamInput = {
+  id?: string
+  source?: string
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutRiskEventsInput
+  equipment: Prisma.EquipmentCreateNestedOneWithoutRiskEventsInput
+  zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
+  camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
+  analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
+  reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
+}
+
+export type RiskEventUncheckedCreateWithoutChargedTeamInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  episodeId?: string | null
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
+}
+
+export type RiskEventCreateOrConnectWithoutChargedTeamInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput>
+}
+
+export type RiskEventCreateManyChargedTeamInputEnvelope = {
+  data: Prisma.RiskEventCreateManyChargedTeamInput | Prisma.RiskEventCreateManyChargedTeamInput[]
+  skipDuplicates?: boolean
+}
+
+export type RiskEventUpsertWithWhereUniqueWithoutChargedTeamInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.RiskEventUpdateWithoutChargedTeamInput, Prisma.RiskEventUncheckedUpdateWithoutChargedTeamInput>
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutChargedTeamInput, Prisma.RiskEventUncheckedCreateWithoutChargedTeamInput>
+}
+
+export type RiskEventUpdateWithWhereUniqueWithoutChargedTeamInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateWithoutChargedTeamInput, Prisma.RiskEventUncheckedUpdateWithoutChargedTeamInput>
+}
+
+export type RiskEventUpdateManyWithWhereWithoutChargedTeamInput = {
+  where: Prisma.RiskEventScalarWhereInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateManyMutationInput, Prisma.RiskEventUncheckedUpdateManyWithoutChargedTeamInput>
 }
 
 export type RiskEventCreateWithoutReportedByInput = {
@@ -1468,8 +1980,15 @@ export type RiskEventCreateWithoutReportedByInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1478,8 +1997,11 @@ export type RiskEventCreateWithoutReportedByInput = {
   zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutReportedByInput = {
@@ -1509,11 +2031,21 @@ export type RiskEventUncheckedCreateWithoutReportedByInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1525,6 +2057,108 @@ export type RiskEventCreateOrConnectWithoutReportedByInput = {
 
 export type RiskEventCreateManyReportedByInputEnvelope = {
   data: Prisma.RiskEventCreateManyReportedByInput | Prisma.RiskEventCreateManyReportedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type RiskEventCreateWithoutHarnessCheckedByInput = {
+  id?: string
+  source?: string
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutRiskEventsInput
+  equipment: Prisma.EquipmentCreateNestedOneWithoutRiskEventsInput
+  zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
+  camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
+  analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
+  reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
+}
+
+export type RiskEventUncheckedCreateWithoutHarnessCheckedByInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  episodeId?: string | null
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
+}
+
+export type RiskEventCreateOrConnectWithoutHarnessCheckedByInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput>
+}
+
+export type RiskEventCreateManyHarnessCheckedByInputEnvelope = {
+  data: Prisma.RiskEventCreateManyHarnessCheckedByInput | Prisma.RiskEventCreateManyHarnessCheckedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -1542,6 +2176,22 @@ export type RiskEventUpdateWithWhereUniqueWithoutReportedByInput = {
 export type RiskEventUpdateManyWithWhereWithoutReportedByInput = {
   where: Prisma.RiskEventScalarWhereInput
   data: Prisma.XOR<Prisma.RiskEventUpdateManyMutationInput, Prisma.RiskEventUncheckedUpdateManyWithoutReportedByInput>
+}
+
+export type RiskEventUpsertWithWhereUniqueWithoutHarnessCheckedByInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.RiskEventUpdateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedUpdateWithoutHarnessCheckedByInput>
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedCreateWithoutHarnessCheckedByInput>
+}
+
+export type RiskEventUpdateWithWhereUniqueWithoutHarnessCheckedByInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateWithoutHarnessCheckedByInput, Prisma.RiskEventUncheckedUpdateWithoutHarnessCheckedByInput>
+}
+
+export type RiskEventUpdateManyWithWhereWithoutHarnessCheckedByInput = {
+  where: Prisma.RiskEventScalarWhereInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateManyMutationInput, Prisma.RiskEventUncheckedUpdateManyWithoutHarnessCheckedByInput>
 }
 
 export type RiskEventCreateWithoutEquipmentInput = {
@@ -1566,8 +2216,15 @@ export type RiskEventCreateWithoutEquipmentInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1576,8 +2233,11 @@ export type RiskEventCreateWithoutEquipmentInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutEquipmentInput = {
@@ -1607,11 +2267,21 @@ export type RiskEventUncheckedCreateWithoutEquipmentInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1664,8 +2334,15 @@ export type RiskEventCreateWithoutZoneInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1674,8 +2351,11 @@ export type RiskEventCreateWithoutZoneInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutZoneInput = {
@@ -1705,11 +2385,21 @@ export type RiskEventUncheckedCreateWithoutZoneInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1762,8 +2452,15 @@ export type RiskEventCreateWithoutCameraInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1772,8 +2469,11 @@ export type RiskEventCreateWithoutCameraInput = {
   zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutCameraInput = {
@@ -1803,11 +2503,21 @@ export type RiskEventUncheckedCreateWithoutCameraInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1860,8 +2570,15 @@ export type RiskEventCreateWithoutAnalysisInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1870,8 +2587,11 @@ export type RiskEventCreateWithoutAnalysisInput = {
   zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutAnalysisInput = {
@@ -1901,11 +2621,21 @@ export type RiskEventUncheckedCreateWithoutAnalysisInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
@@ -1958,8 +2688,15 @@ export type RiskEventCreateWithoutReviewInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -1969,7 +2706,10 @@ export type RiskEventCreateWithoutReviewInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutReviewInput = {
@@ -2000,11 +2740,21 @@ export type RiskEventUncheckedCreateWithoutReviewInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
 }
 
@@ -2046,8 +2796,15 @@ export type RiskEventUpdateWithoutReviewInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2057,7 +2814,10 @@ export type RiskEventUpdateWithoutReviewInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutReviewInput = {
@@ -2088,11 +2848,21 @@ export type RiskEventUncheckedUpdateWithoutReviewInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
 
@@ -2118,8 +2888,15 @@ export type RiskEventCreateWithoutBlockedInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
@@ -2129,7 +2906,10 @@ export type RiskEventCreateWithoutBlockedInput = {
   camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
   analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
   review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
+  episode?: Prisma.StoppageEpisodeCreateNestedOneWithoutRiskEventsInput
 }
 
 export type RiskEventUncheckedCreateWithoutBlockedInput = {
@@ -2160,11 +2940,21 @@ export type RiskEventUncheckedCreateWithoutBlockedInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
   review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
 }
 
@@ -2206,8 +2996,15 @@ export type RiskEventUpdateWithoutBlockedInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2217,7 +3014,10 @@ export type RiskEventUpdateWithoutBlockedInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutBlockedInput = {
@@ -2248,12 +3048,140 @@ export type RiskEventUncheckedUpdateWithoutBlockedInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
+}
+
+export type RiskEventCreateWithoutEpisodeInput = {
+  id?: string
+  source?: string
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  workplace: Prisma.WorkplaceCreateNestedOneWithoutRiskEventsInput
+  equipment: Prisma.EquipmentCreateNestedOneWithoutRiskEventsInput
+  zone?: Prisma.DangerZoneCreateNestedOneWithoutRiskEventsInput
+  camera?: Prisma.CameraFeedCreateNestedOneWithoutRiskEventsInput
+  analysis?: Prisma.VideoAnalysisCreateNestedOneWithoutRiskEventsInput
+  reportedBy?: Prisma.UserCreateNestedOneWithoutReportedEventsInput
+  harnessCheckedBy?: Prisma.UserCreateNestedOneWithoutHarnessChecksInput
+  chargedTeam?: Prisma.TeamCreateNestedOneWithoutChargedEventsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestCreateNestedManyWithoutBlockedByInput
+}
+
+export type RiskEventUncheckedCreateWithoutEpisodeInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutRiskEventInput
+  blocked?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutBlockedByInput
+}
+
+export type RiskEventCreateOrConnectWithoutEpisodeInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput>
+}
+
+export type RiskEventCreateManyEpisodeInputEnvelope = {
+  data: Prisma.RiskEventCreateManyEpisodeInput | Prisma.RiskEventCreateManyEpisodeInput[]
+  skipDuplicates?: boolean
+}
+
+export type RiskEventUpsertWithWhereUniqueWithoutEpisodeInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  update: Prisma.XOR<Prisma.RiskEventUpdateWithoutEpisodeInput, Prisma.RiskEventUncheckedUpdateWithoutEpisodeInput>
+  create: Prisma.XOR<Prisma.RiskEventCreateWithoutEpisodeInput, Prisma.RiskEventUncheckedCreateWithoutEpisodeInput>
+}
+
+export type RiskEventUpdateWithWhereUniqueWithoutEpisodeInput = {
+  where: Prisma.RiskEventWhereUniqueInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateWithoutEpisodeInput, Prisma.RiskEventUncheckedUpdateWithoutEpisodeInput>
+}
+
+export type RiskEventUpdateManyWithWhereWithoutEpisodeInput = {
+  where: Prisma.RiskEventScalarWhereInput
+  data: Prisma.XOR<Prisma.RiskEventUpdateManyMutationInput, Prisma.RiskEventUncheckedUpdateManyWithoutEpisodeInput>
 }
 
 export type RiskEventCreateManyWorkplaceInput = {
@@ -2283,11 +3211,21 @@ export type RiskEventCreateManyWorkplaceInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutWorkplaceInput = {
@@ -2312,8 +3250,15 @@ export type RiskEventUpdateWithoutWorkplaceInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2322,8 +3267,11 @@ export type RiskEventUpdateWithoutWorkplaceInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutWorkplaceInput = {
@@ -2353,11 +3301,21 @@ export type RiskEventUncheckedUpdateWithoutWorkplaceInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -2389,11 +3347,201 @@ export type RiskEventUncheckedUpdateManyWithoutWorkplaceInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type RiskEventCreateManyChargedTeamInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  episodeId?: string | null
+}
+
+export type RiskEventUpdateWithoutChargedTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutRiskEventsNestedInput
+  equipment?: Prisma.EquipmentUpdateOneRequiredWithoutRiskEventsNestedInput
+  zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
+  camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
+  analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
+  reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
+}
+
+export type RiskEventUncheckedUpdateWithoutChargedTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
+}
+
+export type RiskEventUncheckedUpdateManyWithoutChargedTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventCreateManyReportedByInput = {
@@ -2423,11 +3571,65 @@ export type RiskEventCreateManyReportedByInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
+}
+
+export type RiskEventCreateManyHarnessCheckedByInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutReportedByInput = {
@@ -2452,8 +3654,15 @@ export type RiskEventUpdateWithoutReportedByInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2462,8 +3671,11 @@ export type RiskEventUpdateWithoutReportedByInput = {
   zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutReportedByInput = {
@@ -2493,11 +3705,21 @@ export type RiskEventUncheckedUpdateWithoutReportedByInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -2529,11 +3751,157 @@ export type RiskEventUncheckedUpdateManyWithoutReportedByInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type RiskEventUpdateWithoutHarnessCheckedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutRiskEventsNestedInput
+  equipment?: Prisma.EquipmentUpdateOneRequiredWithoutRiskEventsNestedInput
+  zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
+  camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
+  analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
+  reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
+}
+
+export type RiskEventUncheckedUpdateWithoutHarnessCheckedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
+}
+
+export type RiskEventUncheckedUpdateManyWithoutHarnessCheckedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventCreateManyEquipmentInput = {
@@ -2563,11 +3931,21 @@ export type RiskEventCreateManyEquipmentInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutEquipmentInput = {
@@ -2592,8 +3970,15 @@ export type RiskEventUpdateWithoutEquipmentInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2602,8 +3987,11 @@ export type RiskEventUpdateWithoutEquipmentInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutEquipmentInput = {
@@ -2633,11 +4021,21 @@ export type RiskEventUncheckedUpdateWithoutEquipmentInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -2669,11 +4067,21 @@ export type RiskEventUncheckedUpdateManyWithoutEquipmentInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventCreateManyZoneInput = {
@@ -2703,11 +4111,21 @@ export type RiskEventCreateManyZoneInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutZoneInput = {
@@ -2732,8 +4150,15 @@ export type RiskEventUpdateWithoutZoneInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2742,8 +4167,11 @@ export type RiskEventUpdateWithoutZoneInput = {
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutZoneInput = {
@@ -2773,11 +4201,21 @@ export type RiskEventUncheckedUpdateWithoutZoneInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -2809,11 +4247,21 @@ export type RiskEventUncheckedUpdateManyWithoutZoneInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventCreateManyCameraInput = {
@@ -2843,11 +4291,21 @@ export type RiskEventCreateManyCameraInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutCameraInput = {
@@ -2872,8 +4330,15 @@ export type RiskEventUpdateWithoutCameraInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2882,8 +4347,11 @@ export type RiskEventUpdateWithoutCameraInput = {
   zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
   analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutCameraInput = {
@@ -2913,11 +4381,21 @@ export type RiskEventUncheckedUpdateWithoutCameraInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -2949,11 +4427,21 @@ export type RiskEventUncheckedUpdateManyWithoutCameraInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RiskEventCreateManyAnalysisInput = {
@@ -2983,11 +4471,21 @@ export type RiskEventCreateManyAnalysisInput = {
   clipPath?: string
   boxes?: string
   zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
   interlockEngaged?: boolean
   status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
   notifiedAt?: Date | string | null
   acknowledgedAt?: Date | string | null
   modelRepo?: string
+  episodeId?: string | null
 }
 
 export type RiskEventUpdateWithoutAnalysisInput = {
@@ -3012,8 +4510,15 @@ export type RiskEventUpdateWithoutAnalysisInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3022,8 +4527,11 @@ export type RiskEventUpdateWithoutAnalysisInput = {
   zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
   camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
   reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
   review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+  episode?: Prisma.StoppageEpisodeUpdateOneWithoutRiskEventsNestedInput
 }
 
 export type RiskEventUncheckedUpdateWithoutAnalysisInput = {
@@ -3053,11 +4561,21 @@ export type RiskEventUncheckedUpdateWithoutAnalysisInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
   blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
 }
@@ -3089,8 +4607,198 @@ export type RiskEventUncheckedUpdateManyWithoutAnalysisInput = {
   clipPath?: Prisma.StringFieldUpdateOperationsInput | string
   boxes?: Prisma.StringFieldUpdateOperationsInput | string
   zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  episodeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type RiskEventCreateManyEpisodeInput = {
+  id?: string
+  workplaceId: string
+  equipmentId: string
+  zoneId?: string | null
+  cameraId?: string | null
+  analysisId?: string | null
+  source?: string
+  reportedById?: string | null
+  code?: string
+  level?: string
+  reason?: string
+  enteredAt: Date | string
+  detectedAt?: Date | string
+  clearedAt?: Date | string | null
+  dwellSec?: number
+  occupantsAtPeak?: number
+  trackIds?: string
+  clipStartSec?: number | null
+  clipEndSec?: number | null
+  peakSec?: number | null
+  machineState?: string
+  severity?: string
+  confidence?: number
+  evidencePath?: string
+  clipPath?: string
+  boxes?: string
+  zonePolygon?: string
+  harnessAiStatus?: string
+  harnessAiConfidence?: number
+  harnessStatus?: string
+  harnessCheckedAt?: Date | string | null
+  harnessCheckedById?: string | null
+  interlockEngaged?: boolean
+  status?: string
+  startedAt?: Date | string | null
+  resolvedAt?: Date | string | null
+  chargedTeamId?: string | null
+  penaltyPoints?: number
+  notifiedAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  modelRepo?: string
+}
+
+export type RiskEventUpdateWithoutEpisodeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  workplace?: Prisma.WorkplaceUpdateOneRequiredWithoutRiskEventsNestedInput
+  equipment?: Prisma.EquipmentUpdateOneRequiredWithoutRiskEventsNestedInput
+  zone?: Prisma.DangerZoneUpdateOneWithoutRiskEventsNestedInput
+  camera?: Prisma.CameraFeedUpdateOneWithoutRiskEventsNestedInput
+  analysis?: Prisma.VideoAnalysisUpdateOneWithoutRiskEventsNestedInput
+  reportedBy?: Prisma.UserUpdateOneWithoutReportedEventsNestedInput
+  harnessCheckedBy?: Prisma.UserUpdateOneWithoutHarnessChecksNestedInput
+  chargedTeam?: Prisma.TeamUpdateOneWithoutChargedEventsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUpdateManyWithoutBlockedByNestedInput
+}
+
+export type RiskEventUncheckedUpdateWithoutEpisodeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutRiskEventNestedInput
+  blocked?: Prisma.RestartRequestUncheckedUpdateManyWithoutBlockedByNestedInput
+}
+
+export type RiskEventUncheckedUpdateManyWithoutEpisodeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workplaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  equipmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  zoneId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  enteredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  detectedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dwellSec?: Prisma.FloatFieldUpdateOperationsInput | number
+  occupantsAtPeak?: Prisma.IntFieldUpdateOperationsInput | number
+  trackIds?: Prisma.StringFieldUpdateOperationsInput | string
+  clipStartSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clipEndSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  peakSec?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  machineState?: Prisma.StringFieldUpdateOperationsInput | string
+  severity?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  evidencePath?: Prisma.StringFieldUpdateOperationsInput | string
+  clipPath?: Prisma.StringFieldUpdateOperationsInput | string
+  boxes?: Prisma.StringFieldUpdateOperationsInput | string
+  zonePolygon?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessAiConfidence?: Prisma.FloatFieldUpdateOperationsInput | number
+  harnessStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  harnessCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  harnessCheckedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interlockEngaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chargedTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penaltyPoints?: Prisma.IntFieldUpdateOperationsInput | number
   notifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   modelRepo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3155,19 +4863,32 @@ export type RiskEventSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   clipPath?: boolean
   boxes?: boolean
   zonePolygon?: boolean
+  harnessAiStatus?: boolean
+  harnessAiConfidence?: boolean
+  harnessStatus?: boolean
+  harnessCheckedAt?: boolean
+  harnessCheckedById?: boolean
   interlockEngaged?: boolean
   status?: boolean
+  startedAt?: boolean
+  resolvedAt?: boolean
+  chargedTeamId?: boolean
+  penaltyPoints?: boolean
   notifiedAt?: boolean
   acknowledgedAt?: boolean
   modelRepo?: boolean
+  episodeId?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
   zone?: boolean | Prisma.RiskEvent$zoneArgs<ExtArgs>
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
   review?: boolean | Prisma.RiskEvent$reviewArgs<ExtArgs>
   blocked?: boolean | Prisma.RiskEvent$blockedArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
   _count?: boolean | Prisma.RiskEventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["riskEvent"]>
 
@@ -3199,17 +4920,30 @@ export type RiskEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   clipPath?: boolean
   boxes?: boolean
   zonePolygon?: boolean
+  harnessAiStatus?: boolean
+  harnessAiConfidence?: boolean
+  harnessStatus?: boolean
+  harnessCheckedAt?: boolean
+  harnessCheckedById?: boolean
   interlockEngaged?: boolean
   status?: boolean
+  startedAt?: boolean
+  resolvedAt?: boolean
+  chargedTeamId?: boolean
+  penaltyPoints?: boolean
   notifiedAt?: boolean
   acknowledgedAt?: boolean
   modelRepo?: boolean
+  episodeId?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
   zone?: boolean | Prisma.RiskEvent$zoneArgs<ExtArgs>
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
 }, ExtArgs["result"]["riskEvent"]>
 
 export type RiskEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3240,17 +4974,30 @@ export type RiskEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   clipPath?: boolean
   boxes?: boolean
   zonePolygon?: boolean
+  harnessAiStatus?: boolean
+  harnessAiConfidence?: boolean
+  harnessStatus?: boolean
+  harnessCheckedAt?: boolean
+  harnessCheckedById?: boolean
   interlockEngaged?: boolean
   status?: boolean
+  startedAt?: boolean
+  resolvedAt?: boolean
+  chargedTeamId?: boolean
+  penaltyPoints?: boolean
   notifiedAt?: boolean
   acknowledgedAt?: boolean
   modelRepo?: boolean
+  episodeId?: boolean
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
   zone?: boolean | Prisma.RiskEvent$zoneArgs<ExtArgs>
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
 }, ExtArgs["result"]["riskEvent"]>
 
 export type RiskEventSelectScalar = {
@@ -3281,14 +5028,24 @@ export type RiskEventSelectScalar = {
   clipPath?: boolean
   boxes?: boolean
   zonePolygon?: boolean
+  harnessAiStatus?: boolean
+  harnessAiConfidence?: boolean
+  harnessStatus?: boolean
+  harnessCheckedAt?: boolean
+  harnessCheckedById?: boolean
   interlockEngaged?: boolean
   status?: boolean
+  startedAt?: boolean
+  resolvedAt?: boolean
+  chargedTeamId?: boolean
+  penaltyPoints?: boolean
   notifiedAt?: boolean
   acknowledgedAt?: boolean
   modelRepo?: boolean
+  episodeId?: boolean
 }
 
-export type RiskEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "zoneId" | "cameraId" | "analysisId" | "source" | "reportedById" | "code" | "level" | "reason" | "enteredAt" | "detectedAt" | "clearedAt" | "dwellSec" | "occupantsAtPeak" | "trackIds" | "clipStartSec" | "clipEndSec" | "peakSec" | "machineState" | "severity" | "confidence" | "evidencePath" | "clipPath" | "boxes" | "zonePolygon" | "interlockEngaged" | "status" | "notifiedAt" | "acknowledgedAt" | "modelRepo", ExtArgs["result"]["riskEvent"]>
+export type RiskEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workplaceId" | "equipmentId" | "zoneId" | "cameraId" | "analysisId" | "source" | "reportedById" | "code" | "level" | "reason" | "enteredAt" | "detectedAt" | "clearedAt" | "dwellSec" | "occupantsAtPeak" | "trackIds" | "clipStartSec" | "clipEndSec" | "peakSec" | "machineState" | "severity" | "confidence" | "evidencePath" | "clipPath" | "boxes" | "zonePolygon" | "harnessAiStatus" | "harnessAiConfidence" | "harnessStatus" | "harnessCheckedAt" | "harnessCheckedById" | "interlockEngaged" | "status" | "startedAt" | "resolvedAt" | "chargedTeamId" | "penaltyPoints" | "notifiedAt" | "acknowledgedAt" | "modelRepo" | "episodeId", ExtArgs["result"]["riskEvent"]>
 export type RiskEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
@@ -3296,8 +5053,11 @@ export type RiskEventInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
   review?: boolean | Prisma.RiskEvent$reviewArgs<ExtArgs>
   blocked?: boolean | Prisma.RiskEvent$blockedArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
   _count?: boolean | Prisma.RiskEventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RiskEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3307,6 +5067,9 @@ export type RiskEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
 }
 export type RiskEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workplace?: boolean | Prisma.WorkplaceDefaultArgs<ExtArgs>
@@ -3315,6 +5078,9 @@ export type RiskEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   camera?: boolean | Prisma.RiskEvent$cameraArgs<ExtArgs>
   analysis?: boolean | Prisma.RiskEvent$analysisArgs<ExtArgs>
   reportedBy?: boolean | Prisma.RiskEvent$reportedByArgs<ExtArgs>
+  harnessCheckedBy?: boolean | Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>
+  chargedTeam?: boolean | Prisma.RiskEvent$chargedTeamArgs<ExtArgs>
+  episode?: boolean | Prisma.RiskEvent$episodeArgs<ExtArgs>
 }
 
 export type $RiskEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3326,8 +5092,18 @@ export type $RiskEventPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     camera: Prisma.$CameraFeedPayload<ExtArgs> | null
     analysis: Prisma.$VideoAnalysisPayload<ExtArgs> | null
     reportedBy: Prisma.$UserPayload<ExtArgs> | null
+    harnessCheckedBy: Prisma.$UserPayload<ExtArgs> | null
+    /**
+     * 벌점을 받은 작업조. 벌점 부과로 종결할 때 사람이 고른다.
+     * 
+     * 설비로 조를 추론하지 않는다 — 한 설비에 여러 조가 붙고, 정비 작업이 등록되지 않은
+     * 조는 아무리 사건을 만들어도 점수가 안 깎인다. 누가 책임지는지는 추론이 아니라
+     * 사람이 정하는 일이다.
+     */
+    chargedTeam: Prisma.$TeamPayload<ExtArgs> | null
     review: Prisma.$ReviewPayload<ExtArgs> | null
     blocked: Prisma.$RestartRequestPayload<ExtArgs>[]
+    episode: Prisma.$StoppageEpisodePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3380,13 +5156,55 @@ export type $RiskEventPayload<ExtArgs extends runtime.Types.Extensions.InternalA
      */
     zonePolygon: string
     /**
+     * AI 의 안전대 착용 추정. 사건에 붙는 값이고, 체결은 아래 harnessStatus(사람 확인)다.
+     * "" (모델 없음) | WORN | NOT_WORN | UNKNOWN
+     * 빈 문자열과 UNKNOWN 을 구분한다 — 모델이 없는 것과 모델이 못 본 것은 다른 사실이다.
+     */
+    harnessAiStatus: string
+    harnessAiConfidence: number
+    /**
+     * 안전대 체결 **확정**. 진입한 구역이 requiresHarness 일 때만 의미가 있다.
+     * NA(해당 없음) | PENDING(확인 필요) | CONFIRMED(걸고 있었다) | MISSING(안 걸었다)
+     * AI 도 체결을 추정하지만(CameraSnapshot.hookVerdict) 확정은 사람이 한다.
+     * AI 가 판정한다는 것과 사람이 확정한다는 것은 다르다 — 이 프로젝트의 다른 모든 판정과 같다.
+     */
+    harnessStatus: string
+    harnessCheckedAt: Date | null
+    harnessCheckedById: string | null
+    /**
      * 이 건이 실제로 설비를 잠갔는가
      */
     interlockEngaged: boolean
+    /**
+     * PENDING ─[위험 확정]→ IN_PROGRESS ─┬─[확정]→ CONFIRMED
+     * └─[패스]→ PASSED
+     * └─[오탐]→ FALSE_POSITIVE   └─[보류]→ HOLD
+     * 
+     * 확정이 한 번에 끝나지 않는다. 화면에서 "위험이다" 라고 판단한 시점과 현장을 처리하고
+     * 종결한 시점은 다르고, 그 사이가 IN_PROGRESS 다. 점수는 CONFIRMED 만 감점한다.
+     */
     status: string
+    /**
+     * 진행 중으로 옮긴 시각. 대응 소요시간의 시작점이다.
+     */
+    startedAt: Date | null
+    /**
+     * 벌점 부과·조치 완료로 종결한 시각.
+     */
+    resolvedAt: Date | null
+    chargedTeamId: string | null
+    /**
+     * 실제로 깎은 점수. 상수(CONFIRMED_EVENT_PENALTY)가 나중에 바뀌어도 과거 기록은
+     * 그때 깎인 값을 그대로 들고 있어야 한다.
+     */
+    penaltyPoints: number
     notifiedAt: Date | null
     acknowledgedAt: Date | null
     modelRepo: string
+    /**
+     * 어느 정지 에피소드 안에서 벌어진 접근인가. 반복 패턴 집계의 연결고리다.
+     */
+    episodeId: string | null
   }, ExtArgs["result"]["riskEvent"]>
   composites: {}
 }
@@ -3787,8 +5605,11 @@ export interface Prisma__RiskEventClient<T, Null = never, ExtArgs extends runtim
   camera<T extends Prisma.RiskEvent$cameraArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$cameraArgs<ExtArgs>>): Prisma.Prisma__CameraFeedClient<runtime.Types.Result.GetResult<Prisma.$CameraFeedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   analysis<T extends Prisma.RiskEvent$analysisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$analysisArgs<ExtArgs>>): Prisma.Prisma__VideoAnalysisClient<runtime.Types.Result.GetResult<Prisma.$VideoAnalysisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reportedBy<T extends Prisma.RiskEvent$reportedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$reportedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  harnessCheckedBy<T extends Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$harnessCheckedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  chargedTeam<T extends Prisma.RiskEvent$chargedTeamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$chargedTeamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   review<T extends Prisma.RiskEvent$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   blocked<T extends Prisma.RiskEvent$blockedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$blockedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  episode<T extends Prisma.RiskEvent$episodeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RiskEvent$episodeArgs<ExtArgs>>): Prisma.Prisma__StoppageEpisodeClient<runtime.Types.Result.GetResult<Prisma.$StoppageEpisodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3845,11 +5666,21 @@ export interface RiskEventFieldRefs {
   readonly clipPath: Prisma.FieldRef<"RiskEvent", 'String'>
   readonly boxes: Prisma.FieldRef<"RiskEvent", 'String'>
   readonly zonePolygon: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly harnessAiStatus: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly harnessAiConfidence: Prisma.FieldRef<"RiskEvent", 'Float'>
+  readonly harnessStatus: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly harnessCheckedAt: Prisma.FieldRef<"RiskEvent", 'DateTime'>
+  readonly harnessCheckedById: Prisma.FieldRef<"RiskEvent", 'String'>
   readonly interlockEngaged: Prisma.FieldRef<"RiskEvent", 'Boolean'>
   readonly status: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly startedAt: Prisma.FieldRef<"RiskEvent", 'DateTime'>
+  readonly resolvedAt: Prisma.FieldRef<"RiskEvent", 'DateTime'>
+  readonly chargedTeamId: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly penaltyPoints: Prisma.FieldRef<"RiskEvent", 'Int'>
   readonly notifiedAt: Prisma.FieldRef<"RiskEvent", 'DateTime'>
   readonly acknowledgedAt: Prisma.FieldRef<"RiskEvent", 'DateTime'>
   readonly modelRepo: Prisma.FieldRef<"RiskEvent", 'String'>
+  readonly episodeId: Prisma.FieldRef<"RiskEvent", 'String'>
 }
     
 
@@ -4327,6 +6158,44 @@ export type RiskEvent$reportedByArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * RiskEvent.harnessCheckedBy
+ */
+export type RiskEvent$harnessCheckedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * RiskEvent.chargedTeam
+ */
+export type RiskEvent$chargedTeamArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamInclude<ExtArgs> | null
+  where?: Prisma.TeamWhereInput
+}
+
+/**
  * RiskEvent.review
  */
 export type RiskEvent$reviewArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4367,6 +6236,25 @@ export type RiskEvent$blockedArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.RestartRequestScalarFieldEnum | Prisma.RestartRequestScalarFieldEnum[]
+}
+
+/**
+ * RiskEvent.episode
+ */
+export type RiskEvent$episodeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoppageEpisode
+   */
+  select?: Prisma.StoppageEpisodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoppageEpisode
+   */
+  omit?: Prisma.StoppageEpisodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoppageEpisodeInclude<ExtArgs> | null
+  where?: Prisma.StoppageEpisodeWhereInput
 }
 
 /**

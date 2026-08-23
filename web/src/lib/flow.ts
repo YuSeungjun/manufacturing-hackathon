@@ -4,7 +4,7 @@ import { dayRange, todayLocalISO } from "@/lib/date";
 /**
  * 오늘의 흐름.
  *
- * 이 앱에는 실제 순서가 있다 — 위험구역 설정 → 영상 분석 → 위험 사건 검토 → 재가동 승인.
+ * 이 앱에는 실제 순서가 있다 — 조 설정 → 영상 분석(그 자리에서 판정) → 사건 종결.
  * 레일과 홈 보드가 같은 값을 보게 하려고 여기 한 곳에서만 계산한다.
  */
 
@@ -35,11 +35,12 @@ export type ManagerFlow = {
   stages: FlowStage[];
   equipmentCount: number;
   zoneCount: number;
+  teamCount: number;
+  assignedWorkers: number;
   analyzed: number;
   pendingEvents: number;
   criticalEvents: number;
-  blockedRestarts: number;
-  blockedEquipment: number;
+  inProgressEvents: number;
   next: NextAction;
 };
 
@@ -47,19 +48,19 @@ export async function managerFlow(workplaceId: string): Promise<ManagerFlow> {
   const { from, to } = dayRange(todayLocalISO());
   const scope = { workplaceId };
 
-  const [equipmentCount, zoneCount, analyzed, events, blockedRestarts, blockedEquipment] =
+  const [equipmentCount, zoneCount, teamCount, assignedWorkers, analyzed, events, inProgressEvents] =
     await Promise.all([
       prisma.equipment.count({ where: scope }),
       prisma.dangerZone.count({ where: { active: true, equipment: scope } }),
+      prisma.team.count({ where: scope }),
+      prisma.user.count({ where: { ...scope, role: "WORKER", teamId: { not: null } } }),
       prisma.videoAnalysis.count({ where: { ...scope, analyzedAt: { gte: from, lt: to } } }),
       prisma.riskEvent.findMany({
         where: { ...scope, detectedAt: { gte: from, lt: to } },
         select: { status: true, level: true },
       }),
-      prisma.restartRequest.count({
-        where: { ...scope, decision: "BLOCKED", outcome: "OPEN", approvedAt: null },
-      }),
-      prisma.equipment.count({ where: { ...scope, interlock: "BLOCKED" } }),
+      // 날짜로 자르지 않는다. 진행 중인 사건은 종결될 때까지 남아 있어야 한다.
+      prisma.riskEvent.count({ where: { ...scope, status: "IN_PROGRESS" } }),
     ]);
 
   const pendingEvents = events.filter((e) => e.status === "PENDING").length;
@@ -68,11 +69,11 @@ export async function managerFlow(workplaceId: string): Promise<ManagerFlow> {
   const stages: FlowStage[] = [
     {
       stage: 1,
-      href: "/manager/equipment",
-      label: "위험구역 설정",
-      short: "구역",
-      value: zoneCount > 0 ? `${zoneCount}` : "필요",
-      state: zoneCount > 0 ? "done" : "active",
+      href: "/manager/teams",
+      label: "조 설정",
+      short: "조 설정",
+      value: assignedWorkers > 0 ? `${assignedWorkers}` : "필요",
+      state: teamCount > 0 && assignedWorkers > 0 ? "done" : "active",
     },
     {
       stage: 2,
@@ -83,20 +84,15 @@ export async function managerFlow(workplaceId: string): Promise<ManagerFlow> {
       state: analyzed > 0 ? "done" : zoneCount > 0 ? "todo" : "idle",
     },
     {
+      // 판정은 분석 결과 화면에서 하고, 판정이 끝난 사건은 여기로 모인다.
       stage: 3,
-      href: "/manager/events",
-      label: "위험 사건",
-      short: "사건",
-      value: `${pendingEvents}`,
-      state: pendingEvents > 0 ? "active" : events.length > 0 ? "done" : "idle",
-    },
-    {
-      stage: 4,
-      href: "/manager/restarts",
-      label: "재가동 승인",
-      short: "승인",
-      value: `${blockedRestarts}`,
-      state: blockedRestarts > 0 ? "active" : "idle",
+      href: "/manager/incidents",
+      label: "진행 중인 사건",
+      short: "진행 중",
+      value: `${inProgressEvents}`,
+      // 진행 중은 날짜와 무관하게 남아 있는 것을 센다 — 어제 넘어온 사건이
+      // 오늘 화면에서 사라지면 그대로 잊힌다.
+      state: inProgressEvents > 0 ? "active" : "idle",
     },
   ];
 
@@ -104,30 +100,38 @@ export async function managerFlow(workplaceId: string): Promise<ManagerFlow> {
     stages,
     equipmentCount,
     zoneCount,
+    teamCount,
+    assignedWorkers,
     analyzed,
     pendingEvents,
     criticalEvents,
-    blockedRestarts,
-    blockedEquipment,
+    inProgressEvents,
     next: nextAction(),
   };
 
   /**
    * 지금 할 일은 하나만 고른다.
-   * 사람이 차단당한 채 라인 앞에 서 있는 상황이 가장 급하다.
+   * 필수 조 편성을 먼저 안내하고, 다음으로 검토 대기 사건과 설정 누락을 고른다.
    */
   function nextAction(): NextAction {
-    if (blockedRestarts > 0) {
+    if (teamCount === 0 || assignedWorkers === 0) {
       return {
-        label: `재가동 요청 ${blockedRestarts}건이 차단된 채 승인을 기다립니다`,
-        href: "/manager/restarts",
-        cta: "현장 확인하러 가기",
+        label: "작업조와 조원을 먼저 설정해 주세요",
+        href: "/manager/teams",
+        cta: "조 설정하기",
+      };
+    }
+    if (inProgressEvents > 0) {
+      return {
+        label: `진행 중인 사건 ${inProgressEvents}건이 종결을 기다립니다`,
+        href: "/manager/incidents",
+        cta: "종결하러 가기",
       };
     }
     if (pendingEvents > 0) {
       return {
         label: `위험 사건 ${pendingEvents}건이 판단을 기다립니다`,
-        href: "/manager/events",
+        href: "/manager/analyze",
         cta: "검토하러 가기",
       };
     }

@@ -11,6 +11,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from ai.config import ENTER_FRAMES, EXIT_FRAMES
 from ai.geometry import occupancy_score, point_in_polygon, validate_polygon
+from ai.harness import _classify_name
+from ai.pipeline import link_limit_for
 from ai.risk import RiskEngine, classify
 from ai.zones import DwellState, MachineTimeline, ZoneTracker
 
@@ -271,3 +273,106 @@ def test_critical_is_confirmed_immediately():
     events = _run(engine, script)
     assert len(events) == 1
     assert events[0].level == "CRITICAL"
+
+
+# ── 정지 이미지 시퀀스 ──────────────────────────────────
+#
+# 영상 경로와 규칙이 다르다. 프레임 하나가 곧 의도적으로 고른 관측이라 디바운스를 끄고,
+# 잔류는 프레임 간격만큼만 누적한다. 그 두 가지가 실제로 그렇게 되는지 본다.
+
+def test_single_still_frame_confirms_event():
+    """이미지 한 장이 위험을 보여주면 그 한 장으로 사건이 된다.
+
+    영상 경로는 1초 미만 이벤트를 디바운스한다(test_short_blip_is_not_confirmed).
+    정지 이미지에 그 규칙을 그대로 걸면 한 장짜리 근거가 통째로 사라진다.
+    """
+    engine = RiskEngine([{"id": "z", "name": "테일 풀리", "dwellWarnSec": 45}], min_event_sec=0.0)
+    engine.step(0.0, "z", "STOPPED", [1], 0.0)
+    engine.step(30.0, "z", "STOPPED", [], 0.0)  # 다음 장에서 비면 닫힌다
+    events = engine.finish()
+    assert len(events) == 1
+    assert events[0].code == "ZONE_INTRUSION"
+
+
+def test_video_path_still_debounces():
+    """정지 이미지용 완화가 영상 경로를 오염시키지 않는다."""
+    engine = RiskEngine([{"id": "z", "name": "테일 풀리", "dwellWarnSec": 45}])
+    engine.step(0.0, "z", "STOPPED", [1], 0.0)
+    engine.step(2.0, "z", "STOPPED", [], 0.0)
+    assert engine.finish() == []
+
+
+def test_sparse_dwell_escalates_at_frame_resolution():
+    """30초 간격 이미지에서 잔류 임계(45초)는 두 칸을 지나야 넘는다.
+
+    잔류시간의 해상도가 프레임 간격이라는 뜻이 여기서 드러난다 — 45초 임계를
+    30초 간격으로 재면 실제로 넘는 시점은 60초다. 그 사실을 숨기지 않는다.
+    """
+    engine = RiskEngine([{"id": "z", "name": "테일 풀리", "dwellWarnSec": 45}], min_event_sec=0.0)
+    levels = []
+    for t, dwell in [(0.0, 0.0), (30.0, 30.0), (60.0, 60.0)]:
+        engine.step(t, "z", "STOPPED", [1], dwell)
+        levels.append(engine.current("z").level)
+    assert levels == ["CAUTION", "CAUTION", "WARNING"]
+
+
+def test_sparse_restart_with_worker_inside_is_critical():
+    """이미지 시퀀스에서도 '안에 있는 채로 깨어난 순간'이 CRITICAL 이다."""
+    engine = RiskEngine([{"id": "z", "name": "테일 풀리", "dwellWarnSec": 45}], min_event_sec=0.0)
+    engine.step(0.0, "z", "STOPPED", [1], 0.0)
+    engine.step(30.0, "z", "RESTART_REQUESTED", [1], 30.0)
+    current = engine.current("z")
+    assert current.level == "CRITICAL"
+    assert current.code == "RESTART_WITH_WORKER_INSIDE"
+    # 새 사건을 만들지 않고 한 건의 서사로 남는다
+    assert current.start_sec == 0.0
+
+
+# ── 안전대 클래스 이름 매핑 ─────────────────────────────
+#
+# 공개 데이터셋마다 이름이 다르다. 부정 접두어를 놓치면 미착용을 착용으로 읽는다 —
+# 안전 시스템에서 가장 나쁜 방향의 오류다.
+
+def test_harness_class_names():
+    assert _classify_name("harness") == "WORN"
+    assert _classify_name("safety-harness") == "WORN"
+    assert _classify_name("full_body_harness") == "WORN"
+    assert _classify_name("safety_belt") == "WORN"
+
+    assert _classify_name("no-harness") == "NOT_WORN"
+    assert _classify_name("no_harness") == "NOT_WORN"
+    assert _classify_name("NO-Harness") == "NOT_WORN"
+    assert _classify_name("without harness") == "NOT_WORN"
+    assert _classify_name("non-harness") == "NOT_WORN"
+
+    # 하네스와 무관한 클래스는 판정에 쓰지 않는다
+    assert _classify_name("person") is None
+    assert _classify_name("Hardhat") is None
+    assert _classify_name("") is None
+
+
+def test_link_limit_refuses_to_bridge_sparse_frames():
+    """관측되지 않은 공백은 존재의 증거가 아니다.
+
+    30초 간격이면 90초까지 이어 붙인다 — 한두 장 미탐을 넘어가려면 그만큼은 필요하다.
+    10분 간격이면 절대 상한에 걸려 아예 이어 붙이지 않는다. 그 정도로 드문 관측으로
+    "계속 안에 있었다" 를 주장하면 잔류시간이 조용히 거짓이 된다.
+    """
+    assert link_limit_for(30.0) == 90.0
+    assert link_limit_for(600.0) == 180.0   # 절대 상한
+    assert link_limit_for(0.0) == 0.0       # 간격이 없으면 이어 붙일 것도 없다
+
+
+def test_empty_observation_closes_open_event():
+    """공백을 빈 관측으로 흘리면 열린 사건이 닫힌다.
+
+    파이프라인이 큰 간격을 만났을 때 쓰는 수단이 이것이다 — 사건이 공백을 건너
+    한 건으로 이어지면 "6.7시간 잔류" 같은 문장이 나온다.
+    """
+    engine = RiskEngine([{"id": "z", "name": "테일 풀리", "dwellWarnSec": 45}], min_event_sec=0.0)
+    engine.step(0.0, "z", "STOPPED", [1], 0.0)
+    engine.step(1.5, "z", "STOPPED", [], 0.0)      # 공백 — 빈 관측
+    engine.step(3600.0, "z", "STOPPED", [1], 0.0)  # 한참 뒤 다시 보임
+    events = engine.finish()
+    assert len(events) == 2
+    assert all(e.dwell_sec == 0.0 for e in events)

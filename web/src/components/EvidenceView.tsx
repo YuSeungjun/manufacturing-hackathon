@@ -40,7 +40,7 @@ export function EvidenceView({
 
   return (
     <figure className="plate overflow-hidden">
-      {camera || stamp ? (
+      {camera || stamp || zoneName || dwellSec != null || occupancy != null ? (
         <figcaption className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 px-2 py-1.5">
           {camera ? (
             <span className="flex items-baseline gap-1.5">
@@ -50,6 +50,16 @@ export function EvidenceView({
               </span>
             </span>
           ) : null}
+          {hasZone && zoneName ? (
+            <span className="flex items-baseline gap-1.5">
+              <span className="scan">Zone</span>
+              <span className="text-[12px]" style={{ color: "var(--plate-ink)" }}>
+                {zoneName}
+              </span>
+            </span>
+          ) : null}
+          {dwellSec != null ? <span className="scan">Dwell {dwellSec.toFixed(1)}s</span> : null}
+          {occupancy != null ? <span className="scan">In {occupancy}</span> : null}
           {stamp ? <span className="scan ml-auto">{formatStamp(stamp)}</span> : null}
         </figcaption>
       ) : null}
@@ -80,22 +90,10 @@ export function EvidenceView({
           </svg>
         ) : null}
 
-        {hasZone && (zoneName || dwellSec != null) ? (
-          <span
-            className="absolute left-1 top-1 flex items-baseline gap-2 px-1.5 py-[2px] text-[10.5px] font-bold leading-4"
-            style={{
-              background: "rgba(4, 20, 26, 0.72)",
-              color: "var(--scan)",
-              fontFamily: "var(--font-robomono), ui-monospace, monospace",
-            }}
-          >
-            {zoneName ? <span>ZONE {zoneName}</span> : null}
-            {dwellSec != null ? <span>DWELL {dwellSec.toFixed(1)}s</span> : null}
-            {occupancy != null ? <span>IN {occupancy}</span> : null}
-          </span>
-        ) : null}
-
-        {boxes.map((box, index) => (
+        {boxes.map((box, index) => {
+          // 박스가 위 끝에 붙으면 라벨이 이미지 밖으로 잘린다. 그때만 박스 안쪽에 붙인다.
+          const labelInside = box.y < 0.05;
+          return (
           <span
             key={`${box.trackId ?? "anon"}-${index}`}
             className="absolute"
@@ -109,8 +107,10 @@ export function EvidenceView({
             }}
           >
             <span
-              className="absolute -top-[1.15rem] left-[-2px] whitespace-nowrap px-1 py-[1px]
-                         text-[10.5px] font-bold leading-4 tracking-[0.02em]"
+              className={`absolute left-[-2px] whitespace-nowrap px-1 py-[1px] text-[10.5px]
+                          font-bold leading-4 tracking-[0.02em] ${
+                            labelInside ? "top-0" : "-top-[1.15rem]"
+                          }`}
               style={{
                 background: "var(--scan)",
                 color: "#04141a",
@@ -122,7 +122,8 @@ export function EvidenceView({
               {box.truncated ? " ~" : ""}
             </span>
           </span>
-        ))}
+          );
+        })}
       </div>
     </figure>
   );

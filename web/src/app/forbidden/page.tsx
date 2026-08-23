@@ -9,7 +9,7 @@ export default function ForbiddenPage() {
           안전관리자 권한이 필요한 화면입니다
         </h1>
         <p className="mt-3 text-[14px] leading-7 text-ink-2">
-          위험구역 설정, 영상 분석, 위험 사건 판단, 재가동 해제 승인은 승인된 안전관리자만 할 수
+          작업조 설정, 영상 분석, 위험 사건 판단과 현장 조치는 승인된 안전관리자만 할 수
           있습니다. 화면에서 버튼을 숨기는 것과 별개로 서버에서도 권한을 확인합니다.
         </p>
         <Link href="/" className="btn-act mt-5">

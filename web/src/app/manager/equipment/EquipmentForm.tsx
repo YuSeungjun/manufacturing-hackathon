@@ -18,18 +18,26 @@ export function EquipmentForm() {
 
   return (
     <form action={action} className="paper flex flex-col gap-3 p-4">
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-4">
         <label className="flex flex-col gap-1.5">
           <span className="label">설비 번호</span>
-          <input name="code" className="input num" placeholder="RM-02" required maxLength={24} />
+          <input name="code" className="input num" placeholder="CV-01" required maxLength={24} />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="label">설비 이름</span>
-          <input name="name" className="input" placeholder="조압연기 2호" required maxLength={60} />
+          <input name="name" className="input" placeholder="원료 이송 컨베이어 1호" required maxLength={60} />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="label">라인</span>
-          <input name="line" className="input" placeholder="열연 1라인" maxLength={60} />
+          <input name="line" className="input" placeholder="소결 1라인" maxLength={60} />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className="label">설비 종류</span>
+          <select name="kind" defaultValue="CONVEYOR" className="input">
+            <option value="CONVEYOR">컨베이어</option>
+            <option value="ROLLING_MILL">압연설비</option>
+            <option value="OTHER">기타 설비</option>
+          </select>
         </label>
       </div>
 

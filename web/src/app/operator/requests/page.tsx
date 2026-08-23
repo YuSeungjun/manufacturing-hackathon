@@ -14,7 +14,6 @@ export default async function OperatorRequestsPage() {
     take: 30,
     include: {
       equipment: { select: { code: true, name: true, interlock: true } },
-      approvedBy: { select: { name: true } },
       blockedBy: { include: { zone: true } },
     },
   });
@@ -24,7 +23,7 @@ export default async function OperatorRequestsPage() {
       <PageHead
         stage={2}
         title="내 재가동 요청"
-        sub="차단된 요청은 안전관리자가 현장을 확인하고 해제해야 진행됩니다. 승인이 나면 여기서 바로 재가동할 수 있습니다."
+        sub="차단 원인을 조치한 뒤 설비 화면에서 다시 요청합니다. 위험 사건이 종결되고 개인 시건이 모두 풀렸으면 즉시 재가동할 수 있습니다."
       />
 
       {requests.length === 0 ? (
@@ -32,10 +31,8 @@ export default async function OperatorRequestsPage() {
       ) : (
         <ul className="flex flex-col gap-3">
           {requests.map((request) => {
-            const cleared = request.approvedAt != null;
             const restartable =
-              request.decision === "BLOCKED" &&
-              cleared &&
+              request.decision === "ALLOWED" &&
               request.outcome === "OPEN" &&
               request.equipment.interlock === "CLEAR";
             return (
@@ -50,12 +47,14 @@ export default async function OperatorRequestsPage() {
                   </span>
                   {request.outcome === "RESTARTED" ? (
                     <span className="tag tag-safe">재가동 완료</span>
+                  ) : request.outcome === "RESOLVED" ? (
+                    <span className="tag tag-safe">원인 조치됨</span>
                   ) : request.outcome === "REJECTED" ? (
                     <span className="tag tag-hold">반려</span>
-                  ) : cleared ? (
-                    <span className="tag tag-act">해제 승인됨</span>
                   ) : request.decision === "BLOCKED" ? (
-                    <span className="tag tag-hold">승인 대기</span>
+                    <span className="tag tag-hold">조치 필요</span>
+                  ) : request.decision === "ALLOWED" ? (
+                    <span className="tag tag-act">재가동 가능</span>
                   ) : null}
                   <span className="ml-auto num text-[12.5px] text-ink-3">
                     {formatStamp(request.requestedAt)}
@@ -79,11 +78,9 @@ export default async function OperatorRequestsPage() {
                   </div>
                 ) : null}
 
-                {cleared ? (
+                {request.decision === "BLOCKED" && request.outcome === "OPEN" ? (
                   <p className="text-[12.5px] text-ink-3">
-                    {request.approvedBy?.name ?? "안전관리자"} 승인 ·{" "}
-                    {formatStamp(request.approvedAt!)}
-                    {request.approvalNote ? ` — ${request.approvalNote}` : ""}
+                    표시된 위험 사건과 개인 시건을 조치한 뒤 설비 화면에서 다시 요청해 주세요.
                   </p>
                 ) : null}
 

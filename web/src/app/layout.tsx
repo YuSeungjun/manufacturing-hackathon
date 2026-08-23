@@ -30,9 +30,9 @@ const robomono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "안전한 재가동 · 제철소 압연설비 끼임 예방",
+  title: "5조 대시보드 · 제철소 이송·회전설비 끼임 예방",
   description:
-    "AI가 압연설비 위험구역의 작업자 잔류를 감지해 불시 재가동을 차단하고, 위험 순간을 자동 기록해 안전관리자에게 전달합니다.",
+    "AI가 컨베이어 위험구역의 작업자 잔류를 감지해 불시 재가동을 차단하고, 같은 상황이 몇 번 반복되는지까지 남깁니다.",
 };
 
 export const viewport: Viewport = {

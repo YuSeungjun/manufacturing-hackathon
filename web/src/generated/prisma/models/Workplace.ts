@@ -174,6 +174,8 @@ export type WorkplaceWhereInput = {
   analyses?: Prisma.VideoAnalysisListRelationFilter
   riskEvents?: Prisma.RiskEventListRelationFilter
   restarts?: Prisma.RestartRequestListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }
 
 export type WorkplaceOrderByWithRelationInput = {
@@ -188,6 +190,8 @@ export type WorkplaceOrderByWithRelationInput = {
   analyses?: Prisma.VideoAnalysisOrderByRelationAggregateInput
   riskEvents?: Prisma.RiskEventOrderByRelationAggregateInput
   restarts?: Prisma.RestartRequestOrderByRelationAggregateInput
+  episodes?: Prisma.StoppageEpisodeOrderByRelationAggregateInput
+  snapshots?: Prisma.CameraSnapshotOrderByRelationAggregateInput
 }
 
 export type WorkplaceWhereUniqueInput = Prisma.AtLeast<{
@@ -205,6 +209,8 @@ export type WorkplaceWhereUniqueInput = Prisma.AtLeast<{
   analyses?: Prisma.VideoAnalysisListRelationFilter
   riskEvents?: Prisma.RiskEventListRelationFilter
   restarts?: Prisma.RestartRequestListRelationFilter
+  episodes?: Prisma.StoppageEpisodeListRelationFilter
+  snapshots?: Prisma.CameraSnapshotListRelationFilter
 }, "id" | "name">
 
 export type WorkplaceOrderByWithAggregationInput = {
@@ -237,6 +243,8 @@ export type WorkplaceCreateInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateInput = {
@@ -251,6 +259,8 @@ export type WorkplaceUncheckedCreateInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUpdateInput = {
@@ -265,6 +275,8 @@ export type WorkplaceUpdateInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateInput = {
@@ -279,6 +291,8 @@ export type WorkplaceUncheckedUpdateInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateManyInput = {
@@ -438,6 +452,34 @@ export type WorkplaceUpdateOneRequiredWithoutRestartsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WorkplaceUpdateToOneWithWhereWithoutRestartsInput, Prisma.WorkplaceUpdateWithoutRestartsInput>, Prisma.WorkplaceUncheckedUpdateWithoutRestartsInput>
 }
 
+export type WorkplaceCreateNestedOneWithoutEpisodesInput = {
+  create?: Prisma.XOR<Prisma.WorkplaceCreateWithoutEpisodesInput, Prisma.WorkplaceUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.WorkplaceCreateOrConnectWithoutEpisodesInput
+  connect?: Prisma.WorkplaceWhereUniqueInput
+}
+
+export type WorkplaceUpdateOneRequiredWithoutEpisodesNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkplaceCreateWithoutEpisodesInput, Prisma.WorkplaceUncheckedCreateWithoutEpisodesInput>
+  connectOrCreate?: Prisma.WorkplaceCreateOrConnectWithoutEpisodesInput
+  upsert?: Prisma.WorkplaceUpsertWithoutEpisodesInput
+  connect?: Prisma.WorkplaceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkplaceUpdateToOneWithWhereWithoutEpisodesInput, Prisma.WorkplaceUpdateWithoutEpisodesInput>, Prisma.WorkplaceUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type WorkplaceCreateNestedOneWithoutSnapshotsInput = {
+  create?: Prisma.XOR<Prisma.WorkplaceCreateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.WorkplaceCreateOrConnectWithoutSnapshotsInput
+  connect?: Prisma.WorkplaceWhereUniqueInput
+}
+
+export type WorkplaceUpdateOneRequiredWithoutSnapshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkplaceCreateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedCreateWithoutSnapshotsInput>
+  connectOrCreate?: Prisma.WorkplaceCreateOrConnectWithoutSnapshotsInput
+  upsert?: Prisma.WorkplaceUpsertWithoutSnapshotsInput
+  connect?: Prisma.WorkplaceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkplaceUpdateToOneWithWhereWithoutSnapshotsInput, Prisma.WorkplaceUpdateWithoutSnapshotsInput>, Prisma.WorkplaceUncheckedUpdateWithoutSnapshotsInput>
+}
+
 export type WorkplaceCreateWithoutTeamsInput = {
   id?: string
   name: string
@@ -449,6 +491,8 @@ export type WorkplaceCreateWithoutTeamsInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutTeamsInput = {
@@ -462,6 +506,8 @@ export type WorkplaceUncheckedCreateWithoutTeamsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutTeamsInput = {
@@ -491,6 +537,8 @@ export type WorkplaceUpdateWithoutTeamsInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutTeamsInput = {
@@ -504,6 +552,8 @@ export type WorkplaceUncheckedUpdateWithoutTeamsInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutUsersInput = {
@@ -517,6 +567,8 @@ export type WorkplaceCreateWithoutUsersInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutUsersInput = {
@@ -530,6 +582,8 @@ export type WorkplaceUncheckedCreateWithoutUsersInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutUsersInput = {
@@ -559,6 +613,8 @@ export type WorkplaceUpdateWithoutUsersInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutUsersInput = {
@@ -572,6 +628,8 @@ export type WorkplaceUncheckedUpdateWithoutUsersInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutEquipmentInput = {
@@ -585,6 +643,8 @@ export type WorkplaceCreateWithoutEquipmentInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutEquipmentInput = {
@@ -598,6 +658,8 @@ export type WorkplaceUncheckedCreateWithoutEquipmentInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutEquipmentInput = {
@@ -627,6 +689,8 @@ export type WorkplaceUpdateWithoutEquipmentInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutEquipmentInput = {
@@ -640,6 +704,8 @@ export type WorkplaceUncheckedUpdateWithoutEquipmentInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutCamerasInput = {
@@ -653,6 +719,8 @@ export type WorkplaceCreateWithoutCamerasInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutCamerasInput = {
@@ -666,6 +734,8 @@ export type WorkplaceUncheckedCreateWithoutCamerasInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutCamerasInput = {
@@ -695,6 +765,8 @@ export type WorkplaceUpdateWithoutCamerasInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutCamerasInput = {
@@ -708,6 +780,8 @@ export type WorkplaceUncheckedUpdateWithoutCamerasInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutWorksInput = {
@@ -721,6 +795,8 @@ export type WorkplaceCreateWithoutWorksInput = {
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutWorksInput = {
@@ -734,6 +810,8 @@ export type WorkplaceUncheckedCreateWithoutWorksInput = {
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutWorksInput = {
@@ -763,6 +841,8 @@ export type WorkplaceUpdateWithoutWorksInput = {
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutWorksInput = {
@@ -776,6 +856,8 @@ export type WorkplaceUncheckedUpdateWithoutWorksInput = {
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutAnalysesInput = {
@@ -789,6 +871,8 @@ export type WorkplaceCreateWithoutAnalysesInput = {
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutAnalysesInput = {
@@ -802,6 +886,8 @@ export type WorkplaceUncheckedCreateWithoutAnalysesInput = {
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutAnalysesInput = {
@@ -831,6 +917,8 @@ export type WorkplaceUpdateWithoutAnalysesInput = {
   works?: Prisma.MaintenanceWorkUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutAnalysesInput = {
@@ -844,6 +932,8 @@ export type WorkplaceUncheckedUpdateWithoutAnalysesInput = {
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutRiskEventsInput = {
@@ -857,6 +947,8 @@ export type WorkplaceCreateWithoutRiskEventsInput = {
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutWorkplaceInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutRiskEventsInput = {
@@ -870,6 +962,8 @@ export type WorkplaceUncheckedCreateWithoutRiskEventsInput = {
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutWorkplaceInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutRiskEventsInput = {
@@ -899,6 +993,8 @@ export type WorkplaceUpdateWithoutRiskEventsInput = {
   works?: Prisma.MaintenanceWorkUpdateManyWithoutWorkplaceNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutRiskEventsInput = {
@@ -912,6 +1008,8 @@ export type WorkplaceUncheckedUpdateWithoutRiskEventsInput = {
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutWorkplaceNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceCreateWithoutRestartsInput = {
@@ -925,6 +1023,8 @@ export type WorkplaceCreateWithoutRestartsInput = {
   works?: Prisma.MaintenanceWorkCreateNestedManyWithoutWorkplaceInput
   analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceUncheckedCreateWithoutRestartsInput = {
@@ -938,6 +1038,8 @@ export type WorkplaceUncheckedCreateWithoutRestartsInput = {
   works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutWorkplaceInput
   analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
 }
 
 export type WorkplaceCreateOrConnectWithoutRestartsInput = {
@@ -967,6 +1069,8 @@ export type WorkplaceUpdateWithoutRestartsInput = {
   works?: Prisma.MaintenanceWorkUpdateManyWithoutWorkplaceNestedInput
   analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
 }
 
 export type WorkplaceUncheckedUpdateWithoutRestartsInput = {
@@ -980,6 +1084,160 @@ export type WorkplaceUncheckedUpdateWithoutRestartsInput = {
   works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutWorkplaceNestedInput
   analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
+}
+
+export type WorkplaceCreateWithoutEpisodesInput = {
+  id?: string
+  name: string
+  managerCode: string
+  teams?: Prisma.TeamCreateNestedManyWithoutWorkplaceInput
+  users?: Prisma.UserCreateNestedManyWithoutWorkplaceInput
+  equipment?: Prisma.EquipmentCreateNestedManyWithoutWorkplaceInput
+  cameras?: Prisma.CameraFeedCreateNestedManyWithoutWorkplaceInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutWorkplaceInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
+  restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotCreateNestedManyWithoutWorkplaceInput
+}
+
+export type WorkplaceUncheckedCreateWithoutEpisodesInput = {
+  id?: string
+  name: string
+  managerCode: string
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkplaceInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkplaceInput
+  equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutWorkplaceInput
+  cameras?: Prisma.CameraFeedUncheckedCreateNestedManyWithoutWorkplaceInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutWorkplaceInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
+  restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  snapshots?: Prisma.CameraSnapshotUncheckedCreateNestedManyWithoutWorkplaceInput
+}
+
+export type WorkplaceCreateOrConnectWithoutEpisodesInput = {
+  where: Prisma.WorkplaceWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkplaceCreateWithoutEpisodesInput, Prisma.WorkplaceUncheckedCreateWithoutEpisodesInput>
+}
+
+export type WorkplaceUpsertWithoutEpisodesInput = {
+  update: Prisma.XOR<Prisma.WorkplaceUpdateWithoutEpisodesInput, Prisma.WorkplaceUncheckedUpdateWithoutEpisodesInput>
+  create: Prisma.XOR<Prisma.WorkplaceCreateWithoutEpisodesInput, Prisma.WorkplaceUncheckedCreateWithoutEpisodesInput>
+  where?: Prisma.WorkplaceWhereInput
+}
+
+export type WorkplaceUpdateToOneWithWhereWithoutEpisodesInput = {
+  where?: Prisma.WorkplaceWhereInput
+  data: Prisma.XOR<Prisma.WorkplaceUpdateWithoutEpisodesInput, Prisma.WorkplaceUncheckedUpdateWithoutEpisodesInput>
+}
+
+export type WorkplaceUpdateWithoutEpisodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  managerCode?: Prisma.StringFieldUpdateOperationsInput | string
+  teams?: Prisma.TeamUpdateManyWithoutWorkplaceNestedInput
+  users?: Prisma.UserUpdateManyWithoutWorkplaceNestedInput
+  equipment?: Prisma.EquipmentUpdateManyWithoutWorkplaceNestedInput
+  cameras?: Prisma.CameraFeedUpdateManyWithoutWorkplaceNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutWorkplaceNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
+  restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUpdateManyWithoutWorkplaceNestedInput
+}
+
+export type WorkplaceUncheckedUpdateWithoutEpisodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  managerCode?: Prisma.StringFieldUpdateOperationsInput | string
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkplaceNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutWorkplaceNestedInput
+  equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutWorkplaceNestedInput
+  cameras?: Prisma.CameraFeedUncheckedUpdateManyWithoutWorkplaceNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutWorkplaceNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
+  restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  snapshots?: Prisma.CameraSnapshotUncheckedUpdateManyWithoutWorkplaceNestedInput
+}
+
+export type WorkplaceCreateWithoutSnapshotsInput = {
+  id?: string
+  name: string
+  managerCode: string
+  teams?: Prisma.TeamCreateNestedManyWithoutWorkplaceInput
+  users?: Prisma.UserCreateNestedManyWithoutWorkplaceInput
+  equipment?: Prisma.EquipmentCreateNestedManyWithoutWorkplaceInput
+  cameras?: Prisma.CameraFeedCreateNestedManyWithoutWorkplaceInput
+  works?: Prisma.MaintenanceWorkCreateNestedManyWithoutWorkplaceInput
+  analyses?: Prisma.VideoAnalysisCreateNestedManyWithoutWorkplaceInput
+  riskEvents?: Prisma.RiskEventCreateNestedManyWithoutWorkplaceInput
+  restarts?: Prisma.RestartRequestCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeCreateNestedManyWithoutWorkplaceInput
+}
+
+export type WorkplaceUncheckedCreateWithoutSnapshotsInput = {
+  id?: string
+  name: string
+  managerCode: string
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkplaceInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkplaceInput
+  equipment?: Prisma.EquipmentUncheckedCreateNestedManyWithoutWorkplaceInput
+  cameras?: Prisma.CameraFeedUncheckedCreateNestedManyWithoutWorkplaceInput
+  works?: Prisma.MaintenanceWorkUncheckedCreateNestedManyWithoutWorkplaceInput
+  analyses?: Prisma.VideoAnalysisUncheckedCreateNestedManyWithoutWorkplaceInput
+  riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutWorkplaceInput
+  restarts?: Prisma.RestartRequestUncheckedCreateNestedManyWithoutWorkplaceInput
+  episodes?: Prisma.StoppageEpisodeUncheckedCreateNestedManyWithoutWorkplaceInput
+}
+
+export type WorkplaceCreateOrConnectWithoutSnapshotsInput = {
+  where: Prisma.WorkplaceWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkplaceCreateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedCreateWithoutSnapshotsInput>
+}
+
+export type WorkplaceUpsertWithoutSnapshotsInput = {
+  update: Prisma.XOR<Prisma.WorkplaceUpdateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedUpdateWithoutSnapshotsInput>
+  create: Prisma.XOR<Prisma.WorkplaceCreateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedCreateWithoutSnapshotsInput>
+  where?: Prisma.WorkplaceWhereInput
+}
+
+export type WorkplaceUpdateToOneWithWhereWithoutSnapshotsInput = {
+  where?: Prisma.WorkplaceWhereInput
+  data: Prisma.XOR<Prisma.WorkplaceUpdateWithoutSnapshotsInput, Prisma.WorkplaceUncheckedUpdateWithoutSnapshotsInput>
+}
+
+export type WorkplaceUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  managerCode?: Prisma.StringFieldUpdateOperationsInput | string
+  teams?: Prisma.TeamUpdateManyWithoutWorkplaceNestedInput
+  users?: Prisma.UserUpdateManyWithoutWorkplaceNestedInput
+  equipment?: Prisma.EquipmentUpdateManyWithoutWorkplaceNestedInput
+  cameras?: Prisma.CameraFeedUpdateManyWithoutWorkplaceNestedInput
+  works?: Prisma.MaintenanceWorkUpdateManyWithoutWorkplaceNestedInput
+  analyses?: Prisma.VideoAnalysisUpdateManyWithoutWorkplaceNestedInput
+  riskEvents?: Prisma.RiskEventUpdateManyWithoutWorkplaceNestedInput
+  restarts?: Prisma.RestartRequestUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUpdateManyWithoutWorkplaceNestedInput
+}
+
+export type WorkplaceUncheckedUpdateWithoutSnapshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  managerCode?: Prisma.StringFieldUpdateOperationsInput | string
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkplaceNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutWorkplaceNestedInput
+  equipment?: Prisma.EquipmentUncheckedUpdateManyWithoutWorkplaceNestedInput
+  cameras?: Prisma.CameraFeedUncheckedUpdateManyWithoutWorkplaceNestedInput
+  works?: Prisma.MaintenanceWorkUncheckedUpdateManyWithoutWorkplaceNestedInput
+  analyses?: Prisma.VideoAnalysisUncheckedUpdateManyWithoutWorkplaceNestedInput
+  riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutWorkplaceNestedInput
+  restarts?: Prisma.RestartRequestUncheckedUpdateManyWithoutWorkplaceNestedInput
+  episodes?: Prisma.StoppageEpisodeUncheckedUpdateManyWithoutWorkplaceNestedInput
 }
 
 
@@ -996,6 +1254,8 @@ export type WorkplaceCountOutputType = {
   analyses: number
   riskEvents: number
   restarts: number
+  episodes: number
+  snapshots: number
 }
 
 export type WorkplaceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1007,6 +1267,8 @@ export type WorkplaceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   analyses?: boolean | WorkplaceCountOutputTypeCountAnalysesArgs
   riskEvents?: boolean | WorkplaceCountOutputTypeCountRiskEventsArgs
   restarts?: boolean | WorkplaceCountOutputTypeCountRestartsArgs
+  episodes?: boolean | WorkplaceCountOutputTypeCountEpisodesArgs
+  snapshots?: boolean | WorkplaceCountOutputTypeCountSnapshotsArgs
 }
 
 /**
@@ -1075,6 +1337,20 @@ export type WorkplaceCountOutputTypeCountRestartsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.RestartRequestWhereInput
 }
 
+/**
+ * WorkplaceCountOutputType without action
+ */
+export type WorkplaceCountOutputTypeCountEpisodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoppageEpisodeWhereInput
+}
+
+/**
+ * WorkplaceCountOutputType without action
+ */
+export type WorkplaceCountOutputTypeCountSnapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CameraSnapshotWhereInput
+}
+
 
 export type WorkplaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1088,6 +1364,8 @@ export type WorkplaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   analyses?: boolean | Prisma.Workplace$analysesArgs<ExtArgs>
   riskEvents?: boolean | Prisma.Workplace$riskEventsArgs<ExtArgs>
   restarts?: boolean | Prisma.Workplace$restartsArgs<ExtArgs>
+  episodes?: boolean | Prisma.Workplace$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.Workplace$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkplaceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workplace"]>
 
@@ -1119,6 +1397,8 @@ export type WorkplaceInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   analyses?: boolean | Prisma.Workplace$analysesArgs<ExtArgs>
   riskEvents?: boolean | Prisma.Workplace$riskEventsArgs<ExtArgs>
   restarts?: boolean | Prisma.Workplace$restartsArgs<ExtArgs>
+  episodes?: boolean | Prisma.Workplace$episodesArgs<ExtArgs>
+  snapshots?: boolean | Prisma.Workplace$snapshotsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkplaceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WorkplaceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1135,6 +1415,8 @@ export type $WorkplacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     analyses: Prisma.$VideoAnalysisPayload<ExtArgs>[]
     riskEvents: Prisma.$RiskEventPayload<ExtArgs>[]
     restarts: Prisma.$RestartRequestPayload<ExtArgs>[]
+    episodes: Prisma.$StoppageEpisodePayload<ExtArgs>[]
+    snapshots: Prisma.$CameraSnapshotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1542,6 +1824,8 @@ export interface Prisma__WorkplaceClient<T, Null = never, ExtArgs extends runtim
   analyses<T extends Prisma.Workplace$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workplace$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   riskEvents<T extends Prisma.Workplace$riskEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workplace$riskEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RiskEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   restarts<T extends Prisma.Workplace$restartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workplace$restartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestartRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  episodes<T extends Prisma.Workplace$episodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workplace$episodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoppageEpisodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  snapshots<T extends Prisma.Workplace$snapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workplace$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CameraSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2156,6 +2440,54 @@ export type Workplace$restartsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.RestartRequestScalarFieldEnum | Prisma.RestartRequestScalarFieldEnum[]
+}
+
+/**
+ * Workplace.episodes
+ */
+export type Workplace$episodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoppageEpisode
+   */
+  select?: Prisma.StoppageEpisodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoppageEpisode
+   */
+  omit?: Prisma.StoppageEpisodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoppageEpisodeInclude<ExtArgs> | null
+  where?: Prisma.StoppageEpisodeWhereInput
+  orderBy?: Prisma.StoppageEpisodeOrderByWithRelationInput | Prisma.StoppageEpisodeOrderByWithRelationInput[]
+  cursor?: Prisma.StoppageEpisodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoppageEpisodeScalarFieldEnum | Prisma.StoppageEpisodeScalarFieldEnum[]
+}
+
+/**
+ * Workplace.snapshots
+ */
+export type Workplace$snapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CameraSnapshot
+   */
+  select?: Prisma.CameraSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CameraSnapshot
+   */
+  omit?: Prisma.CameraSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CameraSnapshotInclude<ExtArgs> | null
+  where?: Prisma.CameraSnapshotWhereInput
+  orderBy?: Prisma.CameraSnapshotOrderByWithRelationInput | Prisma.CameraSnapshotOrderByWithRelationInput[]
+  cursor?: Prisma.CameraSnapshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CameraSnapshotScalarFieldEnum | Prisma.CameraSnapshotScalarFieldEnum[]
 }
 
 /**

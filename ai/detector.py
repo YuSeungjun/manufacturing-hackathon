@@ -113,3 +113,35 @@ def track_video(
                 detections.append(Detection(id_list[i], confidence, box))
 
         yield index, detections, frame
+
+
+def detect_image(
+    frame: np.ndarray,
+    imgsz: int,
+    conf: float,
+    min_height_frac: float,
+) -> list[Detection]:
+    """이미지 한 장의 사람 검출. 추적하지 않는다.
+
+    정지 이미지 시퀀스 경로가 쓴다. 프레임이 초 단위로 떨어져 있으면 ByteTrack 의
+    모션 예측이 성립하지 않는다 — 이어붙인 척하면 잔류시간이 조용히 거짓이 되므로,
+    각 장을 독립 관측으로 두고 track id 를 아예 주지 않는다.
+    """
+    model = get_model()
+    result = model.predict(
+        frame, imgsz=imgsz, conf=conf, classes=[0], device="cpu", verbose=False
+    )[0]
+    height, width = frame.shape[:2]
+
+    detections: list[Detection] = []
+    boxes = result.boxes
+    if boxes is not None and len(boxes):
+        for i in range(len(boxes)):
+            confidence = float(boxes.conf[i])
+            if confidence < conf:
+                continue
+            box = _normalize(boxes.xyxy[i], width, height)
+            if box[3] < min_height_frac:
+                continue
+            detections.append(Detection(None, confidence, box))
+    return detections

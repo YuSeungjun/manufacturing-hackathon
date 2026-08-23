@@ -92,9 +92,9 @@ export async function safetyMetrics(
       judgeDeltas.push((event.review.reviewedAt.getTime() - event.notifiedAt.getTime()) / 1000);
     }
   }
-  const clearDeltas = restarts
-    .filter((r) => r.decision === "BLOCKED" && r.approvedAt)
-    .map((r) => (r.approvedAt!.getTime() - r.requestedAt.getTime()) / 1000);
+  const clearDeltas = events
+    .filter((event) => event.notifiedAt && event.clearedAt)
+    .map((event) => (event.clearedAt!.getTime() - event.notifiedAt!.getTime()) / 1000);
 
   // ③ 위험구역 노출시간 — 구역별·시간대별로 쪼개야 "반복되는 위험 시간대"가 보인다
   const byZone = new Map<string, { zoneId: string; name: string; sec: number; events: number }>();

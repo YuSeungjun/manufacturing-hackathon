@@ -12,6 +12,7 @@ type Zone = {
   dwellThresholdSec: number;
   kind: string;
   severity: string;
+  requiresHarness: boolean;
 };
 
 function clamp01(v: number) {
@@ -194,7 +195,7 @@ export function ZoneEditor({
             name="name"
             className="input"
             defaultValue={editing?.name ?? ""}
-            placeholder="롤 갭 하부"
+            placeholder="테일 풀리 하부"
             required
             maxLength={40}
           />
@@ -235,6 +236,23 @@ export function ZoneEditor({
             <option value="MEDIUM">보통</option>
             <option value="LOW">낮음</option>
           </select>
+        </label>
+
+        <label className="flex items-start gap-2.5">
+          <input
+            type="checkbox"
+            name="requiresHarness"
+            defaultChecked={editing?.requiresHarness ?? false}
+            className="mt-0.5"
+          />
+          <span className="flex flex-col gap-1">
+            <span className="label">안전대 체결 확인이 필요한 구역</span>
+            <span className="text-[12px] text-ink-3">
+              컨베이어 상부·점검대처럼 추락 위험이 있는 곳입니다. 진입은 AI 가 보지만 안전대를
+              실제로 걸었는지는 CCTV 로 판정할 수 없어, 이 구역 사건에는 사람이 확인하는 칸이
+              함께 열립니다.
+            </span>
+          </span>
         </label>
 
         <details className="text-[12.5px] text-ink-3">

@@ -20,8 +20,7 @@ export type InterlockVerdict = {
 };
 
 export async function evaluateInterlock(equipmentId: string): Promise<InterlockVerdict> {
-  const [equipment, openRisk, openWorks] = await Promise.all([
-    prisma.equipment.findUnique({ where: { id: equipmentId } }),
+  const [openRisk, openWorks] = await Promise.all([
     // 아직 종결되지 않았고 오탐으로 판정되지도 않은 위험 사건
     prisma.riskEvent.findFirst({
       where: {
@@ -62,15 +61,6 @@ export async function evaluateInterlock(equipmentId: string): Promise<InterlockV
     return {
       decision: "BLOCKED",
       reason: `개인 시건이 해제되지 않았습니다: ${names}`,
-      lotoHolders,
-      occupancy: 0,
-    };
-  }
-
-  if (equipment?.interlock === "BLOCKED") {
-    return {
-      decision: "BLOCKED",
-      reason: equipment.interlockReason || "인터록이 걸려 있습니다. 안전관리자 해제가 필요합니다.",
       lotoHolders,
       occupancy: 0,
     };

@@ -37,7 +37,7 @@ export default async function OperatorPage() {
           style={{ border: `2px solid var(--deny)`, background: "var(--deny-soft)", color: "var(--deny)" }}
           role="status"
         >
-          설비 {blocked.length}대가 재가동 차단 상태입니다. 안전관리자의 현장 확인 승인이 필요합니다.
+          설비 {blocked.length}대가 재가동 차단 상태입니다. 위험 사건과 개인 시건 상태를 확인해 주세요.
         </p>
       ) : null}
 

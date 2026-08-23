@@ -5,6 +5,7 @@ import { PageHead, SectionHead, Empty, InterlockBadge, RunStateTag, Metric } fro
 import { ZONE_KIND_LABEL, parsePolygon } from "@/lib/zone";
 import { formatDurationKo } from "@/lib/date";
 import { EquipmentForm } from "./EquipmentForm";
+import { SettingsForm } from "./SettingsForm";
 
 export default async function EquipmentPage() {
   const manager = await requireManager();
@@ -75,6 +76,14 @@ export default async function EquipmentPage() {
                       구역을 그리려면 카메라 정지 프레임이 한 장 필요합니다. 편집 화면에서 올릴 수 있습니다.
                     </p>
                   ) : null}
+
+                  <div className="mt-3 border-t border-rule pt-3">
+                    <SettingsForm
+                      equipmentId={item.id}
+                      kind={item.kind}
+                      downtimeCostPerMin={item.downtimeCostPerMin}
+                    />
+                  </div>
                 </li>
               );
             })}

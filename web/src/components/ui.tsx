@@ -75,8 +75,14 @@ export function SectionHead({
    판정은 사람이 내린 결론이라 도장으로, 그 외 상태는 납작한 꼬리표로. */
 
 const STATUS_TAG: Record<string, string> = {
+  // 정상 작업 기록 — 경보가 아니라 증빙이라 색을 쓰지 않는다.
+  LOGGED: "",
   PENDING: "tag-hold",
+  // 진행 중은 "지금 손대야 하는 것" 이라 강조(act)로 둔다.
+  // 빨강(deny)은 결론이 난 확정에만 쓴다 — 진행 중은 아직 결론이 아니다.
+  IN_PROGRESS: "tag-act",
   CONFIRMED: "tag-deny",
+  PASSED: "tag-safe",
   FALSE_POSITIVE: "tag-safe",
   HOLD: "tag-act",
 };
@@ -92,6 +98,7 @@ export function StatusTag({ status }: { status: string }) {
 
 const STATUS_STAMP: Record<string, string> = {
   CONFIRMED: "stamp-deny",
+  PASSED: "stamp-safe",
   FALSE_POSITIVE: "stamp-safe",
   HOLD: "stamp-hold",
 };

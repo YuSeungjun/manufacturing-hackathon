@@ -12,7 +12,7 @@ function Button({ label }: { label: string }) {
   );
 }
 
-/** 승인이 났어도 실제 재가동 직전에 인터록을 한 번 더 본다. 그 사이에 상황이 바뀔 수 있다. */
+/** 실제 재가동 직전에 인터록을 한 번 더 본다. 요청 뒤 상황이 바뀔 수 있다. */
 export function ConfirmRestartButton({ requestId, label }: { requestId: string; label: string }) {
   return (
     <form action={confirmRestartedAction}>

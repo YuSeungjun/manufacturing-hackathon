@@ -1,4 +1,4 @@
-"""압연설비 끼임 예방 — 위험구역 감시 서비스.
+"""이송·회전설비 끼임 예방 — 위험구역 감시 서비스.
 
 CCTV 영상에서 작업자를 찾아 위험구역 잔류를 판정하고, 설비 상태와 결합해
 위험 순간을 잘라낸다. 판단은 하지 않는다 — 근거를 만들어 안전관리자에게 넘긴다.
@@ -22,7 +22,7 @@ from fastapi.responses import FileResponse
 # isinstance 검사를 fastapi 쪽으로 하면 multipart 업로드를 놓친다.
 from starlette.datastructures import UploadFile as StarletteUploadFile
 
-from . import config
+from . import config, harness
 from .capture import STORE
 from .detector import Detection, get_model, model_name, warmup
 from .geometry import occupancy_score
@@ -32,13 +32,17 @@ from .pipeline import (
     drop_job,
     gc_jobs,
     get_job,
+    run_frames_job,
     run_job,
     temp_video_path,
 )
 from .risk import LEVEL_ORDER, classify
 from .schemas import (
+    AnalyzeFramesRequest,
     AnalyzeVideoRequest,
     FrameCheckResult,
+    HarnessCheckResult,
+    HarnessPerson,
     JobStatus,
     PersonBox,
     Zone,
@@ -80,6 +84,8 @@ def health():
         "faceRecognition": False,
         "faceBlur": True,
         "detectsClasses": ["person"],
+        # 안전대는 착용까지만 본다. judgesAttachment: false 가 그 선언이다.
+        "harness": harness.describe(),
         # 하위 호환 — 웹의 aiHealth() 가 modelRepo 를 읽는다
         "modelRepo": model_name(),
     }
@@ -152,6 +158,107 @@ async def analyze_video(
     return {"jobId": job_id, "statusUrl": f"/analyze/jobs/{job_id}"}
 
 
+@app.post("/analyze/frames", status_code=202)
+async def analyze_frames_endpoint(
+    request: Request,
+    background: BackgroundTasks,
+    authorization: Optional[str] = Header(default=None),
+):
+    """정지 이미지 여러 장을 한 시퀀스로 분석한다.
+
+    영상이 아니라 CCTV 캡처가 입력인 경로다. multipart 로 `files` 여러 장과 `body`
+    (AnalyzeFramesRequest JSON) 를 함께 받는다.
+
+    영상처럼 잡+폴링으로 둔다 — 웹의 폴링 화면과 결과 저장 코드를 그대로 재사용하려면
+    응답 계약이 같아야 한다. 이미지 열 장이면 몇 초에 끝나지만 계약을 갈라 두면
+    화면이 두 벌이 된다.
+
+    시각은 body 의 frameTimes 를 쓴다. 파일에 박힌 타임스탬프를 OCR 하지 않는다 —
+    번인 문자열은 카메라마다 위치와 서체가 다르고, 한 글자 잘못 읽으면 잔류시간이
+    조용히 거짓이 된다. 사람이 첫 시각과 간격을 넣는 편이 훨씬 정확하다.
+    """
+    require_token(authorization)
+    gc_jobs()
+
+    content_type = (request.headers.get("content-type") or "").lower()
+    if not content_type.startswith("multipart/form-data"):
+        raise HTTPException(400, "이미지 시퀀스는 multipart/form-data 로 보내 주세요.")
+
+    form = await request.form()
+    raw = form.get("body")
+    if raw is None:
+        raise HTTPException(400, "body 필드(JSON 문자열)가 필요합니다.")
+    try:
+        payload = AnalyzeFramesRequest.model_validate(json.loads(str(raw)))
+    except Exception as exc:
+        raise HTTPException(400, f"요청 형식이 올바르지 않습니다: {exc}") from exc
+
+    uploads = [f for f in form.getlist("files") if isinstance(f, StarletteUploadFile)]
+    count = len(payload.frameUrls) or len(uploads)
+    if count == 0:
+        raise HTTPException(400, "분석할 이미지를 한 장 이상 올려 주세요.")
+    if count > config.MAX_FRAMES:
+        raise HTTPException(
+            413, f"이미지는 한 번에 {config.MAX_FRAMES}장까지 분석합니다. 나눠서 올려 주세요."
+        )
+
+    if active_count() >= config.MAX_QUEUE:
+        raise HTTPException(429, "분석 대기열이 가득 찼습니다. 잠시 후 다시 시도해 주세요.")
+
+    # 시각이 안 왔으면 균일 간격으로 채운다. 개수가 안 맞으면 조용히 자르지 않고 거절한다 —
+    # 잘라내면 어느 이미지가 몇 시인지 어긋난 채로 통계가 나온다.
+    times = list(payload.frameTimes)
+    if not times:
+        times = [i * payload.intervalSec for i in range(count)]
+    elif len(times) != count:
+        raise HTTPException(
+            400, f"frameTimes 가 {len(times)}개인데 이미지는 {count}장입니다. 개수가 같아야 합니다."
+        )
+
+    limit = config.MAX_IMAGE_MB * 1024 * 1024
+    images: list[tuple[float, np.ndarray]] = []
+
+    if payload.frameUrls:
+        blobs = [await _fetch_image(url, limit) for url in payload.frameUrls]
+        sources = list(zip(times, payload.frameUrls, blobs))
+    else:
+        blobs = []
+        for upload in uploads:
+            data = await upload.read()
+            if len(data) > limit:
+                raise HTTPException(
+                    413, f"{upload.filename} 이(가) {config.MAX_IMAGE_MB:.0f}MB 한도를 넘습니다."
+                )
+            blobs.append(data)
+        sources = list(zip(times, [u.filename or "frame" for u in uploads], blobs))
+
+    for at, label, data in sources:
+        decoded = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), cv2.IMREAD_COLOR)
+        if decoded is None:
+            raise HTTPException(400, f"{label} 을(를) 이미지로 읽지 못했습니다.")
+        images.append((float(at), decoded))
+
+    job_id = create_job()
+    background.add_task(run_frames_job, job_id, payload, images)
+    return {"jobId": job_id, "statusUrl": f"/analyze/jobs/{job_id}", "frameCount": len(images)}
+
+
+async def _fetch_image(url: str, limit: int) -> bytes:
+    """이미지 한 장을 메모리로 받는다. 영상과 달리 디스크를 거치지 않는다."""
+    import httpx
+
+    try:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=60.0) as client:
+            response = await client.get(url)
+            response.raise_for_status()
+            data = response.content
+    except Exception as exc:
+        raise HTTPException(400, f"이미지를 내려받지 못했습니다: {exc}") from exc
+    if len(data) > limit:
+        raise HTTPException(413, f"이미지가 {config.MAX_IMAGE_MB:.0f}MB 한도를 넘습니다.")
+    return data
+
+
 async def _download(url: str, dest: str) -> None:
     import httpx
 
@@ -200,6 +307,112 @@ def capture(job_id: str, capture_id: str, authorization: Optional[str] = Header(
         raise HTTPException(404, "캡처를 찾을 수 없습니다. 보관 기간이 지났을 수 있습니다.")
     mime = "image/webp" if capture_id.endswith(".webp") else "image/jpeg"
     return FileResponse(path, media_type=mime)
+
+
+@app.post("/analyze/harness", response_model=HarnessCheckResult)
+async def analyze_harness(
+    file: UploadFile = File(...),
+    conf: float = Form(0.30),
+    authorization: Optional[str] = Header(default=None),
+):
+    """이미지 한 장의 안전대 착용 판정.
+
+    **위험구역 분석과 일부러 갈라 둔 엔드포인트다.** 진입·잔류는 우리 로직이고 사람
+    탐지 하나만 쓰지만, 안전대 착용은 남의 학습 결과(Roboflow 호스팅 추론)에 의존한다.
+    한 버튼에 묶으면 남의 서비스가 죽는 날 우리 판정까지 같이 못 믿게 된다.
+
+    2단계로 본다 — 사람을 먼저 찾고(우리 모델, conf 0.9), 그 상체 crop 만 분류기에 넘긴다.
+    전체 프레임에서 7px 폭 웨빙을 찾는 것보다 훨씬 쉬운 문제가 된다.
+
+    착용과 체결을 **따로** 낸다. 체결은 착용이 확인된 사람에게만 묻는다 — 하네스가 없으면
+    훅도 없다. 그리고 근거의 강도가 다르다: 착용은 통제된 A/B 쌍으로 확인했고, 체결은
+    미체결 1장만 있다. 애매하면 UNKNOWN 을 내고 사람이 확정한다.
+    """
+    require_token(authorization)
+    raw = await file.read()
+    image = cv2.imdecode(np.frombuffer(raw, dtype=np.uint8), cv2.IMREAD_COLOR)
+    if image is None:
+        raise HTTPException(400, "이미지를 읽을 수 없습니다.")
+
+    which = harness.provider()
+    if which == "none":
+        return HarnessCheckResult(
+            provider="none",
+            model="",
+            personCount=0,
+            error="안전대 판정 공급자가 설정되지 않았습니다. ROBOFLOW_HARNESS_MODEL 또는 로컬 가중치가 필요합니다.",
+        )
+
+    model = get_model()
+    result = model.predict(
+        image, imgsz=config.IMGSZ, classes=[0], conf=conf, device="cpu", verbose=False
+    )[0]
+    height, width = image.shape[:2]
+
+    persons: list[HarnessPerson] = []
+    for box in result.boxes:
+        x1, y1, x2, y2 = (float(v) for v in box.xyxy[0])
+        det = Detection(None, float(box.conf), (x1 / width, y1 / height, (x2 - x1) / width, (y2 - y1) / height))
+        guess = harness.guess(image, det.box)
+        if guess is None:
+            continue
+        persons.append(
+            HarnessPerson(
+                confidence=round(det.confidence, 4),
+                x=round(det.box[0], 5), y=round(det.box[1], 5),
+                w=round(det.box[2], 5), h=round(det.box[3], 5),
+                harness=guess,
+            )
+        )
+
+    # 프레임 결론은 보수적으로 낸다.
+    #
+    # ① 미착용이 하나라도 있으면 그게 결론이다 — 세 명 중 한 명이 안 입었으면
+    #    "한 명이 안 입었다" 가 관리자가 알아야 하는 사실이다.
+    # ② **한 명이라도 판정 못 했으면 "착용" 이라고 말하지 않는다.** 전원을 확인하지 못한
+    #    채로 착용이라고 하면 안전 도구가 틀린 방향으로 낙관하는 것이다.
+    missing = [p for p in persons if p.harness.status == "NOT_WORN"]
+    unknown = [p for p in persons if p.harness.status == "UNKNOWN"]
+    worn = [p for p in persons if p.harness.status == "WORN"]
+
+    if missing:
+        verdict, confidence = "NOT_WORN", max(p.harness.confidence for p in missing)
+    elif unknown or not worn:
+        verdict = "UNKNOWN"
+        confidence = max((p.harness.confidence for p in unknown), default=0.0)
+    else:
+        verdict, confidence = "WORN", min(p.harness.confidence for p in worn)
+
+    # 훅 체결도 같은 규칙이다 — 미체결이 하나라도 있으면 그게 결론이고,
+    # 한 명이라도 판정 못 했으면 "체결됐다" 고 말하지 않는다.
+    loose = [p for p in worn if p.harness.hookStatus == "NOT_ATTACHED"]
+    hooked = [p for p in worn if p.harness.hookStatus == "ATTACHED"]
+    hook_unknown = [p for p in worn if p.harness.hookStatus == "UNKNOWN"]
+    if loose:
+        hook_verdict = "NOT_ATTACHED"
+        hook_confidence = max(p.harness.hookConfidence for p in loose)
+    elif hook_unknown or not hooked:
+        hook_verdict = "UNKNOWN"
+        hook_confidence = max((p.harness.hookConfidence for p in hook_unknown), default=0.0)
+    else:
+        hook_verdict = "ATTACHED"
+        hook_confidence = min(p.harness.hookConfidence for p in hooked)
+
+    # 어느 모델이 판정했는지 응답에 남긴다. 공급자마다 이름이 다른 자리에 있다.
+    model_name_used = str(harness.describe().get("model") or "")
+    if not model_name_used and config.HARNESS_MODEL:
+        model_name_used = os.path.basename(config.HARNESS_MODEL)
+    return HarnessCheckResult(
+        provider=which,
+        model=model_name_used,
+        personCount=len(persons),
+        persons=persons,
+        verdict=verdict,
+        confidence=round(confidence, 4),
+        hookVerdict=hook_verdict,
+        hookConfidence=round(hook_confidence, 4),
+        error=harness.last_error(),
+    )
 
 
 @app.post("/analyze/frame", response_model=FrameCheckResult)
@@ -252,6 +465,7 @@ async def analyze_frame(
                 w=round(det.box[2], 5), h=round(det.box[3], 5),
                 anchorX=round(det.anchor[0], 5), anchorY=round(det.anchor[1], 5),
                 zoneIds=inside, occupancy=scores, truncated=det.truncated,
+                harness=harness.guess(image, det.box),
             )
         )
 

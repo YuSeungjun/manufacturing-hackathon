@@ -45,6 +45,7 @@ export type DangerZoneMinAggregateOutputType = {
   dwellThresholdSec: number | null
   kind: string | null
   severity: string | null
+  requiresHarness: boolean | null
   active: boolean | null
   order: number | null
 }
@@ -58,6 +59,7 @@ export type DangerZoneMaxAggregateOutputType = {
   dwellThresholdSec: number | null
   kind: string | null
   severity: string | null
+  requiresHarness: boolean | null
   active: boolean | null
   order: number | null
 }
@@ -71,6 +73,7 @@ export type DangerZoneCountAggregateOutputType = {
   dwellThresholdSec: number
   kind: number
   severity: number
+  requiresHarness: number
   active: number
   order: number
   _all: number
@@ -96,6 +99,7 @@ export type DangerZoneMinAggregateInputType = {
   dwellThresholdSec?: true
   kind?: true
   severity?: true
+  requiresHarness?: true
   active?: true
   order?: true
 }
@@ -109,6 +113,7 @@ export type DangerZoneMaxAggregateInputType = {
   dwellThresholdSec?: true
   kind?: true
   severity?: true
+  requiresHarness?: true
   active?: true
   order?: true
 }
@@ -122,6 +127,7 @@ export type DangerZoneCountAggregateInputType = {
   dwellThresholdSec?: true
   kind?: true
   severity?: true
+  requiresHarness?: true
   active?: true
   order?: true
   _all?: true
@@ -222,6 +228,7 @@ export type DangerZoneGroupByOutputType = {
   dwellThresholdSec: number
   kind: string
   severity: string
+  requiresHarness: boolean
   active: boolean
   order: number
   _count: DangerZoneCountAggregateOutputType | null
@@ -258,6 +265,7 @@ export type DangerZoneWhereInput = {
   dwellThresholdSec?: Prisma.FloatFilter<"DangerZone"> | number
   kind?: Prisma.StringFilter<"DangerZone"> | string
   severity?: Prisma.StringFilter<"DangerZone"> | string
+  requiresHarness?: Prisma.BoolFilter<"DangerZone"> | boolean
   active?: Prisma.BoolFilter<"DangerZone"> | boolean
   order?: Prisma.IntFilter<"DangerZone"> | number
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
@@ -274,6 +282,7 @@ export type DangerZoneOrderByWithRelationInput = {
   dwellThresholdSec?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  requiresHarness?: Prisma.SortOrder
   active?: Prisma.SortOrder
   order?: Prisma.SortOrder
   equipment?: Prisma.EquipmentOrderByWithRelationInput
@@ -293,6 +302,7 @@ export type DangerZoneWhereUniqueInput = Prisma.AtLeast<{
   dwellThresholdSec?: Prisma.FloatFilter<"DangerZone"> | number
   kind?: Prisma.StringFilter<"DangerZone"> | string
   severity?: Prisma.StringFilter<"DangerZone"> | string
+  requiresHarness?: Prisma.BoolFilter<"DangerZone"> | boolean
   active?: Prisma.BoolFilter<"DangerZone"> | boolean
   order?: Prisma.IntFilter<"DangerZone"> | number
   equipment?: Prisma.XOR<Prisma.EquipmentScalarRelationFilter, Prisma.EquipmentWhereInput>
@@ -309,6 +319,7 @@ export type DangerZoneOrderByWithAggregationInput = {
   dwellThresholdSec?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  requiresHarness?: Prisma.SortOrder
   active?: Prisma.SortOrder
   order?: Prisma.SortOrder
   _count?: Prisma.DangerZoneCountOrderByAggregateInput
@@ -330,6 +341,7 @@ export type DangerZoneScalarWhereWithAggregatesInput = {
   dwellThresholdSec?: Prisma.FloatWithAggregatesFilter<"DangerZone"> | number
   kind?: Prisma.StringWithAggregatesFilter<"DangerZone"> | string
   severity?: Prisma.StringWithAggregatesFilter<"DangerZone"> | string
+  requiresHarness?: Prisma.BoolWithAggregatesFilter<"DangerZone"> | boolean
   active?: Prisma.BoolWithAggregatesFilter<"DangerZone"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"DangerZone"> | number
 }
@@ -341,6 +353,7 @@ export type DangerZoneCreateInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   equipment: Prisma.EquipmentCreateNestedOneWithoutZonesInput
@@ -357,6 +370,7 @@ export type DangerZoneUncheckedCreateInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutZoneInput
@@ -369,6 +383,7 @@ export type DangerZoneUpdateInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutZonesNestedInput
@@ -385,6 +400,7 @@ export type DangerZoneUncheckedUpdateInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutZoneNestedInput
@@ -399,6 +415,7 @@ export type DangerZoneCreateManyInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
 }
@@ -410,6 +427,7 @@ export type DangerZoneUpdateManyMutationInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -423,6 +441,7 @@ export type DangerZoneUncheckedUpdateManyInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -446,6 +465,7 @@ export type DangerZoneCountOrderByAggregateInput = {
   dwellThresholdSec?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  requiresHarness?: Prisma.SortOrder
   active?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
@@ -464,6 +484,7 @@ export type DangerZoneMaxOrderByAggregateInput = {
   dwellThresholdSec?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  requiresHarness?: Prisma.SortOrder
   active?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
@@ -477,6 +498,7 @@ export type DangerZoneMinOrderByAggregateInput = {
   dwellThresholdSec?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  requiresHarness?: Prisma.SortOrder
   active?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
@@ -545,14 +567,6 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type DangerZoneCreateNestedManyWithoutCameraInput = {
   create?: Prisma.XOR<Prisma.DangerZoneCreateWithoutCameraInput, Prisma.DangerZoneUncheckedCreateWithoutCameraInput> | Prisma.DangerZoneCreateWithoutCameraInput[] | Prisma.DangerZoneUncheckedCreateWithoutCameraInput[]
   connectOrCreate?: Prisma.DangerZoneCreateOrConnectWithoutCameraInput | Prisma.DangerZoneCreateOrConnectWithoutCameraInput[]
@@ -618,6 +632,7 @@ export type DangerZoneCreateWithoutEquipmentInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   camera?: Prisma.CameraFeedCreateNestedOneWithoutZonesInput
@@ -632,6 +647,7 @@ export type DangerZoneUncheckedCreateWithoutEquipmentInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutZoneInput
@@ -675,6 +691,7 @@ export type DangerZoneScalarWhereInput = {
   dwellThresholdSec?: Prisma.FloatFilter<"DangerZone"> | number
   kind?: Prisma.StringFilter<"DangerZone"> | string
   severity?: Prisma.StringFilter<"DangerZone"> | string
+  requiresHarness?: Prisma.BoolFilter<"DangerZone"> | boolean
   active?: Prisma.BoolFilter<"DangerZone"> | boolean
   order?: Prisma.IntFilter<"DangerZone"> | number
 }
@@ -686,6 +703,7 @@ export type DangerZoneCreateWithoutCameraInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   equipment: Prisma.EquipmentCreateNestedOneWithoutZonesInput
@@ -700,6 +718,7 @@ export type DangerZoneUncheckedCreateWithoutCameraInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   riskEvents?: Prisma.RiskEventUncheckedCreateNestedManyWithoutZoneInput
@@ -738,6 +757,7 @@ export type DangerZoneCreateWithoutRiskEventsInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
   equipment: Prisma.EquipmentCreateNestedOneWithoutZonesInput
@@ -753,6 +773,7 @@ export type DangerZoneUncheckedCreateWithoutRiskEventsInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
 }
@@ -780,6 +801,7 @@ export type DangerZoneUpdateWithoutRiskEventsInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutZonesNestedInput
@@ -795,6 +817,7 @@ export type DangerZoneUncheckedUpdateWithoutRiskEventsInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -807,6 +830,7 @@ export type DangerZoneCreateManyEquipmentInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
 }
@@ -818,6 +842,7 @@ export type DangerZoneUpdateWithoutEquipmentInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   camera?: Prisma.CameraFeedUpdateOneWithoutZonesNestedInput
@@ -832,6 +857,7 @@ export type DangerZoneUncheckedUpdateWithoutEquipmentInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutZoneNestedInput
@@ -845,6 +871,7 @@ export type DangerZoneUncheckedUpdateManyWithoutEquipmentInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -857,6 +884,7 @@ export type DangerZoneCreateManyCameraInput = {
   dwellThresholdSec?: number
   kind?: string
   severity?: string
+  requiresHarness?: boolean
   active?: boolean
   order?: number
 }
@@ -868,6 +896,7 @@ export type DangerZoneUpdateWithoutCameraInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   equipment?: Prisma.EquipmentUpdateOneRequiredWithoutZonesNestedInput
@@ -882,6 +911,7 @@ export type DangerZoneUncheckedUpdateWithoutCameraInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   riskEvents?: Prisma.RiskEventUncheckedUpdateManyWithoutZoneNestedInput
@@ -895,6 +925,7 @@ export type DangerZoneUncheckedUpdateManyWithoutCameraInput = {
   dwellThresholdSec?: Prisma.FloatFieldUpdateOperationsInput | number
   kind?: Prisma.StringFieldUpdateOperationsInput | string
   severity?: Prisma.StringFieldUpdateOperationsInput | string
+  requiresHarness?: Prisma.BoolFieldUpdateOperationsInput | boolean
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -939,6 +970,7 @@ export type DangerZoneSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   dwellThresholdSec?: boolean
   kind?: boolean
   severity?: boolean
+  requiresHarness?: boolean
   active?: boolean
   order?: boolean
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
@@ -956,6 +988,7 @@ export type DangerZoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   dwellThresholdSec?: boolean
   kind?: boolean
   severity?: boolean
+  requiresHarness?: boolean
   active?: boolean
   order?: boolean
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
@@ -971,6 +1004,7 @@ export type DangerZoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   dwellThresholdSec?: boolean
   kind?: boolean
   severity?: boolean
+  requiresHarness?: boolean
   active?: boolean
   order?: boolean
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
@@ -986,11 +1020,12 @@ export type DangerZoneSelectScalar = {
   dwellThresholdSec?: boolean
   kind?: boolean
   severity?: boolean
+  requiresHarness?: boolean
   active?: boolean
   order?: boolean
 }
 
-export type DangerZoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "equipmentId" | "cameraId" | "name" | "polygon" | "dwellThresholdSec" | "kind" | "severity" | "active" | "order", ExtArgs["result"]["dangerZone"]>
+export type DangerZoneOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "equipmentId" | "cameraId" | "name" | "polygon" | "dwellThresholdSec" | "kind" | "severity" | "requiresHarness" | "active" | "order", ExtArgs["result"]["dangerZone"]>
 export type DangerZoneInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipment?: boolean | Prisma.EquipmentDefaultArgs<ExtArgs>
   camera?: boolean | Prisma.DangerZone$cameraArgs<ExtArgs>
@@ -1034,6 +1069,11 @@ export type $DangerZonePayload<ExtArgs extends runtime.Types.Extensions.Internal
      */
     kind: string
     severity: string
+    /**
+     * 컨베이어 상부·점검대 같은 추락 위험 구역. 진입은 AI 가 보고,
+     * 안전대를 실제로 "걸었는지"는 CCTV 로 판정할 수 없어 사람이 증언한다.
+     */
+    requiresHarness: boolean
     active: boolean
     order: number
   }, ExtArgs["result"]["dangerZone"]>
@@ -1470,6 +1510,7 @@ export interface DangerZoneFieldRefs {
   readonly dwellThresholdSec: Prisma.FieldRef<"DangerZone", 'Float'>
   readonly kind: Prisma.FieldRef<"DangerZone", 'String'>
   readonly severity: Prisma.FieldRef<"DangerZone", 'String'>
+  readonly requiresHarness: Prisma.FieldRef<"DangerZone", 'Boolean'>
   readonly active: Prisma.FieldRef<"DangerZone", 'Boolean'>
   readonly order: Prisma.FieldRef<"DangerZone", 'Int'>
 }

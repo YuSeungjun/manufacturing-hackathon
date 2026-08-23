@@ -4,12 +4,6 @@ import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { signupAction, type FormState } from "@/app/actions/auth";
 
-type Workplace = {
-  id: string;
-  name: string;
-  teams: { id: string; name: string; workArea: string }[];
-};
-
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -19,12 +13,9 @@ function SubmitButton() {
   );
 }
 
-export function SignupForm({ workplaces }: { workplaces: Workplace[] }) {
+export function SignupForm() {
   const [state, formAction] = useActionState<FormState, FormData>(signupAction, null);
-  const [workplaceId, setWorkplaceId] = useState(workplaces[0]?.id ?? "");
-  const [role, setRole] = useState<"WORKER" | "OPERATOR" | "SAFETY_MANAGER">("WORKER");
-
-  const teams = workplaces.find((w) => w.id === workplaceId)?.teams ?? [];
+  const [role, setRole] = useState<"WORKER" | "SAFETY_MANAGER">("WORKER");
 
   return (
     <form action={formAction} className="paper mt-5 space-y-5">
@@ -57,42 +48,9 @@ export function SignupForm({ workplaces }: { workplaces: Workplace[] }) {
         <input id="password" name="password" type="password" className="input" required minLength={8} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="label" htmlFor="workplaceId">
-            소속 사업장
-          </label>
-          <select
-            id="workplaceId"
-            name="workplaceId"
-            className="input"
-            value={workplaceId}
-            onChange={(event) => setWorkplaceId(event.target.value)}
-          >
-            {workplaces.map((w) => (
-              <option key={w.id} value={w.id}>
-                {w.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="label" htmlFor="teamId">
-            부서 · 작업조
-          </label>
-          <select id="teamId" name="teamId" className="input" required>
-            {teams.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name} ({t.workArea})
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
       <fieldset>
         <legend className="label">역할 선택</legend>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <RoleCard
             value="WORKER"
             checked={role === "WORKER"}
@@ -101,38 +59,20 @@ export function SignupForm({ workplaces }: { workplaces: Workplace[] }) {
             description="설비 안에서 작업하는 동안 개인 시건을 겁니다. 내 시건이 풀리기 전에는 설비가 재가동되지 않습니다."
           />
           <RoleCard
-            value="OPERATOR"
-            checked={role === "OPERATOR"}
-            onSelect={setRole}
-            title="설비 운전 담당자"
-            description="설비 재가동을 요청합니다. 위험구역에 사람이 남아 있으면 요청이 차단됩니다."
-          />
-          <RoleCard
             value="SAFETY_MANAGER"
             checked={role === "SAFETY_MANAGER"}
             onSelect={setRole}
             title="안전관리자"
-            description="위험구역 설정, 영상 분석, 위험 사건 판단, 재가동 해제 승인. 소속 확인 후 승인됩니다."
+            description="작업조 설정, 영상 분석, 위험 사건 판단과 벌점 부과를 담당합니다."
           />
         </div>
       </fieldset>
 
       {role === "SAFETY_MANAGER" ? (
-        <div>
-          <label className="label" htmlFor="managerCode">
-            안전관리자 인증번호 (선택)
-          </label>
-          <input
-            id="managerCode"
-            name="managerCode"
-            className="input"
-            placeholder="예: GY-SAFETY-2026"
-          />
-          <p className="mt-1.5 text-[13px] leading-6 text-ink-2">
-            인증번호가 맞으면 바로 승인됩니다. 모른다면 비워 두세요. 승인 전까지는 작업자
-            화면만 이용할 수 있습니다.
-          </p>
-        </div>
+        <p className="text-[13px] leading-6 text-ink-2">
+          가입하면 <strong className="font-bold text-ink">바로 안전관리자 화면</strong>으로
+          들어갑니다. 위험 사건 판단과 벌점 부과 권한이 함께 주어집니다.
+        </p>
       ) : null}
 
       {state?.error ? (
@@ -157,9 +97,9 @@ function RoleCard({
   title,
   description,
 }: {
-  value: "WORKER" | "OPERATOR" | "SAFETY_MANAGER";
+  value: "WORKER" | "SAFETY_MANAGER";
   checked: boolean;
-  onSelect: (value: "WORKER" | "OPERATOR" | "SAFETY_MANAGER") => void;
+  onSelect: (value: "WORKER" | "SAFETY_MANAGER") => void;
   title: string;
   description: string;
 }) {

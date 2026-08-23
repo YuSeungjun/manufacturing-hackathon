@@ -88,7 +88,7 @@ export default async function MetricsPage({
         <Tile
           label="관리자 조치 소요시간"
           value={secs(metrics.response.ackSec)}
-          note={`통보 후 확인까지. 판단 ${secs(metrics.response.judgeSec)} · 해제 승인 ${secs(metrics.response.clearSec)}`}
+          note={`통보 후 확인까지. 판단 ${secs(metrics.response.judgeSec)} · 현장 조치 ${secs(metrics.response.clearSec)}`}
         />
         <Tile
           label="위험구역 노출시간"
