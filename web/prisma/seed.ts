@@ -287,13 +287,31 @@ async function main() {
       workplaceId: gwangyang.id, equipmentId: cv01.id,
       code: "CAM-CV01-E", name: "원료 컨베이어 1호 동측",
       purpose: "PINCH",
-      posterPath: "/evidence/seed-cv01-east.jpg",
+      posterPath: "/scenes/seed-cv01-east.jpg",
     },
   });
   await prisma.cameraFeed.create({
     data: {
       workplaceId: gwangyang.id, equipmentId: cv02.id,
       code: "CAM-CV02-E", name: "원료 컨베이어 2호 동측", purpose: "PINCH",
+      posterPath: "/scenes/seed-cv02-east.jpg",
+    },
+  });
+
+  // 카메라가 없으면 위험구역 화면에 배경이 없어 구역을 그릴 수가 없다.
+  // 나머지 설비에도 장면을 붙여 어느 설비를 열어도 화면이 서게 한다.
+  await prisma.cameraFeed.create({
+    data: {
+      workplaceId: gwangyang.id, equipmentId: cv07.id,
+      code: "CAM-CV07-E", name: "코크스 컨베이어 7호 동측", purpose: "PINCH",
+      posterPath: "/scenes/seed-cv02-east.jpg",
+    },
+  });
+  await prisma.cameraFeed.create({
+    data: {
+      workplaceId: gwangyang.id, equipmentId: rm02.id,
+      code: "CAM-RM02", name: "조압연기 2호 입측", purpose: "PINCH",
+      posterPath: "/scenes/seed-cv01-east.jpg",
     },
   });
 
@@ -344,7 +362,7 @@ async function main() {
       workplaceId: gwangyang.id, equipmentId: deckWork.id,
       code: "CAM-07", name: "3고로 상부 점검통로",
       purpose: "FALL",
-      posterPath: "/evidence/seed-cam07.jpg",
+      posterPath: "/scenes/seed-cam07.jpg",
     },
   });
   // 작업자 접지점을 실측해 맞췄다 — (0.366, 0.770) / (0.358, 0.801).
@@ -388,7 +406,7 @@ async function main() {
       minutes: 41.5, note: "점검통로 난간부 진입 — 안전대 미착용 의심",
     },
     {
-      file: "/evidence/seed-cam07-harness.jpg",
+      file: "/scenes/seed-cam07-harness.jpg",
       cameraId: deckCamera.id, equipmentId: deckWork.id, zones: [walkway],
       minutes: 41, note: "점검통로 난간부 진입 — 안전대 착용",
     },
