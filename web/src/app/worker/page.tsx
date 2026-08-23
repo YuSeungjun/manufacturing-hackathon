@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { DateNav } from "@/components/DateNav";
 import { acknowledgeTbmAction } from "@/app/actions/tbm";
 import { Empty, JudgmentStamp, PageHead, SectionHead, StatusTag } from "@/components/ui";
-import { dayRange, formatIsoDateKo, resolveDateParam, todayLocalISO } from "@/lib/date";
+import { dayRange, formatDate, formatIsoDateKo, formatTime, resolveDateParam, todayLocalISO } from "@/lib/date";
 import type { FlowStage } from "@/lib/flow";
 import { DETECTION_TYPE_LABEL, SEVERITY_LABEL, ppeLabel } from "@/lib/ppe";
 import { scoreTone, teamScore } from "@/lib/score";
@@ -157,7 +157,7 @@ export default async function WorkerPage({ searchParams }: PageProps<"/worker">)
               <>
 나에게 배정된 가장 최근 TBM은{" "}
                 <b className="text-ink-2">
-                  {latestTbm.workDate.toLocaleDateString("ko-KR", { dateStyle: "medium" })}
+                  {formatDate(latestTbm.workDate)}
                 </b>{" "}
                 「{latestTbm.workType}」입니다. 안전관리자에게 작업일을 확인해 주세요.
               </>
@@ -246,11 +246,7 @@ export default async function WorkerPage({ searchParams }: PageProps<"/worker">)
                   <p className="font-bold">
                     {ppeLabel(detection.ppeCode)}
                     <span className="num ml-2 text-[12px] font-normal text-ink-3">
-                      {detection.detectedAt.toLocaleTimeString("ko-KR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      })}
+                      {formatTime(detection.detectedAt)}
                     </span>
                     <span className="ml-1.5 text-[12.5px] font-normal text-ink-3">
                       {detection.location}

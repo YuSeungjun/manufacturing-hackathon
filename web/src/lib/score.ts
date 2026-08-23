@@ -2,18 +2,6 @@ import { prisma } from "@/lib/prisma";
 
 export const BASE_SCORE = 100;
 
-export function startOfToday() {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
-export function endOfToday() {
-  const d = startOfToday();
-  d.setDate(d.getDate() + 1);
-  return d;
-}
-
 /**
  * 안전이행 점수.
  * AI 탐지만으로는 감점하지 않는다. 안전관리자가 위반으로 확정한 건만 반영한다.

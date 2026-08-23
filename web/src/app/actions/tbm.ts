@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { assertManager, getSessionUser } from "@/lib/auth";
-import { dayRange, todayLocalISO } from "@/lib/date";
+import { dayRange, isoDateToInstant, todayLocalISO } from "@/lib/date";
 import { PPE_CODES, type PpeCode } from "@/lib/ppe";
 
 const ruleSchema = z.object({
@@ -75,7 +75,7 @@ export async function createTbmAction(
 
   const tbm = await prisma.tbm.create({
     data: {
-      workDate: new Date(`${parsed.data.workDate}T00:00:00`),
+      workDate: isoDateToInstant(parsed.data.workDate),
       workType: parsed.data.workType,
       workArea: team.workArea,
       summary: parsed.data.summary,

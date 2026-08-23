@@ -104,7 +104,8 @@ function StageValue({ stage }: { stage: FlowStage }) {
         }`}
         style={{ background: "var(--act)", color: "var(--act-ink)" }}
       >
-        <span className="sr-only">처리 필요 </span>
+        {/* 값이 숫자면 "처리 필요 3", 글자면 그 말이 이미 상태를 담고 있다. */}
+        {/^\d+$/.test(stage.value) ? <span className="sr-only">처리 필요 </span> : null}
         {stage.value}
       </span>
     );

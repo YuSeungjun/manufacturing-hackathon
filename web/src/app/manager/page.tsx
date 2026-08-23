@@ -5,14 +5,7 @@ import { decideManagerApprovalAction } from "@/app/actions/admin";
 import { DateNav } from "@/components/DateNav";
 import { TeamBoard, type TeamRow } from "@/components/TeamBoard";
 import { Empty, Metric, PageHead, SectionHead, StatusTag } from "@/components/ui";
-import {
-  dayRange,
-  formatIsoDateKo,
-  lastIsoDays,
-  resolveDateParam,
-  toLocalIsoDate,
-  todayLocalISO,
-} from "@/lib/date";
+import { dayRange, formatDate, formatIsoDateKo, formatTime, lastIsoDays, resolveDateParam, toLocalIsoDate, todayLocalISO } from "@/lib/date";
 import { ppeLabel } from "@/lib/ppe";
 import { managerFlow } from "@/lib/flow";
 import { BASE_SCORE } from "@/lib/score";
@@ -247,7 +240,7 @@ export default async function ManagerPage({ searchParams }: PageProps<"/manager"
                 <>
                   {dayLabel} 작업일로 등록된 TBM이 없습니다. 가장 최근 TBM은 작업일{" "}
                   <b className="text-ink-2">
-                    {latestTbm.workDate.toLocaleDateString("ko-KR", { dateStyle: "medium" })}
+                    {formatDate(latestTbm.workDate)}
                   </b>
                   , <b className="text-ink-2">{latestTbm.team.name}</b>입니다.{" "}
                   <Link href={`/manager/tbm/${latestTbm.id}`} className="font-bold underline" style={{ color: "var(--act)" }}>
@@ -310,11 +303,7 @@ export default async function ManagerPage({ searchParams }: PageProps<"/manager"
               {detections.slice(0, 8).map((d) => (
                 <li key={d.id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-4 py-2.5">
                   <span className="num text-[12px] text-ink-3">
-                    {d.detectedAt.toLocaleTimeString("ko-KR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
+                    {formatTime(d.detectedAt)}
                   </span>
                   <b className="text-[14px]">{ppeLabel(d.ppeCode)}</b>
                   <span className="text-[12.5px] text-ink-3">

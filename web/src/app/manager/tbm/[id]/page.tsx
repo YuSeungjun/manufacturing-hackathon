@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatDate, formatTime } from "@/lib/date";
 import { notFound } from "next/navigation";
 import { requireManager } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -44,7 +45,7 @@ export default async function TbmDetailPage({ params }: PageProps<"/manager/tbm/
           eyebrow={
             <>
               <span className="text-[12px] text-ink-3">
-                {tbm.workDate.toLocaleDateString("ko-KR", { dateStyle: "medium" })}
+                {formatDate(tbm.workDate)}
               </span>
               <span className="tag">{tbm.team.name}</span>
               <span className="tag">{tbm.workArea}</span>
@@ -118,11 +119,7 @@ export default async function TbmDetailPage({ params }: PageProps<"/manager/tbm/
             {tbm.detections.map((detection) => (
               <li key={detection.id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-4 py-2.5">
                 <span className="num text-[12px] text-ink-3">
-                  {detection.detectedAt.toLocaleTimeString("ko-KR", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })}
+                  {formatTime(detection.detectedAt)}
                 </span>
                 <b className="text-[14px]">{ppeLabel(detection.ppeCode)}</b>
                 <span className="text-[12.5px] text-ink-3">

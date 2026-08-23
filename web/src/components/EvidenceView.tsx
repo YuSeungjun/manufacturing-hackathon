@@ -1,3 +1,4 @@
+import { formatStamp } from "@/lib/date";
 import type { DetectionBox } from "@/lib/ppe";
 
 /**
@@ -42,7 +43,7 @@ export function EvidenceView({
           ) : null}
           {stamp ? (
             <span className="scan ml-auto">
-              {stamp.toLocaleDateString("sv-SE")} {stamp.toLocaleTimeString("sv-SE")}
+              {formatStamp(stamp)}
             </span>
           ) : null}
         </figcaption>

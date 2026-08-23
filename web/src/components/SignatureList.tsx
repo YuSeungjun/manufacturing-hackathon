@@ -1,3 +1,5 @@
+import { formatTime } from "@/lib/date";
+
 /** 작업자별 확인 서명 현황. TBM 상세와 서명 화면이 같이 쓴다. */
 
 export type SignatureRow = {
@@ -24,11 +26,7 @@ export function SignatureList({ rows }: { rows: SignatureRow[] }) {
             <span className="shrink-0 text-[12.5px] font-bold" style={{ color: "var(--safe)" }}>
               서명{" "}
               <span className="num">
-                {row.signedAt.toLocaleTimeString("ko-KR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
+                {formatTime(row.signedAt)}
               </span>
             </span>
           ) : (
