@@ -1,12 +1,10 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { assertManager } from "@/lib/auth";
 import { detectPpe, AiServiceError } from "@/lib/aiClient";
+import { storeEvidence } from "@/lib/evidenceStore";
 import { ppeLabel } from "@/lib/ppe";
 
 export type AnalyzeState =
@@ -21,7 +19,6 @@ export type AnalyzeState =
       unlistedCodes: string[];
     };
 
-const EVIDENCE_DIR = path.join(process.cwd(), "public", "evidence");
 
 export async function analyzeFrameAction(
   _prev: AnalyzeState,
@@ -49,11 +46,7 @@ export async function analyzeFrameAction(
   }
 
   // 근거 이미지는 판단 화면에서 다시 봐야 하므로 그대로 보관한다.
-  await mkdir(EVIDENCE_DIR, { recursive: true });
-  const extension = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-  const fileName = `${randomUUID()}.${extension.replace(/[^a-z0-9]/g, "") || "jpg"}`;
-  await writeFile(path.join(EVIDENCE_DIR, fileName), Buffer.from(await file.arrayBuffer()));
-  const evidencePath = `/evidence/${fileName}`;
+  const evidencePath = await storeEvidence(file);
 
   const location = String(formData.get("location") || tbm.workArea);
   const unlistedCodes: string[] = [];

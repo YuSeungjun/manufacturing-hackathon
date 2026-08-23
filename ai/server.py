@@ -8,10 +8,22 @@ import io
 import os
 from typing import List, Optional
 
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
 from PIL import Image
 from pydantic import BaseModel
 from ultralytics import YOLO
+
+# 배포하면 공개 주소가 된다. 토큰이 설정된 환경에서만 검사하고,
+# 로컬(토큰 없음)에서는 지금까지처럼 아무 설정 없이 돌아간다.
+SERVICE_TOKEN = os.getenv("AI_SERVICE_TOKEN", "")
+
+
+def require_token(authorization: Optional[str]) -> None:
+    if not SERVICE_TOKEN:
+        return
+    if authorization != f"Bearer {SERVICE_TOKEN}":
+        raise HTTPException(status_code=401, detail="인증되지 않은 요청입니다.")
+
 
 MODEL_REPO = os.getenv("PPE_MODEL_REPO", "Hansung-Cho/yolov8-ppe-detection")
 MODEL_FILE = os.getenv("PPE_MODEL_FILE", "best.pt")
@@ -70,7 +82,12 @@ def health():
 
 
 @app.post("/detect", response_model=DetectResponse)
-async def detect(file: UploadFile = File(...), conf: float = Form(0.35)):
+async def detect(
+    file: UploadFile = File(...),
+    conf: float = Form(0.35),
+    authorization: Optional[str] = Header(default=None),
+):
+    require_token(authorization)
     raw = await file.read()
     image = Image.open(io.BytesIO(raw)).convert("RGB")
     width, height = image.size
