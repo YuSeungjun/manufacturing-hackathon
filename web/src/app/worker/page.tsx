@@ -6,6 +6,13 @@ import { PageHead, SectionHead, Empty, LevelTag, InterlockBadge, Metric } from "
 import { LotoList } from "@/components/LotoList";
 import { dayRange, formatDurationKo, formatStamp, todayLocalISO } from "@/lib/date";
 import { riskCodeLabel } from "@/lib/zone";
+import {
+  CONFIRMED_EVENT_PENALTY,
+  MAX_EVENT_PENALTY,
+  scoreLabel,
+  scoreTone,
+  teamScoreFromPenalty,
+} from "@/lib/score";
 import { LotoButtons } from "./LotoButtons";
 
 export default async function WorkerPage() {
@@ -13,7 +20,7 @@ export default async function WorkerPage() {
   const flow = await workerFlow(user.workplaceId, user.id);
   const { from, to } = dayRange(todayLocalISO());
 
-  const [works, alerts] = await Promise.all([
+  const [works, alerts, myPenalties] = await Promise.all([
     prisma.maintenanceWork.findMany({
       where: {
         workplaceId: user.workplaceId,
@@ -37,7 +44,30 @@ export default async function WorkerPage() {
       take: 8,
       include: { zone: true, equipment: { select: { code: true, name: true } } },
     }),
+    /*
+     * 내 조에 **오늘 부과된** 벌점. 안전관리자 현황판과 같은 기준(resolvedAt)으로 센다 —
+     * 같은 점수가 두 화면에서 다르게 보이면 작업자는 둘 다 안 믿는다.
+     *
+     * 다른 조 점수는 가져오지 않는다. 자기 조를 확인하러 들어온 화면이지 조끼리
+     * 줄 세우는 화면이 아니다.
+     */
+    user.teamId
+      ? prisma.riskEvent.findMany({
+          where: {
+            workplaceId: user.workplaceId,
+            status: "CONFIRMED",
+            chargedTeamId: user.teamId,
+            resolvedAt: { gte: from, lt: to },
+          },
+          orderBy: { resolvedAt: "desc" },
+          select: { penaltyPoints: true },
+        })
+      : Promise.resolve([]),
   ]);
+
+  const myPenalty = myPenalties.reduce((sum, row) => sum + row.penaltyPoints, 0);
+  const myScore = teamScoreFromPenalty(myPenalty).score;
+  const myTone = scoreTone(myScore);
 
   return (
     <AppShell user={user} overviewHref="/worker" stages={flow.stages}>
@@ -104,6 +134,65 @@ export default async function WorkerPage() {
                 );
               })}
             </ul>
+          )}
+        </section>
+
+        {/*
+          자기 조 점수는 보기만 한다. 점수를 매기는 건 안전관리자의 판정이고, 여기서
+          할 수 있는 일은 없다 — 손댈 수 없는 화면에 버튼을 두면 눌러 보게 된다.
+        */}
+        <section id="score" className="flex flex-col gap-3">
+          <SectionHead
+            title="내 조 안전 점수"
+            action={<span className="text-[12px] text-ink-3">오늘 부과 기준 · 보기 전용</span>}
+          />
+          {!user.team ? (
+            <Empty>배정된 작업조가 없습니다. 안전관리자가 조를 배정하면 점수가 보입니다.</Empty>
+          ) : (
+            <div className="paper flex flex-col gap-3 p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <h3 className="truncate text-[14.5px] font-bold">{user.team.name}</h3>
+                  <p className="mt-0.5 truncate text-[12.5px] text-ink-3">{user.team.workArea}</p>
+                </div>
+                <span className="tag shrink-0" style={{ color: myTone, borderColor: myTone }}>
+                  {scoreLabel(myScore)}
+                </span>
+              </div>
+
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="eyebrow">오늘 부과 기준 조 점수</p>
+                  <p className="mt-1 text-[12px] text-ink-3">
+                    오늘 부과 <span className="num">{myPenalties.length}</span>건 · 감점{" "}
+                    <span className="num">{myPenalty}</span>점
+                  </p>
+                </div>
+                <p className="sign shrink-0 text-[2.75rem] leading-none" style={{ color: myTone }}>
+                  {myScore}
+                  <span className="ml-1 text-[0.875rem] font-medium text-ink-3">/100</span>
+                </p>
+              </div>
+
+              <div
+                role="progressbar"
+                aria-label={`${user.team.name} 오늘 부과 기준 조 점수`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={myScore}
+                className="h-1.5 overflow-hidden rounded-[1px] bg-rule-soft"
+              >
+                <div className="h-full" style={{ width: `${myScore}%`, background: myTone }} />
+              </div>
+
+              <p className="text-[12px] leading-5 text-ink-3">
+                안전관리자가 위험으로 확정한 사건만 점수에 들어갑니다. 첫 건은{" "}
+                <span className="num">{CONFIRMED_EVENT_PENALTY}</span>점이고, 같은 조가 오늘
+                되풀이하면 건마다 2배가 되어 최대{" "}
+                <span className="num">{MAX_EVENT_PENALTY}</span>점까지 깎입니다. 점수는 날마다
+                <span className="num"> 100</span>점에서 다시 시작합니다.
+              </p>
+            </div>
           )}
         </section>
 
